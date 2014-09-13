@@ -1,0 +1,17 @@
+
+# test
+test/*
+
+# log
+log/*
+
+# build
+build/*
+bin/*
+
+*.o
+*.a
+*.exe
+*.so
+*.dll
+
