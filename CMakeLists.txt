@@ -6,8 +6,8 @@
 
 cmake_minimum_required(VERSION 2.8)
 
-project("TodoEngine")
-set(libName todoengine)
+project("sgl")
+set(libName sgl)
 
 # create output folder
 set(bin "bin")
@@ -46,4 +46,4 @@ add_library(
 
 # libs
 target_link_libraries(${libName} ${OPENGL_gl_LIBRARY})
-target_link_libraries(${libName} ${GLEW_LIBRARY})
+target_link_libraries(${libName} ${GLEW_LIBRARIES})
