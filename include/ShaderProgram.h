@@ -32,9 +32,11 @@ namespace sgl{
 
 		bool link();
 
-		void addAttr(const std::string);
+		void addAttr(const std::string name);
 
-		GLuint getProgramID();
+		GLuint getAttributeLocation(std::string name);
+		GLuint getUniformLocation(std::string name);
+
 		glm::mat4 getProjectionView();
 
 	private:

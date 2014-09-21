@@ -31,6 +31,26 @@ void StaticModel::setNumMeshes(int num)
 	numIndices = new int[num];
 }
 
+GLuint StaticModel::getVBO() const
+{
+	return vbo;
+}
+
+GLuint StaticModel::getIBO(int idx) const
+{
+	return ibos[idx];
+}
+
+int StaticModel::getNumberOfIndices(int idx) const
+{
+	return numIndices[idx];
+}
+
+int StaticModel::getNumberOfMeshes() const
+{
+	return numMeshes;
+}
+
 StaticModel::~StaticModel()
 {
 	int i;

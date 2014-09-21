@@ -26,6 +26,11 @@ namespace sgl{
 
 		void setNumMeshes(int);
 
+		GLuint getVBO() const;
+		GLuint getIBO(int idx) const;
+		int getNumberOfIndices(int idx) const;
+		int getNumberOfMeshes() const;
+
 	private:
 		GLuint vbo;
 		GLuint *ibos;
@@ -33,8 +38,6 @@ namespace sgl{
 		int numMeshes;
 		int *numIndices;
 
-		friend class StaticModelFactory;
-		friend class RenderableEntity;
 	};
 
 };

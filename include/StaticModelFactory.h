@@ -6,6 +6,8 @@
 
 #include "StaticModel.h"
 
+#include <string>
+
 namespace sgl{
 #ifdef _MSC_VER
 	class DLLEXPORT StaticModelFactory
@@ -17,7 +19,7 @@ namespace sgl{
 		StaticModelFactory();
 		~StaticModelFactory();
 
-		virtual StaticModel* createInstance() = 0;
+		virtual StaticModel* createInstance(std::string) = 0;
 
 	private:
 

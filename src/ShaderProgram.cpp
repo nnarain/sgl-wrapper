@@ -154,9 +154,14 @@ bool ShaderProgram::freeProgram()
 	return true;
 }
 
-GLuint ShaderProgram::getProgramID()
+GLuint ShaderProgram::getAttributeLocation(std::string name)
 {
-	return mProgramID;
+	return glGetAttribLocation(mProgramID, name.c_str());
+}
+
+GLuint ShaderProgram::getUniformLocation(std::string name)
+{
+	return glGetUniformLocation(mProgramID, name.c_str());
 }
 
 glm::mat4 ShaderProgram::getProjectionView()

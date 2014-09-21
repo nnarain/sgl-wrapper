@@ -26,9 +26,9 @@ namespace sgl{
 		RenderableEntity(StaticModel*);
 		~RenderableEntity(void);
 
-		void render(ShaderProgram* shader);
+		virtual void render(ShaderProgram* shader) = 0;
 
-	private:
+	protected:
 		StaticModel* model;
 
 	};
