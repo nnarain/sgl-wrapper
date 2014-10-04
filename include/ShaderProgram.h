@@ -6,6 +6,7 @@
 
 #include <string>
 #include <GL/glew.h>
+#include "Camera.h"
 #include <glm/mat4x4.hpp>
 
 namespace sgl{
@@ -27,17 +28,19 @@ namespace sgl{
 		bool bind();
 		void unbind();
 
-		void begin(glm::mat4 projView);
+		void begin(Camera& camera);
 		void end();
 
 		bool link();
 
-		void addAttr(const std::string name);
+		void addAttribute(const std::string name);
 
 		GLuint getAttributeLocation(std::string name);
 		GLuint getUniformLocation(std::string name);
 
 		glm::mat4 getProjectionView();
+		glm::mat4 getProjectionMatri();
+		glm::mat4 getViewMatrix();
 
 	private:
 		void enableAttr();
@@ -53,6 +56,8 @@ namespace sgl{
 
 		int numAttributes;
 
+		glm::mat4 proj;
+		glm::mat4 view;
 		glm::mat4 projView;
 
 	};

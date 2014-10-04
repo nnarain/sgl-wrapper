@@ -5,39 +5,57 @@ using namespace sgl;
 const char* RenderableEntity::POSITION = "a_position";
 const char* RenderableEntity::NORMAL = "a_normal";
 
-RenderableEntity::RenderableEntity(StaticModel* m)
+RenderableEntity::RenderableEntity()
 {
-	model = m;
+	_attributes = new std::vector<VertexAttribute*>();
+	_indices = new std::vector<IndexBufferObject*>();
 }
 
-/*
-
-void RenderableEntity::render(ShaderProgram* shader)
+void RenderableEntity::addVertexAttribute(VertexAttribute *attr)
 {
-	// compute the model view projection matrix
-	glm::mat4 mvp = shader->getProjectionView() * getModelMatrix();
-	// get the position location
-	GLuint a_position = shader->getAttributeLocation(RenderableEntity::POSITION);
-	GLuint mvpID = shader->getUniformLocation("mvp");
-
-	// pass mvp to shader
-	glUniformMatrix4fv(mvpID, 1, GL_FALSE, &mvp[0][0]);
-
-	int i;
-	for (i = 0; i < model->numMeshes; i++){
-
-		glBindBuffer(GL_ARRAY_BUFFER, model->vbo);
-		glVertexAttribPointer(a_position, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, model->ibos[i]);
-		glDrawElements(GL_TRIANGLES, model->numIndices[i], GL_UNSIGNED_INT, NULL);
-
-	}
-
+	_attributes->push_back(attr);
 }
-*/
+
+void RenderableEntity::addIndexBufferObject(IndexBufferObject *ibo)
+{
+	_indices->push_back(ibo);
+}
+
+AttributeIterator RenderableEntity::getAttributeStart() const
+{
+	return _attributes->begin();
+}
+
+AttributeIterator RenderableEntity::getAttributeEnd() const
+{
+	return _attributes->end();
+}
+
+IndexIterator RenderableEntity::getIndexStart() const
+{
+	return _indices->begin();
+}
+
+IndexIterator RenderableEntity::getIndexEnd() const
+{
+	return _indices->end();
+}
 
 RenderableEntity::~RenderableEntity(void)
 {
+	// delete attributes
+	AttributeIterator iter;
+	for (iter = _attributes->begin(); iter != _attributes->end(); ++iter)
+	{
+		delete *iter;
+	}
+	delete _attributes;
 
+	// delete index buffers
+	IndexIterator iboIter;
+	for (iboIter = _indices->begin(); iboIter != _indices->end(); ++iboIter)
+	{
+		delete *iter;
+	}
+	delete _indices;
 }

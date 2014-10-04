@@ -32,9 +32,13 @@ void ShaderProgram::unbind()
 	glUseProgram(NULL);
 }
 
-void ShaderProgram::begin(glm::mat4 pv)
+void ShaderProgram::begin(Camera& cam)
 {
-	projView = pv;
+	proj = cam.getProjectionMatrix();
+	view = cam.getViewMatrix();
+
+	projView = cam.combined();
+
 	bind();
 	enableAttr();
 }
@@ -61,7 +65,7 @@ bool ShaderProgram::link()
 	return true;
 }
 
-void ShaderProgram::addAttr(const std::string name)
+void ShaderProgram::addAttribute(const std::string name)
 {
 	glBindAttribLocation(mProgramID, numAttributes++, name.c_str());
 }
@@ -129,18 +133,6 @@ bool ShaderProgram::createProgram(const GLchar* vs[], const GLchar* fs[])
 
 	glAttachShader(mProgramID, mFragmentShader);
 
-	/*
-	glLinkProgram(mProgramID);
-
-	GLint success;
-	glGetProgramiv(mProgramID, GL_LINK_STATUS, &success);
-
-	if (success != GL_TRUE){
-	std::cout << "Error linking program " << mProgramID << std::endl;
-	printProgramLog(mProgramID);
-	return false;
-	}
-	*/
 	return true;
 }
 
@@ -167,6 +159,16 @@ GLuint ShaderProgram::getUniformLocation(std::string name)
 glm::mat4 ShaderProgram::getProjectionView()
 {
 	return projView;
+}
+
+glm::mat4 ShaderProgram::getProjectionMatri()
+{
+	return proj;
+}
+
+glm::mat4 ShaderProgram::getViewMatrix()
+{
+	return view;
 }
 
 void ShaderProgram::printProgramLog(GLuint program)

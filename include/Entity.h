@@ -34,11 +34,15 @@ namespace sgl{
 		void setPosition(glm::vec3);
 
 		glm::vec3 getPosition();
+		glm::mat4 getRotationMatrix();
 		glm::mat4 getModelMatrix();
+		glm::mat4 getNormalMatrix();
 
 	private:
 		glm::vec4 pos;
 		glm::vec3 angle;
+
+		
 
 	};
 };

@@ -36,6 +36,8 @@ namespace sgl{
 		void setPosition(float, float, float);
 
 		glm::mat4 combined();
+		glm::mat4 getProjectionMatrix();
+		glm::mat4 getViewMatrix();
 
 	private:
 		Vector3f pos;

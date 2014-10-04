@@ -47,6 +47,16 @@ glm::mat4 Camera::combined()
 	return (proj) * (view);
 }
 
+glm::mat4 Camera::getProjectionMatrix()
+{
+	return proj;
+}
+
+glm::mat4 Camera::getViewMatrix()
+{
+	return view;
+}
+
 void Camera::setPosition(Vector3f vec)
 {
 	setPosition(vec.x, vec.y, vec.z);
