@@ -40,12 +40,12 @@ void ShaderProgram::begin(Camera& cam)
 	projView = cam.combined();
 
 	bind();
-	enableAttr();
+//	enableAttr();
 }
 
 void ShaderProgram::end()
 {
-	disableAttr();
+//	disableAttr();
 	unbind();
 }
 
@@ -161,7 +161,7 @@ glm::mat4 ShaderProgram::getProjectionView()
 	return projView;
 }
 
-glm::mat4 ShaderProgram::getProjectionMatri()
+glm::mat4 ShaderProgram::getProjectionMatrix()
 {
 	return proj;
 }

@@ -39,7 +39,7 @@ namespace sgl{
 		GLuint getUniformLocation(std::string name);
 
 		glm::mat4 getProjectionView();
-		glm::mat4 getProjectionMatri();
+		glm::mat4 getProjectionMatrix();
 		glm::mat4 getViewMatrix();
 
 	private:

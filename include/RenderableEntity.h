@@ -4,9 +4,10 @@
 
 #include "Entity.h"
 #include "ShaderProgram.h"
-#include "StaticModel.h"
 #include "VertexAttribute.h"
 #include "IndexBufferObject.h"
+
+#include "VertexAttributeSet.h"
 
 #include <GL/glew.h>
 
@@ -28,26 +29,17 @@ namespace sgl{
 	{
 	public:
 
-		const static char* POSITION;
-		const static char* NORMAL;
-
 		RenderableEntity(void);
 		~RenderableEntity(void);
 
 		virtual void render(ShaderProgram& shader) = 0;
 
-		void addVertexAttribute(VertexAttribute* attr);
-		void addIndexBufferObject(IndexBufferObject* ibo);
-
-		AttributeIterator getAttributeStart() const;
-		AttributeIterator getAttributeEnd() const;
-
-		IndexIterator getIndexStart() const;
-		IndexIterator getIndexEnd() const;
+		void setVertexAttributeSet(VertexAttributeSet* set);
 
 	private:
-		std::vector<VertexAttribute*>* _attributes;
-		std::vector<IndexBufferObject*>* _indices;
+
+	protected:
+		sgl::VertexAttributeSet *_attribs;
 
 	};
 

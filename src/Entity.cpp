@@ -51,9 +51,9 @@ glm::vec3 Entity::getPosition()
 
 glm::mat4 Entity::getRotationMatrix()
 {
-	glm::mat4 rotateX = glm::rotate(angle.x, glm::vec3(1, 0, 0));
-	glm::mat4 rotateY = glm::rotate(angle.y, glm::vec3(0, 1, 0));
-	glm::mat4 rotateZ = glm::rotate(angle.z, glm::vec3(0, 0, 1));
+	glm::mat4 rotateX = glm::rotate(glm::mat4(), angle.x, glm::vec3(1, 0, 0));
+	glm::mat4 rotateY = glm::rotate(glm::mat4(), angle.y, glm::vec3(0, 1, 0));
+	glm::mat4 rotateZ = glm::rotate(glm::mat4(), angle.z, glm::vec3(0, 0, 1));
 
 	return (rotateX * rotateY * rotateZ);
 }
@@ -65,9 +65,9 @@ glm::mat4 Entity::getModelMatrix()
 	return translate * getRotationMatrix();
 }
 
-glm::mat4 Entity::getNormalMatrix()
+glm::mat3 Entity::getNormalMatrix()
 {
-	return glm::mat4();
+	return glm::transpose(glm::inverse(glm::mat3(getModelMatrix())));
 }
 
 Entity::~Entity(void)

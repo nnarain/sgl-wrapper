@@ -36,7 +36,7 @@ namespace sgl{
 		glm::vec3 getPosition();
 		glm::mat4 getRotationMatrix();
 		glm::mat4 getModelMatrix();
-		glm::mat4 getNormalMatrix();
+		glm::mat3 getNormalMatrix();
 
 	private:
 		glm::vec4 pos;

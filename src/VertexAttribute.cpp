@@ -2,33 +2,33 @@
 
 using namespace sgl;
 
-VertexAttribute::VertexAttribute() : VertexAttribute("", 0, 0, 0)
+VertexAttribute::VertexAttribute(GLuint loc, int numComponents)
 {
-}
-
-VertexAttribute::VertexAttribute(std::string name, int numElements, int numComponents, int componentSize)
-{
-	_attrName = name;
-	_numElements = numElements;
+	_loc = loc;
 	_numComponents = numComponents;
-	_sizeComponent = componentSize;
 }
 
 void VertexAttribute::bind()
 {
-	glBindBuffer(GL_ARRAY_BUFFER, id);
+//	glBindBuffer(GL_ARRAY_BUFFER, id);
 }
 
-void VertexAttribute::createBuffer(void * data)
+/*
+void VertexAttribute::createBuffer(void * data, int numElements, int numComponents, int componentSize)
 {
+	_numElements = numElements;
+	_numComponents = numComponents;
+	_sizeComponent = componentSize;
+
 	glGenBuffers(1, &id);
 	glBindBuffer(GL_ARRAY_BUFFER, id);
 	glBufferData(GL_ARRAY_BUFFER, _numElements * _numComponents * _sizeComponent, data, GL_STATIC_DRAW);
 }
+*/
 
-std::string VertexAttribute::getName() const
+GLuint VertexAttribute::getLocation() const
 {
-	return _attrName;
+	return _loc;
 }
 
 int VertexAttribute::getNumComponents() const
