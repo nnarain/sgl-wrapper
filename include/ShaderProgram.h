@@ -29,7 +29,7 @@ namespace sgl{
 		bool bind();
 		void unbind();
 
-		void begin(Camera& camera);
+		void begin();
 		void end();
 
 		bool link();

@@ -32,13 +32,8 @@ void ShaderProgram::unbind()
 	glUseProgram(NULL);
 }
 
-void ShaderProgram::begin(Camera& cam)
+void ShaderProgram::begin()
 {
-	proj = cam.getProjectionMatrix();
-	view = cam.getViewMatrix();
-
-	projView = cam.combined();
-
 	bind();
 //	enableAttr();
 }

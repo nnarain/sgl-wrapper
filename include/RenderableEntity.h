@@ -27,7 +27,7 @@ namespace sgl{
 		RenderableEntity(void);
 		~RenderableEntity(void);
 
-		virtual void render(ShaderProgram& shader) = 0;
+		virtual void render();
 
 		void setVertexAttributeSet(VertexAttributeSet* set);
 
