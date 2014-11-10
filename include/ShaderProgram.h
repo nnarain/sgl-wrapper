@@ -7,6 +7,7 @@
 #include <string>
 #include <GL/glew.h>
 #include "Camera.h"
+#include <glm/mat3x3.hpp>
 #include <glm/mat4x4.hpp>
 
 namespace sgl{
@@ -34,6 +35,11 @@ namespace sgl{
 		bool link();
 
 		void addAttribute(const std::string name);
+
+		void attribute(std::string name, glm::vec3);
+
+		void uniform(std::string name, glm::mat4);
+		void uniform(std::string name, glm::mat3);
 
 		GLuint getAttributeLocation(std::string name);
 		GLuint getUniformLocation(std::string name);

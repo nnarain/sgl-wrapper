@@ -5,8 +5,6 @@
 #include "Entity.h"
 #include "ShaderProgram.h"
 #include "VertexAttribute.h"
-#include "IndexBufferObject.h"
-
 #include "VertexAttributeSet.h"
 
 #include <GL/glew.h>
@@ -16,9 +14,6 @@
 #endif
 
 namespace sgl{
-
-	typedef std::vector<VertexAttribute*>::iterator AttributeIterator;
-	typedef std::vector<IndexBufferObject*>::iterator IndexIterator;
 
 #ifdef _MSC_VER
 	class DLLEXPORT RenderableEntity :

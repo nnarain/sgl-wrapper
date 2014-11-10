@@ -6,6 +6,7 @@ using namespace sgl;
 Entity::Entity(void)
 {
 	pos.w = 1;
+	_transformReCalcRequired = true;
 }
 
 void Entity::translate(glm::vec3 t)
@@ -18,6 +19,8 @@ void Entity::translate(float x, float y, float z)
 	pos.x += x;
 	pos.y += y;
 	pos.z += z;
+
+	_transformReCalcRequired = true;
 }
 
 void Entity::setPosition(glm::vec3 newPos)
@@ -30,6 +33,8 @@ void Entity::setPosition(float x, float y, float z)
 	pos.x = x;
 	pos.y = y;
 	pos.z = z;
+
+	_transformReCalcRequired = true;
 }
 
 void Entity::rotate(glm::vec3 r)
@@ -42,6 +47,8 @@ void Entity::rotate(float x, float y, float z)
 	angle.x += x;
 	angle.y += y;
 	angle.z += z;
+
+	_transformReCalcRequired = true;
 }
 
 glm::vec3 Entity::getPosition()
@@ -60,9 +67,13 @@ glm::mat4 Entity::getRotationMatrix()
 
 glm::mat4 Entity::getModelMatrix()
 {
-	glm::mat4 translate = glm::translate(glm::vec3(pos.x, pos.y, pos.z));
+	if (_transformReCalcRequired){
+		glm::mat4 translate = glm::translate(glm::vec3(pos.x, pos.y, pos.z));
+		_transform = translate * getRotationMatrix();
+		_transformReCalcRequired = false;
+	}
 
-	return translate * getRotationMatrix();
+	return _transform;
 }
 
 glm::mat3 Entity::getNormalMatrix()

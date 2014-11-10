@@ -42,6 +42,8 @@ namespace sgl{
 		glm::vec4 pos;
 		glm::vec3 angle;
 
+		glm::mat4 _transform;
+		bool _transformReCalcRequired;
 		
 
 	};
