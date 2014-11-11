@@ -166,21 +166,6 @@ GLuint ShaderProgram::getUniformLocation(std::string name)
 	return glGetUniformLocation(mProgramID, name.c_str());
 }
 
-glm::mat4 ShaderProgram::getProjectionView()
-{
-	return projView;
-}
-
-glm::mat4 ShaderProgram::getProjectionMatrix()
-{
-	return proj;
-}
-
-glm::mat4 ShaderProgram::getViewMatrix()
-{
-	return view;
-}
-
 void ShaderProgram::printProgramLog(GLuint program)
 {
 	if (glIsProgram(program)){

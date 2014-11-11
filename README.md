@@ -25,3 +25,10 @@ Builds with CMake
 
 Examples
 --------
+
+TODO
+----
+* Clean up API. Remove need for unnecessary classes (i.e. VertexAttribute can be a structure in VertexAttributeSet)
+* Add Texture and Material types
+* Load ShaderProgram can load itself from files
+* Make examples

@@ -23,6 +23,7 @@ namespace sgl{
 	{
 
 	public:
+
 		VertexAttributeSet(int drawCount);
 		~VertexAttributeSet(void);
 		

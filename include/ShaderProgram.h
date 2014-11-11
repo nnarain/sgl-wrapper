@@ -44,27 +44,25 @@ namespace sgl{
 		GLuint getAttributeLocation(std::string name);
 		GLuint getUniformLocation(std::string name);
 
-		glm::mat4 getProjectionView();
-		glm::mat4 getProjectionMatrix();
-		glm::mat4 getViewMatrix();
-
 	private:
 		void enableAttr();
 		void disableAttr();
 
 	protected:
-		void printProgramLog(GLuint);
-		void printShaderLog(GLuint);
 
 		GLuint mProgramID;
 		GLuint mVertexShader;
 		GLuint mFragmentShader;
 
+
+		void printProgramLog(GLuint);
+		void printShaderLog(GLuint);
+
 		int numAttributes;
 
-		glm::mat4 proj;
-		glm::mat4 view;
-		glm::mat4 projView;
+		//glm::mat4 proj;
+		//glm::mat4 view;
+		//glm::mat4 projView;
 
 	};
 
