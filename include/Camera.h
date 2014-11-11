@@ -8,8 +8,8 @@
 #define DLLEXPORT __declspec(dllexport)
 #endif
 
-#include "Vector3f.h"
 #include <glm/mat4x4.hpp>
+#include <glm/vec3.hpp>
 
 namespace sgl{
 
@@ -27,12 +27,12 @@ namespace sgl{
 		void update();
 
 		void translate(float, float, float);
-		void translate(Vector3f);
+		void translate(glm::vec3);
 
-		void lookAt(Vector3f);
+		void lookAt(glm::vec3);
 		void lookAt(float, float, float);
 
-		void setPosition(Vector3f);
+		void setPosition(glm::vec3);
 		void setPosition(float, float, float);
 
 		glm::mat4 combined();
@@ -40,8 +40,8 @@ namespace sgl{
 		glm::mat4 getViewMatrix();
 
 	private:
-		Vector3f pos;
-		Vector3f target;
+		glm::vec3 pos;
+		glm::vec3 target;
 
 		glm::mat4 proj;
 		glm::mat4 view;

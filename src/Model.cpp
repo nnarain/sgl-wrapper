@@ -1,9 +1,9 @@
 
-#include "VertexAttributeSet.h"
+#include "Model.h"
 
 using namespace sgl;
 
-VertexAttributeSet::VertexAttributeSet(int faces)
+Model::Model(int faces)
 {
 	_drawType = GL_TRIANGLES;
 	_drawStart = 0;
@@ -12,7 +12,7 @@ VertexAttributeSet::VertexAttributeSet(int faces)
 	_attribs = new std::vector<VertexAttribute*>();
 }
 
-void VertexAttributeSet::create(float *data, int len, int stride)
+void Model::create(float *data, int len, int stride)
 {
 	// generate buffer
 	glGenVertexArrays(1, &_vao);
@@ -46,27 +46,27 @@ void VertexAttributeSet::create(float *data, int len, int stride)
 	unbind();
 }
 
-void VertexAttributeSet::bind()
+void Model::bind()
 {
 	glBindVertexArray(_vao);
 }
 
-void VertexAttributeSet::draw()
+void Model::draw()
 {
 	glDrawArrays(_drawType, _drawStart, _drawCount);
 }
 
-void VertexAttributeSet::unbind()
+void Model::unbind()
 {
 	glBindVertexArray(0);
 }
 
-void VertexAttributeSet::addAttribute(VertexAttribute *attrib)
+void Model::addAttribute(VertexAttribute *attrib)
 {
 	_attribs->push_back(attrib);
 }
 
-int VertexAttributeSet::offset(int idx)
+int Model::offset(int idx)
 {
 	int i;
 	int off = 0;
@@ -78,7 +78,7 @@ int VertexAttributeSet::offset(int idx)
 	return off * sizeof(float);
 }
 
-VertexAttributeSet::~VertexAttributeSet(void)
+Model::~Model(void)
 {
 	glDeleteVertexArrays(1, &_vao);
 	glDeleteBuffers(1, &_vbo);

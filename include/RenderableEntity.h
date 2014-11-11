@@ -5,7 +5,7 @@
 #include "Entity.h"
 #include "ShaderProgram.h"
 #include "VertexAttribute.h"
-#include "VertexAttributeSet.h"
+#include "Model.h"
 
 #include <GL/glew.h>
 
@@ -29,12 +29,12 @@ namespace sgl{
 
 		virtual void render();
 
-		void setVertexAttributeSet(VertexAttributeSet* set);
+		void setVertexAttributeSet(Model* set);
 
 	private:
 
 	protected:
-		sgl::VertexAttributeSet *_attribs;
+		sgl::Model *_attribs;
 
 	};
 

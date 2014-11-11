@@ -25,12 +25,12 @@ void Camera::translate(float x, float y, float z)
 	pos.z += z;
 }
 
-void Camera::translate(Vector3f vec)
+void Camera::translate(glm::vec3 vec)
 {
 	translate(vec.x, vec.y, vec.z);
 }
 
-void Camera::lookAt(Vector3f v)
+void Camera::lookAt(glm::vec3 v)
 {
 	lookAt(v.x, v.y, v.z);
 }
@@ -57,7 +57,7 @@ glm::mat4 Camera::getViewMatrix()
 	return view;
 }
 
-void Camera::setPosition(Vector3f vec)
+void Camera::setPosition(glm::vec3 vec)
 {
 	setPosition(vec.x, vec.y, vec.z);
 }

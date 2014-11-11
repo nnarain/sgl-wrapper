@@ -16,16 +16,16 @@
 namespace sgl{
 
 #ifdef _MSC_VER
-	class DLLEXPORT VertexAttributeSet
+	class DLLEXPORT Model
 #else
-	class VertexAttributeSet
+	class Model
 #endif
 	{
 
 	public:
 
-		VertexAttributeSet(int drawCount);
-		~VertexAttributeSet(void);
+		Model(int drawCount);
+		~Model(void);
 		
 		void create(float *data, int len, int stride);
 

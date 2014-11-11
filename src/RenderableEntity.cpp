@@ -14,7 +14,7 @@ void RenderableEntity::render()
 	_attribs->unbind();
 }
 
-void RenderableEntity::setVertexAttributeSet(VertexAttributeSet *set)
+void RenderableEntity::setVertexAttributeSet(Model *set)
 {
 	_attribs = set;
 }
