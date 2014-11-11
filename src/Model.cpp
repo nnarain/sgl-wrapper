@@ -9,7 +9,7 @@ Model::Model(int faces)
 	_drawStart = 0;
 	_drawCount = faces * 2 * 3;
 
-	_attribs = new std::vector<VertexAttribute*>();
+	_attribs = new std::vector<VertexAttribute_t>();
 }
 
 void Model::create(float *data, int len, int stride)
@@ -29,11 +29,11 @@ void Model::create(float *data, int len, int stride)
 	int i;
 	for (i = 0; i < _attribs->size(); ++i){
 		
-		VertexAttribute *attrib = (*_attribs)[i];
-		glEnableVertexAttribArray(attrib->getLocation());
+		VertexAttribute_t attrib = (*_attribs)[i];
+		glEnableVertexAttribArray(attrib.loc);
 		glVertexAttribPointer(
-			attrib->getLocation(),
-			attrib->getNumComponents(),
+			attrib.loc,
+			attrib.numComponents,
 			GL_FLOAT,
 			GL_FALSE,
 			stride,
@@ -61,8 +61,12 @@ void Model::unbind()
 	glBindVertexArray(0);
 }
 
-void Model::addAttribute(VertexAttribute *attrib)
+void Model::addAttribute(ShaderProgram& shader, std::string name, int numComponents)
 {
+	VertexAttribute_t attrib;
+	attrib.loc = shader.getAttributeLocation(name);
+	attrib.numComponents = numComponents;
+
 	_attribs->push_back(attrib);
 }
 
@@ -72,7 +76,7 @@ int Model::offset(int idx)
 	int off = 0;
 
 	for (i = 0; i < idx; i++){
-		off += (*_attribs)[i]->getNumComponents();
+		off += (*_attribs)[i].numComponents;
 	}
 
 	return off * sizeof(float);

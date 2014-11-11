@@ -18,9 +18,6 @@ namespace sgl{
 	{
 	public:
 
-		const static char* POSITION;
-		const static char* NORMAL;
-
 		Entity(void);
 		~Entity(void);
 

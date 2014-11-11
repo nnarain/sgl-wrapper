@@ -11,7 +11,7 @@
 #include <GL/glew.h>
 #include <vector>
 
-#include "VertexAttribute.h"
+#include "ShaderProgram.h"
 
 namespace sgl{
 
@@ -24,6 +24,11 @@ namespace sgl{
 
 	public:
 
+		struct VertexAttribute_t{
+			GLuint loc;
+			int numComponents;
+		};
+
 		Model(int drawCount);
 		~Model(void);
 		
@@ -33,7 +38,7 @@ namespace sgl{
 		void draw();
 		void unbind();
 
-		void addAttribute(VertexAttribute *attrib);
+		void addAttribute(ShaderProgram& shader, std::string name, int numComponents);
 
 	private:
 		GLuint _vao;
@@ -43,7 +48,7 @@ namespace sgl{
 		GLint _drawStart;
 		GLint _drawCount;
 
-		std::vector<VertexAttribute*>* _attribs;
+		std::vector<VertexAttribute_t>* _attribs;
 
 		int offset(int idx);
 	};
