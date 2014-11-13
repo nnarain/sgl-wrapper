@@ -22,9 +22,9 @@ namespace sgl{
 		Texture(void);
 		~Texture(void);
 
-		void create();
+		void create(int w, int h, char* data);
 
-		void bind();
+		void bind(GLuint slot);
 		void unbind();
 
 	private:
