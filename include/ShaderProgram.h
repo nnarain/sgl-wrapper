@@ -40,6 +40,8 @@ namespace sgl{
 
 		void uniform(std::string name, glm::mat4);
 		void uniform(std::string name, glm::mat3);
+		void uniform(std::string name, glm::vec3);
+		void uniform(std::string name, glm::vec4);
 
 		GLuint getAttributeLocation(std::string name);
 		GLuint getUniformLocation(std::string name);

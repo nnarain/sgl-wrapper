@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "ShaderProgram.h"
 #include "Model.h"
+#include "Material.h"
 
 #include <GL/glew.h>
 
@@ -22,19 +23,20 @@ namespace sgl{
 		public Entity
 	{
 	public:
-
 		RenderableEntity(void);
 		~RenderableEntity(void);
 
 		virtual void render();
 
 		void setModel(Model* set);
+		
+		void setMaterial(Material material);
+		Material* getMaterial();
 
 	private:
-
-	protected:
-		sgl::Model *_attribs;
-
+		Model *_model;
+		Material _material;
+		
 	};
 
 };

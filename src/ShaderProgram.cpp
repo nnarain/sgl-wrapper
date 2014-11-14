@@ -156,6 +156,16 @@ void ShaderProgram::uniform(std::string name, glm::mat4 m)
 	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &m[0][0]);
 }
 
+void ShaderProgram::uniform(std::string name, glm::vec3 v)
+{
+	glUniform3f(getUniformLocation(name), v.x, v.y, v.z);
+}
+
+void ShaderProgram::uniform(std::string name, glm::vec4 v)
+{
+	glUniform4f(getUniformLocation(name), v.x, v.y, v.z, v.w);
+}
+
 GLuint ShaderProgram::getAttributeLocation(std::string name)
 {
 	return glGetAttribLocation(mProgramID, name.c_str());

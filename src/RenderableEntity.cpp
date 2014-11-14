@@ -4,21 +4,29 @@ using namespace sgl;
 
 RenderableEntity::RenderableEntity()
 {
-
 }
 
 void RenderableEntity::render()
 {
-	_attribs->bind();
-	_attribs->draw();
-	_attribs->unbind();
+	_model->bind();
+	_model->draw();
+	_model->unbind();
 }
 
-void RenderableEntity::setModel(Model *set)
+void RenderableEntity::setModel(Model *aModel)
 {
-	_attribs = set;
+	_model = aModel;
 }
 
+void RenderableEntity::setMaterial(Material material)
+{
+	_material = material;
+}
+
+Material* RenderableEntity::getMaterial()
+{
+	return (&_material);
+}
 
 RenderableEntity::~RenderableEntity(void)
 {
