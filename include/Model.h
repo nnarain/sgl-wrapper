@@ -1,8 +1,8 @@
 
 #pragma once
 
-#ifndef VERTEXATTRIBUTESET_H
-#define VERTEXATTRIBUTESET_H
+#ifndef MODEL_H
+#define MODEL_H
 
 #ifdef _MSC_VER
 #define DLLEXPORT __declspec(dllexport)
