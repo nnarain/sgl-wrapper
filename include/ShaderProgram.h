@@ -23,6 +23,7 @@ namespace sgl{
 		ShaderProgram(void);
 		virtual ~ShaderProgram(void);
 
+		bool loadFromFile(std::string vertSource, std::string fragSource);
 		bool createProgram(const GLchar*[], const GLchar*[]);
 		bool freeProgram();
 

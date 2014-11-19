@@ -1,6 +1,7 @@
 #include "ShaderProgram.h"
 
 #include <iostream>
+#include <fstream>
 
 using namespace sgl;
 
@@ -80,6 +81,20 @@ void ShaderProgram::disableAttr()
 	for (i = 0; i < numAttributes; i++){
 		glDisableVertexAttribArray(i);
 	}
+}
+
+bool ShaderProgram::loadFromFile(std::string vertSource, std::string fragSource)
+{
+	std::ifstream fVertSource(vertSource);
+	std::ifstream fFragSource(fragSource);
+
+	std::string vsContent((std::istreambuf_iterator<char>(fVertSource)), std::istreambuf_iterator<char>());
+	std::string fsContent((std::istreambuf_iterator<char>(fFragSource)), std::istreambuf_iterator<char>());
+
+	const GLchar* vs[] = { vsContent.c_str() };
+	const GLchar* fs[] = { fsContent.c_str() };
+
+	return createProgram(vs, fs);
 }
 
 bool ShaderProgram::createProgram(const GLchar* vs[], const GLchar* fs[])
