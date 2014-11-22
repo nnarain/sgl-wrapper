@@ -10,6 +10,9 @@
 #include "Model.h"
 #include "Texture.h"
 #include "Material.h"
+
 #include "BoundingBox.h"
+#include "BoundingSphere.h"
+#include "Ray.h"
 
 #endif
