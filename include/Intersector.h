@@ -8,8 +8,7 @@
 #define DLLEXPORT __declspec(dllexport)
 #endif
 
-#include "Ray.h"
-#include "BoundingSphere.h"
+#include "Geometry.h"
 
 namespace sgl
 {

@@ -1,8 +1,8 @@
 
 #pragma once
 
-#ifndef BOUNDINGBOX_H
-#define BOUNDINGBOX_H
+#ifndef GEOMETRY_H
+#define GEOMETRY_H
 
 #ifdef _MSC_VER
 #define DLLEXPORT __declspec(dllexport)
@@ -10,7 +10,14 @@
 
 #include <glm/vec3.hpp>
 
-namespace sgl{
+namespace sgl
+{
+	//! Ray
+	struct Ray
+	{
+		glm::vec3 origin;
+		glm::vec3 direction;
+	};
 
 #ifdef _MSC_VER
 	class DLLEXPORT BoundingBox
@@ -38,6 +45,28 @@ namespace sgl{
 		static int compareZ(const void* a, const void* b);
 	};
 
+	//! Sphere
+#ifdef _MSC_VER
+	class DLLEXPORT BoundingSphere
+#else
+	class BoundingSphere
+#endif
+	{
+	public:
+		BoundingSphere(float r, float x, float y, float z);
+		BoundingSphere(float r, glm::vec3 pos);
+		~BoundingSphere();
+
+		float radius;
+		glm::vec3 position;
+
+		static BoundingSphere create(glm::vec3* vertices, int size);
+
+	private:
+
+		/* Sort functions */
+		static int compare(const void* a, const void* b);
+	};
 };
 
 #endif

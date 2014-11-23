@@ -12,8 +12,5 @@
 #include "Material.h"
 
 #include "Intersector.h"
-#include "BoundingBox.h"
-#include "BoundingSphere.h"
-#include "Ray.h"
 
 #endif

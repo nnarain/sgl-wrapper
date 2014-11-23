@@ -76,7 +76,11 @@ Ray Camera::pickRay(float viewportX, float viewportY)
 
 	glm::vec3 direction = glm::normalize(glm::vec3(wsEnd - wsStart));
 
-	return Ray(glm::vec3(wsStart), direction);
+	Ray ray;
+	ray.origin = glm::vec3(wsStart);
+	ray.direction = direction;
+
+	return ray;
 }
 
 glm::mat4 Camera::combined()

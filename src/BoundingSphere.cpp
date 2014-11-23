@@ -1,5 +1,5 @@
 
-#include "BoundingSphere.h"
+#include "Geometry.h"
 
 #include <glm/geometric.hpp>
 #include <cstdlib>
@@ -12,8 +12,8 @@ BoundingSphere::BoundingSphere(float r, float x, float y, float z) : BoundingSph
 
 BoundingSphere::BoundingSphere(float r, glm::vec3 pos)
 {
-	_radius = r;
-	setPosition(pos);
+	radius = r;
+	position = pos;
 }
 
 BoundingSphere BoundingSphere::create(glm::vec3* vertices, int size)
@@ -23,11 +23,6 @@ BoundingSphere BoundingSphere::create(glm::vec3* vertices, int size)
 	glm::vec3 largest = vertices[size - 1];
 
 	return BoundingSphere(glm::length(largest), 0, 0, 0);
-}
-
-float BoundingSphere::radius() const
-{
-	return _radius;
 }
 
 int BoundingSphere::compare(const void* a, const void* b)

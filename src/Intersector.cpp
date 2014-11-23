@@ -6,9 +6,9 @@ using namespace sgl;
 
 bool Intersector::raysphere(Ray ray, BoundingSphere sphere)
 {
-	float l = glm::length( glm::cross(ray.direction, sphere.getPosition() - ray.origin) );
+	float l = glm::length( glm::cross(ray.direction, sphere.position - ray.origin) );
 
-	if (l <= sphere.radius())
+	if (l <= sphere.radius)
 		return true;
 	else
 		return false;

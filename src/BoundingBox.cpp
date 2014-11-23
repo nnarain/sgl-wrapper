@@ -1,5 +1,5 @@
 
-#include "BoundingBox.h"
+#include "Geometry.h"
 #include <cstdlib>
 
 using namespace sgl;
