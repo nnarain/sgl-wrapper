@@ -10,6 +10,7 @@
 
 #include <glm/mat4x4.hpp>
 #include <glm/vec3.hpp>
+#include "Ray.h"
 
 namespace sgl{
 
@@ -21,7 +22,7 @@ namespace sgl{
 	{
 	public:
 		Camera(void);
-		Camera(float fov, float aspectRatio);
+		Camera(float fov, float viewportWidth, float viewportHeight);
 		~Camera(void);
 
 		void update();
@@ -35,16 +36,34 @@ namespace sgl{
 		void setPosition(glm::vec3);
 		void setPosition(float, float, float);
 
+		Ray pickRay(float viewportX, float viewportY);
+
 		glm::mat4 combined();
-		glm::mat4 getProjectionMatrix();
-		glm::mat4 getViewMatrix();
+		glm::mat4 projection();
+		glm::mat4 view();
+		glm::vec3 direction() const;
+
+		//glm::mat4 inverseProjection();
+		//glm::mat4 inverseView();
 
 	private:
-		glm::vec3 pos;
-		glm::vec3 target;
+		glm::vec3 _pos;
+		glm::vec3 _target;
 
-		glm::mat4 proj;
-		glm::mat4 view;
+		glm::mat4 _proj;
+		glm::mat4 _view;
+
+		glm::mat4 _inverseProj;
+		bool _calcInverseProj;
+
+		glm::mat4 _inverseView;
+		bool _calcInverseView;
+
+		float _viewportWidth;
+		float _viewportHeight;
+
+		float _nearClipping;
+		float _farClipping;
 
 	};
 };

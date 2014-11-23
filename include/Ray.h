@@ -12,6 +12,12 @@ namespace sgl{
 		glm::vec3 origin;
 		glm::vec3 direction;
 
+		Ray(glm::vec3 o, glm::vec3 d)
+		{
+			origin = o;
+			direction = d;
+		}
+
 		void setOrigin(float x, float y, float z)
 		{
 			origin.x = x;

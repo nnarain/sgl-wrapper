@@ -19,6 +19,7 @@ namespace sgl
 	class Intersector
 #endif
 	{
+	public:
 		static bool raysphere(Ray ray, BoundingSphere sphere);
 	};
 }
