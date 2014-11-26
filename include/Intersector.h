@@ -19,7 +19,8 @@ namespace sgl
 #endif
 	{
 	public:
-		static bool raysphere(Ray ray, BoundingSphere sphere);
+		static bool intersectRaySphere(Ray ray, BoundingSphere sphere);
+		static bool intersectRayBox(Ray ray, BoundingBox bbox);
 	};
 }
 

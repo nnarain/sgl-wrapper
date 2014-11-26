@@ -13,8 +13,7 @@ Features
 	* translation, rotation, scaling
 	* vertex attributes (position, normals, texutures)
 * Selection
-	* Ray picking
-	* Color picking
+	* Ray picking using spheres and boxes
 
 
 Build
@@ -29,6 +28,6 @@ Examples
 
 TODO
 ----
-* Color picking
 * Animation (keyframe, skeletal)
+* Lighting API?
 * Make examples

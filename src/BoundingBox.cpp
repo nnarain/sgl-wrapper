@@ -1,6 +1,8 @@
 
 #include "Geometry.h"
+
 #include <cstdlib>
+#include <glm/geometric.hpp>
 
 using namespace sgl;
 
@@ -22,6 +24,24 @@ glm::vec3 BoundingBox::min() const
 glm::vec3 BoundingBox::max() const
 {
 	return _max;
+}
+
+glm::vec3 BoundingBox::center() const
+{
+	return (_max - _min) / 2.0f;
+}
+
+void BoundingBox::transform(glm::mat4 transform)
+{
+	glm::vec4 tMin = glm::vec4(_min, 1);
+	tMin = transform * tMin;
+
+	_min = glm::vec3(tMin);
+
+	glm::vec4 tMax = glm::vec4(_max, 1);
+	tMax = transform * tMax;
+
+	_max = glm::vec3(tMax);
 }
 
 /* Quick Sort Compare Functions */

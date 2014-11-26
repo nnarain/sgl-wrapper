@@ -9,6 +9,7 @@
 #endif
 
 #include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
 
 namespace sgl
 {
@@ -33,6 +34,9 @@ namespace sgl
 
 		glm::vec3 min() const;
 		glm::vec3 max() const;
+		glm::vec3 center() const;
+
+		void transform(glm::mat4 transform);
 
 		static BoundingBox create(glm::vec3* vertices, int size);
 
