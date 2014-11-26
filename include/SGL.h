@@ -11,4 +11,6 @@
 #include "Texture.h"
 #include "Material.h"
 
+#include "Intersector.h"
+
 #endif
