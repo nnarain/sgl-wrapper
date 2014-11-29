@@ -3,19 +3,26 @@
 
 using namespace sgl;
 
-FrameBuffer::FrameBuffer()
+FrameBuffer::FrameBuffer() : IGLBuffer(GL_FRAMEBUFFER)
 {
-	glGenFramebuffers(1, &_fbo);
+	glGenFramebuffers(1, &_id);
 }
 
 void FrameBuffer::bind(GLuint target)
 {
-	glBindFramebuffer(target, _fbo);
+	IGLBuffer::bind(target);
+	glBindFramebuffer(target, _id);
 }
 
-void FrameBuffer::unbind(GLuint target)
+void FrameBuffer::bind()
 {
-	glBindFramebuffer(target, 0);
+	bind(_defaultTarget);
+}
+
+void FrameBuffer::unbind()
+{
+	IGLBuffer::unbind();
+	glBindFramebuffer(_currentTarget, 0);
 }
 
 void FrameBuffer::setTexture(Texture& texture, GLuint attachment)
@@ -45,5 +52,5 @@ bool FrameBuffer::error()
 
 FrameBuffer::~FrameBuffer()
 {
-	glDeleteFramebuffers(1, &_fbo);
+	glDeleteFramebuffers(1, &_id);
 }

@@ -9,6 +9,7 @@
 #endif
 
 #include <GL/glew.h>
+#include "IGLBuffer.h"
 
 namespace sgl{
 
@@ -17,6 +18,7 @@ namespace sgl{
 #else
 	class Texture
 #endif
+		: public IGLBuffer
 	{
 	public:
 		Texture(void);
@@ -25,14 +27,10 @@ namespace sgl{
 		void create(GLint internalFormat, GLenum format, int w, int h, char* pixels);
 
 		void bind(GLuint target);
+		void bind();
 		void unbind();
 
 		void parameter(GLenum name, GLint param);
-
-		GLuint handle() const;
-
-	private:
-		GLuint _id;
 	};
 
 };

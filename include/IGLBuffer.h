@@ -22,11 +22,12 @@ namespace sgl
 		IGLBuffer(GLuint defaultTarget);
 		~IGLBuffer();
 
-		void bind(GLuint target);
-		void bind();
-		void unbind();
+		virtual void bind(GLuint target);
+		virtual void bind();
+		virtual void unbind();
 
 		GLuint handle() const;
+		bool isBound() const;
 
 	protected:
 		GLuint _id;

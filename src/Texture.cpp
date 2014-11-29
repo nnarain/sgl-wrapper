@@ -3,7 +3,7 @@
 
 using namespace sgl;
 
-Texture::Texture()
+Texture::Texture() : IGLBuffer(GL_TEXTURE_2D)
 {
 }
 
@@ -16,23 +16,25 @@ void Texture::create(GLint internalFormat, GLenum format, int w, int h, char* pi
 
 void Texture::bind(GLuint target)
 {
+	IGLBuffer::bind(_defaultTarget);
 	glActiveTexture(target);
-	glBindTexture(GL_TEXTURE_2D, _id);
+	glBindTexture(_defaultTarget, _id);
+}
+
+void Texture::bind()
+{
+	return;
 }
 
 void Texture::unbind()
 {
-	glBindTexture(GL_TEXTURE_2D, 0);
+	IGLBuffer::unbind();
+	glBindTexture(_currentTarget, 0);
 }
 
 void Texture::parameter(GLenum name, GLint param)
 {
 	glTexParameteri(GL_TEXTURE_2D, name, param);
-}
-
-GLuint Texture::handle() const
-{
-	return _id;
 }
 
 Texture::~Texture()

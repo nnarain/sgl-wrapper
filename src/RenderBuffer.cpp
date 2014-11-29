@@ -3,19 +3,26 @@
 
 using namespace sgl;
 
-RenderBuffer::RenderBuffer()
+RenderBuffer::RenderBuffer() : IGLBuffer(GL_RENDERBUFFER)
 {
-	glGenRenderbuffers(1, &_rbo);
+	glGenRenderbuffers(1, &_id);
 }
 
 void RenderBuffer::bind(GLuint target)
 {
-	glBindRenderbuffer(target, _rbo);
+	IGLBuffer::bind(target);
+	glBindRenderbuffer(target, _id);
 }
 
-void RenderBuffer::unbind(GLuint target)
+void RenderBuffer::bind()
 {
-	glBindRenderbuffer(target, 0);
+	bind(_defaultTarget);
+}
+
+void RenderBuffer::unbind()
+{
+	IGLBuffer::unbind();
+	glBindRenderbuffer(_currentTarget, 0);
 }
 
 void RenderBuffer::storage(GLuint component, int w, int h)
@@ -23,12 +30,7 @@ void RenderBuffer::storage(GLuint component, int w, int h)
 	glRenderbufferStorage(GL_RENDERBUFFER, component, w, h);
 }
 
-GLuint RenderBuffer::handle() const
-{
-	return _rbo;
-}
-
 RenderBuffer::~RenderBuffer()
 {
-	glDeleteRenderbuffers(1, &_rbo);
+	glDeleteRenderbuffers(1, &_id);
 }

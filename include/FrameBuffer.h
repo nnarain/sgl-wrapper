@@ -11,6 +11,7 @@
 #include <GL/glew.h>
 #include <vector>
 
+#include "IGLBuffer.h"
 #include "Texture.h"
 #include "RenderBuffer.h"
 
@@ -22,13 +23,15 @@ namespace sgl
 #else
 	class FrameBuffer
 #endif
+		: public IGLBuffer
 	{
 	public:
 		FrameBuffer();
 		~FrameBuffer();
 
 		void bind(GLuint target);
-		void unbind(GLuint target);
+		void bind();
+		void unbind();
 
 		void setTexture(Texture& texture, GLuint attachment);
 		void setRenderBuffer(RenderBuffer& renderBuffer, GLuint attachment);
@@ -38,8 +41,6 @@ namespace sgl
 		void addAttachment(GLenum attachment);
 
 	private:
-		GLuint _fbo;
-
 		std::vector<GLenum> _attachments;
 
 		bool error();

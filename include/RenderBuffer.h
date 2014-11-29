@@ -9,6 +9,7 @@
 #endif
 
 #include <GL/glew.h>
+#include "IGLBuffer.h"
 
 namespace sgl
 {
@@ -17,20 +18,18 @@ namespace sgl
 #else
 	class RenderBuffer
 #endif
+		: public IGLBuffer
 	{
 	public:
 		RenderBuffer();
 		~RenderBuffer();
 
 		void bind(GLuint target);
-		void unbind(GLuint target);
+		void bind();
+		void unbind();
 
 		void storage(GLuint component, int w, int h);
 
-		GLuint handle() const;
-
-	private:
-		GLuint _rbo;
 	};
 };
 
