@@ -11,9 +11,10 @@ Features
 * ShaderProgram
 * Basic representation of 3D models
 	* translation, rotation, scaling
-	* vertex attributes (position, normals, texutures)
+	* vertex attributes (position, normals, texutures, colors)
+* Textures
 * Selection
-	* Ray picking using spheres and boxes
+	* Ray picking using spheres
 
 
 Build
@@ -30,5 +31,4 @@ TODO
 ----
 * Animation (keyframe, skeletal)
 * Lighting API?
-* Add Frame buffers, render buffers
 * Make examples
