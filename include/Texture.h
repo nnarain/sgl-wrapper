@@ -22,10 +22,14 @@ namespace sgl{
 		Texture(void);
 		~Texture(void);
 
-		void create(int w, int h, char* data);
+		void create(GLint internalFormat, GLenum format, int w, int h, char* pixels);
 
-		void bind(GLuint slot);
+		void bind(GLuint target);
 		void unbind();
+
+		void parameter(GLenum name, GLint param);
+
+		GLuint handle() const;
 
 	private:
 		GLuint _id;

@@ -7,19 +7,16 @@ Texture::Texture()
 {
 }
 
-void Texture::create(int w, int h, char* data)
+void Texture::create(GLint internalFormat, GLenum format, int w, int h, char* pixels)
 {
 	glGenTextures(1, &_id);
 	glBindTexture(GL_TEXTURE_2D, _id);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, w, h, 0, format, GL_UNSIGNED_BYTE, pixels);
 }
 
-void Texture::bind(GLuint slot)
+void Texture::bind(GLuint target)
 {
-	glActiveTexture(slot);
+	glActiveTexture(target);
 	glBindTexture(GL_TEXTURE_2D, _id);
 }
 
@@ -28,6 +25,17 @@ void Texture::unbind()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+void Texture::parameter(GLenum name, GLint param)
+{
+	glTexParameteri(GL_TEXTURE_2D, name, param);
+}
+
+GLuint Texture::handle() const
+{
+	return _id;
+}
+
 Texture::~Texture()
 {
+	glDeleteTextures(1, &_id);
 }

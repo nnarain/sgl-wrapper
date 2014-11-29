@@ -8,7 +8,11 @@
 #include "ShaderProgram.h"
 #include "Entity.h"
 #include "Model.h"
+
 #include "Texture.h"
+#include "FrameBuffer.h"
+#include "RenderBuffer.h"
+
 #include "Material.h"
 
 #include "Intersector.h"
