@@ -5,24 +5,24 @@ using namespace sgl;
 
 FrameBuffer::FrameBuffer() : IGLBuffer(GL_FRAMEBUFFER)
 {
-	glGenFramebuffers(1, &_id);
+	glGenFramebuffers(1, id());
 }
 
 void FrameBuffer::bind(GLuint target)
 {
 	IGLBuffer::bind(target);
-	glBindFramebuffer(target, _id);
+	glBindFramebuffer(target, *id());
 }
 
 void FrameBuffer::bind()
 {
-	bind(_defaultTarget);
+	bind(defaultTarget());
 }
 
 void FrameBuffer::unbind()
 {
 	IGLBuffer::unbind();
-	glBindFramebuffer(_currentTarget, 0);
+	glBindFramebuffer(currentTarget(), 0);
 }
 
 void FrameBuffer::setTexture(Texture& texture, GLuint attachment)
@@ -47,10 +47,10 @@ void FrameBuffer::addAttachment(GLenum attachment)
 
 bool FrameBuffer::error()
 {
-	return glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE;
+	return glCheckFramebufferStatus(currentTarget()) != GL_FRAMEBUFFER_COMPLETE;
 }
 
 FrameBuffer::~FrameBuffer()
 {
-	glDeleteFramebuffers(1, &_id);
+	glDeleteFramebuffers(1, id());
 }

@@ -33,6 +33,21 @@ bool IGLBuffer::isBound() const
 	return _isBound;
 }
 
+GLuint* IGLBuffer::id()
+{
+	return &_id;
+}
+
+GLuint IGLBuffer::defaultTarget() const
+{
+	return _defaultTarget;
+}
+
+GLuint IGLBuffer::currentTarget() const
+{
+	return _currentTarget;
+}
+
 IGLBuffer::~IGLBuffer()
 {
 	

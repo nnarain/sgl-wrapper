@@ -1,8 +1,8 @@
 
 #pragma once
 
-#ifndef GLBUFFER_H
-#define GLBUFFER_H
+#ifndef IGLBUFFER_H
+#define IGLBUFFER_H
 
 #ifdef _MSC_VER
 #define DLLEXPORT __declspec(dllexport)
@@ -30,6 +30,11 @@ namespace sgl
 		bool isBound() const;
 
 	protected:
+		GLuint* id();
+		GLuint defaultTarget() const;
+		GLuint currentTarget() const;
+
+	private:
 		GLuint _id;
 
 		GLuint _defaultTarget;
