@@ -30,6 +30,9 @@ namespace sgl{
 		void rotate(glm::vec3);
 		void rotate(float, float, float);
 
+		void scale(glm::vec3);
+		void scale(float, float, float);
+
 		void setPosition(float, float, float);
 		void setPosition(glm::vec3);
 
@@ -39,8 +42,9 @@ namespace sgl{
 		glm::mat3 getNormalMatrix();
 
 	private:
-		glm::vec4 pos;
-		glm::vec3 angle;
+		glm::vec4 _pos;
+		glm::vec3 _angle;
+		glm::vec3 _scale;
 
 		glm::mat4 _transform;
 		bool _transformReCalcRequired;
