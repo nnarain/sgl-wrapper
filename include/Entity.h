@@ -10,6 +10,9 @@
 
 namespace sgl{
 
+	/**
+		Representation of a entity in 3D world space. (Translation, Rotation, Scale)
+	*/
 #ifdef _MSC_VER
 	class DLLEXPORT Entity
 #else
