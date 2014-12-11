@@ -4,21 +4,14 @@
 #ifndef RENDERBUFFER_H
 #define RENDERBUFFER_H
 
-#ifdef _MSC_VER
-#define DLLEXPORT __declspec(dllexport)
-#endif
+#include "SGLExport.h"
 
 #include <GL/glew.h>
 #include "IGLBuffer.h"
 
 namespace sgl
 {
-#ifdef _MSC_VER
-	class DLLEXPORT RenderBuffer
-#else
-	class RenderBuffer
-#endif
-		: public IGLBuffer
+	SGLCLASS RenderBuffer : public IGLBuffer
 	{
 	public:
 		RenderBuffer();

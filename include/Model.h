@@ -4,9 +4,7 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#ifdef _MSC_VER
-#define DLLEXPORT __declspec(dllexport)
-#endif
+#include "SGLExport.h"
 
 #include <GL/glew.h>
 #include <vector>
@@ -15,11 +13,7 @@
 
 namespace sgl{
 
-#ifdef _MSC_VER
-	class DLLEXPORT Model
-#else
-	class Model
-#endif
+	SGLCLASS Model
 	{
 
 	public:

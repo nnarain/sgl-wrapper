@@ -4,9 +4,7 @@
 #ifndef FRAMEBUFFER_H
 #define FRAMEBUFFER_H
 
-#ifdef _MSC_VER
-#define DLLEXPORT __declspec(dllexport)
-#endif
+#include "SGLExport.h"
 
 #include <GL/glew.h>
 #include <vector>
@@ -17,12 +15,7 @@
 
 namespace sgl
 {
-
-#ifdef _MSC_VER
-	class DLLEXPORT FrameBuffer
-#else
-	class FrameBuffer
-#endif
+	SGLCLASS FrameBuffer
 		: public IGLBuffer
 	{
 	public:

@@ -1,17 +1,38 @@
 
 #include "Texture.h"
+#include "SGLException.h"
 
 using namespace sgl;
 
-Texture::Texture() : IGLBuffer(GL_TEXTURE_2D)
+Texture::Texture(int width, int height, GLint internalFormat, GLenum format) : IGLBuffer(GL_TEXTURE_2D)
 {
+	_width = width;
+	_height = height;
+	_internalFormat = internalFormat;
+	_format = format;
+
+	glGenTextures(1, id());
 }
 
-void Texture::create(GLint internalFormat, GLenum format, int w, int h, char* pixels)
+Texture::Texture(GLuint target, int width, int height, GLint internalFormat, GLenum format) : IGLBuffer(target)
 {
+	_width = width;
+	_height = height;
+	_internalFormat = internalFormat;
+	_format = format;
+
 	glGenTextures(1, id());
-	glBindTexture(GL_TEXTURE_2D, *id());
-	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, w, h, 0, format, GL_UNSIGNED_BYTE, pixels);
+}
+
+void Texture::data(char* pixels)
+{
+	data(currentTarget(), pixels);
+}
+
+void Texture::data(GLuint target, char* pixels)
+{
+	glTexImage2D(target, 0, _internalFormat, _width, _height, 0, _format, GL_UNSIGNED_BYTE, pixels);
+	sglCheckGLError();
 }
 
 void Texture::bind(GLuint target)
@@ -28,13 +49,23 @@ void Texture::bind()
 
 void Texture::unbind()
 {
-	IGLBuffer::unbind();
-	glBindTexture(currentTarget(), 0);
+	if (isBound())
+	{
+		IGLBuffer::unbind();
+		glBindTexture(currentTarget(), 0);
+	}
 }
 
 void Texture::parameter(GLenum name, GLint param)
 {
-	glTexParameteri(GL_TEXTURE_2D, name, param);
+	if (isBound())
+		glTexParameteri(currentTarget(), name, param);
+}
+
+void Texture::parameter(GLenum name, GLfloat param)
+{
+	if (isBound())
+		glTexParameterf(currentTarget(), name, param);
 }
 
 Texture::~Texture()

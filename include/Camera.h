@@ -4,9 +4,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#ifdef _MSC_VER
-#define DLLEXPORT __declspec(dllexport)
-#endif
+#include "SGLExport.h"
 
 #include <glm/mat4x4.hpp>
 #include <glm/vec3.hpp>
@@ -17,11 +15,7 @@ namespace sgl{
 	/**
 		A Camera in the OpenGL enviroment. Defines what will be rendered in the window
 	*/
-#ifdef _MSC_VER
-	class DLLEXPORT Camera
-#else
-	class Camera
-#endif
+	SGLCLASS Camera
 	{
 	public:
 		Camera(void);
@@ -99,6 +93,8 @@ namespace sgl{
 			@return the direction of the camera
 		*/
 		glm::vec3 direction() const;
+
+		glm::mat4 transform();
 
 	private:
 		//! camera position

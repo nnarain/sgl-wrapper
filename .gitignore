@@ -15,3 +15,7 @@ bin/*
 *.so
 *.dll
 
+#project
+*.TMP
+*.tmp
+

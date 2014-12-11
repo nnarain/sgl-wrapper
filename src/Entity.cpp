@@ -61,9 +61,14 @@ void Entity::scale(glm::vec3 s)
 
 void Entity::scale(float x, float y, float z)
 {
-	_scale.x = x;
-	_scale.y = y;
-	_scale.z = z;
+	_scale.x *= x;
+	_scale.y *= y;
+	_scale.z *= z;
+}
+
+void Entity::scale(float t)
+{
+	scale(t, t, t);
 }
 
 glm::vec3 Entity::getPosition()

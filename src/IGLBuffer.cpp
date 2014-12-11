@@ -6,11 +6,13 @@ using namespace sgl;
 IGLBuffer::IGLBuffer(GLuint defaultTarget)
 {
 	_defaultTarget = defaultTarget;
+	_currentTarget = 0;
 }
 
 void IGLBuffer::bind(GLuint target)
 {
 	_currentTarget = target;
+	_isBound = true;
 }
 
 void IGLBuffer::bind()
@@ -21,6 +23,11 @@ void IGLBuffer::bind()
 void IGLBuffer::unbind()
 {
 	_isBound = false;
+}
+
+void IGLBuffer::setDefaultTarget(GLuint target)
+{
+	_defaultTarget = target;
 }
 
 GLuint IGLBuffer::handle() const

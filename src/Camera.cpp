@@ -103,6 +103,11 @@ glm::vec3 Camera::direction() const
 	return glm::normalize(_target - _pos);
 }
 
+glm::mat4 Camera::transform()
+{
+	return glm::translate(_pos);
+}
+
 void Camera::setPosition(glm::vec3 vec)
 {
 	setPosition(vec.x, vec.y, vec.z);

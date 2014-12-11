@@ -4,9 +4,7 @@
 #ifndef GEOMETRY_H
 #define GEOMETRY_H
 
-#ifdef _MSC_VER
-#define DLLEXPORT __declspec(dllexport)
-#endif
+#include "SGLExport.h"
 
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
@@ -20,11 +18,7 @@ namespace sgl
 		glm::vec3 direction;
 	};
 
-#ifdef _MSC_VER
-	class DLLEXPORT BoundingBox
-#else
-	class BoundingBox
-#endif
+	SGLCLASS BoundingBox
 	{
 	public:
 		BoundingBox();
@@ -50,11 +44,7 @@ namespace sgl
 	};
 
 	//! Sphere
-#ifdef _MSC_VER
-	class DLLEXPORT BoundingSphere
-#else
-	class BoundingSphere
-#endif
+	SGLCLASS BoundingSphere
 	{
 	public:
 		BoundingSphere(float r, float x, float y, float z);

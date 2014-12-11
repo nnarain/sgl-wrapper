@@ -4,33 +4,36 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#ifdef _MSC_VER
-#define DLLEXPORT __declspec(dllexport)
-#endif
+#include "SGLExport.h"
 
 #include <GL/glew.h>
 #include "IGLBuffer.h"
 
 namespace sgl{
 
-#ifdef _MSC_VER
-	class DLLEXPORT Texture
-#else
-	class Texture
-#endif
-		: public IGLBuffer
+	SGLCLASS Texture : public IGLBuffer
 	{
 	public:
-		Texture(void);
+		Texture(int width, int height, GLint internalFormat, GLenum format);
+		Texture(GLuint target, int width, int height, GLint internalFormal, GLenum format);
 		~Texture(void);
 
-		void create(GLint internalFormat, GLenum format, int w, int h, char* pixels);
+		void data(char* pixels);
+		void data(GLuint target, char* pixels);
 
 		void bind(GLuint target);
 		void bind();
 		void unbind();
 
 		void parameter(GLenum name, GLint param);
+		void parameter(GLenum name, GLfloat param);
+
+	private:
+		int _width;
+		int _height;
+
+		GLint _internalFormat;
+		GLenum _format;
 	};
 
 };

@@ -1,8 +1,6 @@
 #pragma once
 
-#ifdef _MSC_VER
-#define DLLEXPORT __declspec(dllexport)
-#endif
+#include "SGLExport.h"
 
 #include <string>
 #include <GL/glew.h>
@@ -12,11 +10,7 @@
 
 namespace sgl{
 
-#ifdef _MSC_VER
-	class DLLEXPORT ShaderProgram
-#else
-	class ShaderProgram
-#endif
+	SGLCLASS ShaderProgram
 	{
 	public:
 

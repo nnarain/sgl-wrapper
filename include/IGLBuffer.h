@@ -4,27 +4,24 @@
 #ifndef IGLBUFFER_H
 #define IGLBUFFER_H
 
-#ifdef _MSC_VER
-#define DLLEXPORT __declspec(dllexport)
-#endif
+#include "SGLExport.h"
 
 #include <GL/glew.h>
 
 namespace sgl
 {
-#ifdef _MSC_VER
-	class DLLEXPORT IGLBuffer
-#else
-	class IGLBuffer
-#endif
+	SGLCLASS IGLBuffer
 	{
 	public:
+
 		IGLBuffer(GLuint defaultTarget);
 		~IGLBuffer();
 
 		virtual void bind(GLuint target);
 		virtual void bind();
 		virtual void unbind();
+
+		void setDefaultTarget(GLuint target);
 
 		GLuint handle() const;
 		bool isBound() const;
