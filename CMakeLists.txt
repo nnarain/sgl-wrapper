@@ -1,6 +1,6 @@
 
 #
-# Todo Engine Build
+# SGL Build Configuration
 #
 # @author Natesh Narain
 

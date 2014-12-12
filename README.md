@@ -12,7 +12,7 @@ Features
 * Basic representation of 3D models
 	* translation, rotation, scaling
 	* vertex attributes (position, normals, texutures, colors)
-* Textures
+* Textures (2D and CubeMaps)
 * Selection
 	* Ray picking using spheres
 
@@ -31,6 +31,7 @@ TODO
 ----
 * Specific Texture classes instead of generalized Texture class (i.e, Texture2D, CubeMapTextures, etc)
 * Clean up Model (Mesh?) API. (VertexAttributes, etc)
+* Orthographic and Perspective Camera
 * Lighting API? (Point, Directional, Cone)
 * Helpers for mesh creation (Cube, Triangle, Sphere, Wireframe?)
 * Test with Qt and on Linux
