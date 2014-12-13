@@ -4,13 +4,14 @@
 
 using namespace sgl;
 
-Model::Model(int faces)
+Model::Model(GLenum drawType, int drawCount, GLenum usage)
 {
-	_drawType = GL_TRIANGLES;
+	_drawType = drawType;
 	_drawStart = 0;
-	_drawCount = faces * 2 * 3;
+	_drawCount = drawCount;
+	_usage = usage;
 
-	_attribs = new std::vector<VertexAttribute_t>();
+	_attribs = new std::vector<VertexAttribute>();
 }
 
 void Model::create(float *data, int len, int stride)
@@ -24,13 +25,13 @@ void Model::create(float *data, int len, int stride)
 
 	// set the vertex buffer data
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	glBufferData(GL_ARRAY_BUFFER, len, data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, len, data, _usage);
 
-	//
+	// iterate over the model attributes and set offsets in the buffer
 	int i;
 	for (i = 0; i < _attribs->size(); ++i){
 		
-		VertexAttribute_t attrib = (*_attribs)[i];
+		VertexAttribute attrib = (*_attribs)[i];
 		glEnableVertexAttribArray(attrib.loc);
 		glVertexAttribPointer(
 			attrib.loc,
@@ -64,13 +65,9 @@ void Model::unbind()
 	glBindVertexArray(0);
 }
 
-void Model::addAttribute(ShaderProgram& shader, std::string name, int numComponents)
+void Model::addAttribute(ShaderProgram& shader, std::string name)
 {
-	VertexAttribute_t attrib;
-	attrib.loc = shader.getAttributeLocation(name);
-	attrib.numComponents = numComponents;
-
-	_attribs->push_back(attrib);
+	_attribs->push_back(shader.getAttribute(name));
 }
 
 int Model::offset(int idx)
@@ -78,6 +75,7 @@ int Model::offset(int idx)
 	int i;
 	int off = 0;
 
+	// calculate the offset in the vertex buffer for the current index
 	for (i = 0; i < idx; i++){
 		off += (*_attribs)[i].numComponents;
 	}

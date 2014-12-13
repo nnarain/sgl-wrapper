@@ -1,15 +1,29 @@
+
+/**
+	Handle a Shader Program
+
+	@author Natesh Narain
+*/
+
 #pragma once
 
-#include "SGLExport.h"
-
-#include <string>
 #include <GL/glew.h>
+
+#include "SGLExport.h"
 #include "Camera.h"
+#include "VertexAttribute.h"
+
 #include <glm/mat3x3.hpp>
 #include <glm/mat4x4.hpp>
 
+#include <string>
+#include <map>
+
 namespace sgl{
 
+	/**
+		Encapsulates an OpenGL Shader Program
+	*/
 	SGLCLASS ShaderProgram
 	{
 	public:
@@ -29,7 +43,8 @@ namespace sgl{
 
 		bool link();
 
-		void addAttribute(const std::string name);
+		void addAttribute(const std::string name, int numComponents);
+		VertexAttribute getAttribute(std::string name);
 
 		void attribute(std::string name, glm::vec3);
 
@@ -41,25 +56,18 @@ namespace sgl{
 		GLuint getAttributeLocation(std::string name);
 		GLuint getUniformLocation(std::string name);
 
-	private:
-		void enableAttr();
-		void disableAttr();
-
 	protected:
 
-		GLuint mProgramID;
-		GLuint mVertexShader;
-		GLuint mFragmentShader;
+		GLuint _programID;
+		GLuint _vertexShader;
+		GLuint _fragmentShader;
 
+		std::map<std::string, VertexAttribute>* _attributes;
 
 		void printProgramLog(GLuint);
 		void printShaderLog(GLuint);
 
-		int numAttributes;
-
-		//glm::mat4 proj;
-		//glm::mat4 view;
-		//glm::mat4 projView;
+		int _numAttributes;
 
 	};
 
