@@ -1,4 +1,10 @@
 
+/**
+	Include primary parts of API
+
+	@author Natesh Narain
+*/
+
 #pragma once
 
 #ifndef SGL_H

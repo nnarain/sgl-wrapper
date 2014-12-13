@@ -11,7 +11,9 @@ namespace sgl
 	//! Represent a vertex attribute in a shader and model data
 	struct VertexAttribute
 	{
+		//! Shader location of attribute
 		GLuint loc;
+		//! number of components inthe attributes
 		int numComponents;
 	};
 };

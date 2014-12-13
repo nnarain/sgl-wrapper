@@ -1,4 +1,10 @@
 
+/**
+	Interface for an error callback system
+
+	@author Natesh Narain
+*/
+
 #pragma once
 
 #ifndef SGLEXCEPTION_H

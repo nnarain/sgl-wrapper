@@ -10,6 +10,9 @@
 
 namespace sgl
 {
+	/**
+		Generic interface to OpenGL buffer
+	*/
 	SGLCLASS IGLBuffer
 	{
 	public:
