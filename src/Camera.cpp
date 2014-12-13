@@ -1,5 +1,5 @@
 
-#include "Camera.h"
+#include "SGL/Camera.h"
 #include <glm/gtx/transform.hpp>
 
 using namespace sgl;

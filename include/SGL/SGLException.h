@@ -4,15 +4,7 @@
 #ifndef SGLEXCEPTION_H
 #define SGLEXCEPTION_H
 
-#ifdef _MSC_VER
-#define DLLEXPORT __declspec(dllexport)
-#endif
-
-#ifdef DLLEXPORT
-#define SGLVOIDFUNC void DLLEXPORT
-#else
-#define SGLVOIDFUNC void
-#endif
+#include "SGLExport.h"
 
 #include <GL/glew.h>
 #include <string>

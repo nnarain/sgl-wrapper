@@ -1,5 +1,6 @@
 
-#include "FrameBuffer.h"
+#include "SGL/FrameBuffer.h"
+#include "SGL/SGLException.h"
 
 using namespace sgl;
 
@@ -28,11 +29,13 @@ void FrameBuffer::unbind()
 void FrameBuffer::setTexture(Texture& texture, GLuint attachment)
 {
 	glFramebufferTexture(GL_FRAMEBUFFER, attachment, texture.handle(), 0);
+	sglCheckGLError();
 }
 
 void FrameBuffer::setRenderBuffer(RenderBuffer& renderBuffer, GLuint attachment)
 {
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachment, GL_RENDERBUFFER, renderBuffer.handle());
+	sglCheckGLError();
 }
 
 void FrameBuffer::setDrawBuffer()

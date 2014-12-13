@@ -1,5 +1,5 @@
 
-#include "Geometry.h"
+#include "SGL/Geometry.h"
 
 #include <glm/geometric.hpp>
 #include <cstdlib>

@@ -14,8 +14,10 @@
 #ifdef _MSC_VER
 #	define DLLEXPORT __declspec(dllexport)
 #	define SGLCLASS class DLLEXPORT
+#	define SGLVOIDFUNC void DLLEXPORT
 #else
-#	define SGLCLASS class		
+#	define SGLCLASS class
+#	define SGLVOIDFUNC void
 #endif
 
 #endif

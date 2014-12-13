@@ -1,5 +1,5 @@
 
-#include "SGLException.h"
+#include "SGL/SGLException.h"
 
 static sgl::SGLErrorCallback _sglError;
 

@@ -1,5 +1,5 @@
 
-#include "Intersector.h"
+#include "SGL/Intersector.h"
 #include <glm/geometric.hpp>
 
 using namespace sgl;

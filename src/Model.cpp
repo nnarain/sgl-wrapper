@@ -1,5 +1,6 @@
 
-#include "Model.h"
+#include "SGL/Model.h"
+#include "SGL/SGLException.h"
 
 using namespace sgl;
 
@@ -44,6 +45,8 @@ void Model::create(float *data, int len, int stride)
 
 	//
 	unbind();
+
+	sglCheckGLError();
 }
 
 void Model::bind()

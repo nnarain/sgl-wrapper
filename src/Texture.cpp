@@ -1,6 +1,6 @@
 
-#include "Texture.h"
-#include "SGLException.h"
+#include "SGL/Texture.h"
+#include "SGL/SGLException.h"
 
 using namespace sgl;
 
@@ -58,14 +58,18 @@ void Texture::unbind()
 
 void Texture::parameter(GLenum name, GLint param)
 {
-	if (isBound())
+	if (isBound()){
 		glTexParameteri(currentTarget(), name, param);
+		sglCheckGLError();
+	}
 }
 
 void Texture::parameter(GLenum name, GLfloat param)
 {
-	if (isBound())
+	if (isBound()){
 		glTexParameterf(currentTarget(), name, param);
+		sglCheckGLError();
+	}
 }
 
 Texture::~Texture()

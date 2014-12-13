@@ -1,5 +1,5 @@
 
-#include "IGLBuffer.h"
+#include "SGL/IGLBuffer.h"
 
 using namespace sgl;
 

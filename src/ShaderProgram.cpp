@@ -1,4 +1,6 @@
-#include "ShaderProgram.h"
+#include "SGL/ShaderProgram.h"
+
+#include "SGL/SGLException.h"
 
 #include <iostream>
 #include <fstream>
@@ -19,7 +21,6 @@ bool ShaderProgram::bind()
 	// Get any errors
 	GLenum error = glGetError();
 	if (error != GL_NO_ERROR){
-		std::cout << "Error binding program" << std::endl;
 		printProgramLog(mProgramID);
 		return false;
 	}
@@ -53,7 +54,7 @@ bool ShaderProgram::link()
 	glGetProgramiv(mProgramID, GL_LINK_STATUS, &success);
 
 	if (success != GL_TRUE){
-		std::cout << "Error linking program " << mProgramID << std::endl;
+		//std::cout << "Error linking program " << mProgramID << std::endl;
 		printProgramLog(mProgramID);
 		return false;
 	}
@@ -116,7 +117,7 @@ bool ShaderProgram::createProgram(const GLchar* vs[], const GLchar* fs[])
 	glGetShaderiv(mVertexShader, GL_COMPILE_STATUS, &shaderCompiled);
 
 	if (shaderCompiled != GL_TRUE){
-		std::cout << "Unable to compile vertex shader" << std::endl;
+		//std::cout << "Unable to compile vertex shader" << std::endl;
 		printShaderLog(mVertexShader);
 		return false;
 	}
@@ -136,7 +137,7 @@ bool ShaderProgram::createProgram(const GLchar* vs[], const GLchar* fs[])
 	glGetShaderiv(mFragmentShader, GL_COMPILE_STATUS, &shaderCompiled);
 
 	if (shaderCompiled != GL_TRUE){
-		std::cout << "Unable to compile fragment shader" << std::endl;
+		//std::cout << "Unable to compile fragment shader" << std::endl;
 		printShaderLog(mFragmentShader);
 		return false;
 	}
@@ -203,7 +204,7 @@ void ShaderProgram::printProgramLog(GLuint program)
 
 		glGetProgramInfoLog(program, len, &logLength, log);
 		if (logLength > 0){
-			std::cout << log << std::endl;
+			sglReportError(std::string(log));
 		}
 
 		delete[] log;
@@ -227,7 +228,8 @@ void ShaderProgram::printShaderLog(GLuint shader)
 
 		glGetShaderInfoLog(shader, len, &lenLog, log);
 		if (lenLog > 0){
-			std::cout << log << std::endl;
+			//std::cout << log << std::endl;
+			sglReportError(std::string(log));
 		}
 
 		delete[] log;

@@ -1,5 +1,6 @@
 
-#include "RenderBuffer.h"
+#include "SGL/RenderBuffer.h"
+#include "SGL/SGLException.h"
 
 using namespace sgl;
 
@@ -28,6 +29,7 @@ void RenderBuffer::unbind()
 void RenderBuffer::storage(GLuint component, int w, int h)
 {
 	glRenderbufferStorage(GL_RENDERBUFFER, component, w, h);
+	sglCheckGLError();
 }
 
 RenderBuffer::~RenderBuffer()

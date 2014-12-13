@@ -1,4 +1,4 @@
-#include "Entity.h"
+#include "SGL/Entity.h"
 #include <glm/gtx/transform.hpp>
 
 using namespace sgl;
