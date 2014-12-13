@@ -39,12 +39,12 @@ void Texture::bind(GLuint target)
 {
 	IGLBuffer::bind(defaultTarget());
 	glActiveTexture(target);
-	glBindTexture(defaultTarget(), *id());
+	glBindTexture(defaultTarget(), handle());
 }
 
 void Texture::bind()
 {
-	return;
+	glBindTexture(defaultTarget(), handle());
 }
 
 void Texture::unbind()
