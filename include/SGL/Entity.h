@@ -4,22 +4,16 @@
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 
-#ifdef _MSC_VER
-#define DLLEXPORT __declspec(dllexport)
-#endif
+#include "SGLExport.h"
 
 namespace sgl{
 
-#ifdef _MSC_VER
-	class DLLEXPORT Entity
-#else
-	class Entity
-#endif
+	/**
+		Representation of a entity in 3D world space. (Translation, Rotation, Scale)
+	*/
+	SGLCLASS Entity
 	{
 	public:
-
-		const static char* POSITION;
-		const static char* NORMAL;
 
 		Entity(void);
 		~Entity(void);
@@ -30,6 +24,10 @@ namespace sgl{
 		void rotate(glm::vec3);
 		void rotate(float, float, float);
 
+		void scale(glm::vec3);
+		void scale(float, float, float);
+		void scale(float);
+
 		void setPosition(float, float, float);
 		void setPosition(glm::vec3);
 
@@ -39,8 +37,9 @@ namespace sgl{
 		glm::mat3 getNormalMatrix();
 
 	private:
-		glm::vec4 pos;
-		glm::vec3 angle;
+		glm::vec4 _pos;
+		glm::vec3 _angle;
+		glm::vec3 _scale;
 
 		glm::mat4 _transform;
 		bool _transformReCalcRequired;

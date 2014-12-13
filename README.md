@@ -1,7 +1,7 @@
 SGL Wrapper
 ===========
 
-Simple OpenGL Wrapper. A, very light weight and simplistic, C++ wrapper library around OpenGL's C function calls.
+Simple OpenGL Wrapper. A, very light weight and simplistic, C++ library for creating simple opengl projects.
 
 
 Features
@@ -11,9 +11,10 @@ Features
 * ShaderProgram
 * Basic representation of 3D models
 	* translation, rotation, scaling
-	* vertex attributes (position, normals, texutures)
-
-This library is intended for simple projects.
+	* vertex attributes (position, normals, texutures, colors)
+* Textures (2D and CubeMaps)
+* Selection
+	* Ray picking using spheres
 
 
 Build
@@ -28,7 +29,9 @@ Examples
 
 TODO
 ----
-* Clean up API. Remove need for unnecessary classes (i.e. VertexAttribute can be a structure in VertexAttributeSet)
-* Add Texture and Material types
-* Load ShaderProgram can load itself from files
+* Clean up Model (Mesh?) API. (VertexAttributes, etc)
+* Orthographic and Perspective Camera
+* Lighting API? (Point, Directional, Cone)
+* Helpers for mesh creation (Cube, Triangle, Sphere, Wireframe?)
+* Test with Qt and on Linux
 * Make examples

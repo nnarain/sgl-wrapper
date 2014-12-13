@@ -1,25 +1,29 @@
-#include "ShaderProgram.h"
+#include "SGL/ShaderProgram.h"
+
+#include "SGL/SGLException.h"
 
 #include <iostream>
+#include <fstream>
 
 using namespace sgl;
 
 ShaderProgram::ShaderProgram(void)
 {
-	mProgramID = NULL;
-	numAttributes = 0;
+	_programID = NULL;
+	_numAttributes = 0;
+
+	_attributes = new std::map < std::string, VertexAttribute > ();
 }
 
 bool ShaderProgram::bind()
 {
 	// use this shader's ID
-	glUseProgram(mProgramID);
+	glUseProgram(_programID);
 
 	// Get any errors
 	GLenum error = glGetError();
 	if (error != GL_NO_ERROR){
-		std::cout << "Error binding program" << std::endl;
-		printProgramLog(mProgramID);
+		printProgramLog(_programID);
 		return false;
 	}
 
@@ -35,109 +39,115 @@ void ShaderProgram::unbind()
 void ShaderProgram::begin()
 {
 	bind();
-//	enableAttr();
 }
 
 void ShaderProgram::end()
 {
-//	disableAttr();
 	unbind();
 }
 
 bool ShaderProgram::link()
 {
-	glLinkProgram(mProgramID);
+	glLinkProgram(_programID);
 
 	GLint success;
-	glGetProgramiv(mProgramID, GL_LINK_STATUS, &success);
+	glGetProgramiv(_programID, GL_LINK_STATUS, &success);
 
 	if (success != GL_TRUE){
-		std::cout << "Error linking program " << mProgramID << std::endl;
-		printProgramLog(mProgramID);
+		//std::cout << "Error linking program " << mProgramID << std::endl;
+		printProgramLog(_programID);
 		return false;
 	}
 
 	return true;
 }
 
-void ShaderProgram::addAttribute(const std::string name)
+void ShaderProgram::addAttribute(const std::string name, int numComponents)
 {
-	glBindAttribLocation(mProgramID, numAttributes++, name.c_str());
+	glBindAttribLocation(_programID, _numAttributes, name.c_str());
+
+	VertexAttribute attrib;
+	attrib.loc = _numAttributes++;
+	attrib.numComponents = numComponents;
+
+	(*_attributes)[name] = attrib;
 }
 
-void ShaderProgram::enableAttr()
+VertexAttribute ShaderProgram::getAttribute(std::string name)
 {
-	// enable attributes
-	int i;
-	for (i = 0; i < numAttributes; i++){
-		glEnableVertexAttribArray(i);
-	}
+	return (*_attributes)[name];
 }
 
-void ShaderProgram::disableAttr()
+bool ShaderProgram::loadFromFile(std::string vertSource, std::string fragSource)
 {
-	int i;
-	for (i = 0; i < numAttributes; i++){
-		glDisableVertexAttribArray(i);
-	}
+	std::ifstream fVertSource(vertSource);
+	std::ifstream fFragSource(fragSource);
+
+	std::string vsContent((std::istreambuf_iterator<char>(fVertSource)), std::istreambuf_iterator<char>());
+	std::string fsContent((std::istreambuf_iterator<char>(fFragSource)), std::istreambuf_iterator<char>());
+
+	const GLchar* vs[] = { vsContent.c_str() };
+	const GLchar* fs[] = { fsContent.c_str() };
+
+	return createProgram(vs, fs);
 }
 
 bool ShaderProgram::createProgram(const GLchar* vs[], const GLchar* fs[])
 {
 	// allocate space for a shader program
-	mProgramID = glCreateProgram();
+	_programID = glCreateProgram();
 
 	// get the vertex shader source
-	mVertexShader = glCreateShader(GL_VERTEX_SHADER);
+	_vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
 	// set the shader source
-	glShaderSource(mVertexShader, 1, vs, NULL);
+	glShaderSource(_vertexShader, 1, vs, NULL);
 
 	// verify shader
-	glCompileShader(mVertexShader);
+	glCompileShader(_vertexShader);
 
 	// check shader errors
 	GLint shaderCompiled = GL_FALSE;
-	glGetShaderiv(mVertexShader, GL_COMPILE_STATUS, &shaderCompiled);
+	glGetShaderiv(_vertexShader, GL_COMPILE_STATUS, &shaderCompiled);
 
 	if (shaderCompiled != GL_TRUE){
-		std::cout << "Unable to compile vertex shader" << std::endl;
-		printShaderLog(mVertexShader);
+		//std::cout << "Unable to compile vertex shader" << std::endl;
+		printShaderLog(_vertexShader);
 		return false;
 	}
 
 	// attach the compiled vertex shader
-	glAttachShader(mProgramID, mVertexShader);
+	glAttachShader(_programID, _vertexShader);
 
 	// get the fragmenet shader source
-	mFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	_fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
 	// set frag shader soource
-	glShaderSource(mFragmentShader, 1, fs, NULL);
+	glShaderSource(_fragmentShader, 1, fs, NULL);
 
-	glCompileShader(mFragmentShader);
+	glCompileShader(_fragmentShader);
 
 	shaderCompiled = GL_FALSE;
-	glGetShaderiv(mFragmentShader, GL_COMPILE_STATUS, &shaderCompiled);
+	glGetShaderiv(_fragmentShader, GL_COMPILE_STATUS, &shaderCompiled);
 
 	if (shaderCompiled != GL_TRUE){
-		std::cout << "Unable to compile fragment shader" << std::endl;
-		printShaderLog(mFragmentShader);
+		//std::cout << "Unable to compile fragment shader" << std::endl;
+		printShaderLog(_fragmentShader);
 		return false;
 	}
 
-	glAttachShader(mProgramID, mFragmentShader);
+	glAttachShader(_programID, _fragmentShader);
 
 	return true;
 }
 
 bool ShaderProgram::freeProgram()
 {
-	glDetachShader(mProgramID, mVertexShader);
-	glDetachShader(mProgramID, mFragmentShader);
-	glDeleteShader(mVertexShader);
-	glDeleteShader(mFragmentShader);
-	glDeleteProgram(mProgramID);
+	glDetachShader(_programID, _vertexShader);
+	glDetachShader(_programID, _fragmentShader);
+	glDeleteShader(_vertexShader);
+	glDeleteShader(_fragmentShader);
+	glDeleteProgram(_programID);
 	return true;
 }
 
@@ -156,14 +166,24 @@ void ShaderProgram::uniform(std::string name, glm::mat4 m)
 	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &m[0][0]);
 }
 
+void ShaderProgram::uniform(std::string name, glm::vec3 v)
+{
+	glUniform3f(getUniformLocation(name), v.x, v.y, v.z);
+}
+
+void ShaderProgram::uniform(std::string name, glm::vec4 v)
+{
+	glUniform4f(getUniformLocation(name), v.x, v.y, v.z, v.w);
+}
+
 GLuint ShaderProgram::getAttributeLocation(std::string name)
 {
-	return glGetAttribLocation(mProgramID, name.c_str());
+	return glGetAttribLocation(_programID, name.c_str());
 }
 
 GLuint ShaderProgram::getUniformLocation(std::string name)
 {
-	return glGetUniformLocation(mProgramID, name.c_str());
+	return glGetUniformLocation(_programID, name.c_str());
 }
 
 void ShaderProgram::printProgramLog(GLuint program)
@@ -178,7 +198,7 @@ void ShaderProgram::printProgramLog(GLuint program)
 
 		glGetProgramInfoLog(program, len, &logLength, log);
 		if (logLength > 0){
-			std::cout << log << std::endl;
+			sglReportError(std::string(log));
 		}
 
 		delete[] log;
@@ -202,7 +222,8 @@ void ShaderProgram::printShaderLog(GLuint shader)
 
 		glGetShaderInfoLog(shader, len, &lenLog, log);
 		if (lenLog > 0){
-			std::cout << log << std::endl;
+			//std::cout << log << std::endl;
+			sglReportError(std::string(log));
 		}
 
 		delete[] log;
