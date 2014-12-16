@@ -1,8 +1,8 @@
 
 #pragma once
 
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef MESH_H
+#define MESH_H
 
 #include "SGLExport.h"
 
@@ -17,7 +17,7 @@ namespace sgl{
 	/**
 		Encapsulates vertex data for a Model
 	*/
-	SGLCLASS Model
+	SGLCLASS Mesh
 	{
 
 	public:
@@ -32,8 +32,8 @@ namespace sgl{
 			@param usage
 				Draw usage
 		*/
-		Model(GLenum drawType, int drawCount, GLenum usage);
-		~Model(void);
+		Mesh(GLenum drawType, int drawCount, GLenum usage);
+		~Mesh(void);
 		
 		/**
 			Create the vertex buffer
