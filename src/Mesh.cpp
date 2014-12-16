@@ -14,6 +14,16 @@ Mesh::Mesh(GLenum drawType, int drawCount, GLenum usage)
 	_attribs = new std::vector<VertexAttribute>();
 }
 
+Mesh::Mesh()
+{
+	_drawType = GL_TRIANGLES;
+	_drawStart = 0;
+	_drawCount = 0;
+	_usage = GL_STATIC_DRAW;
+
+	_attribs = new std::vector<VertexAttribute>();
+}
+
 void Mesh::create(float *data, int len, int stride)
 {
 	// generate buffer
@@ -68,6 +78,11 @@ void Mesh::unbind()
 void Mesh::addAttribute(ShaderProgram& shader, std::string name)
 {
 	_attribs->push_back(shader.getAttribute(name));
+}
+
+void Mesh::setDrawCount(GLint count)
+{
+	_drawCount = count;
 }
 
 int Mesh::offset(int idx)

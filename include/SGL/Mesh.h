@@ -33,6 +33,9 @@ namespace sgl{
 				Draw usage
 		*/
 		Mesh(GLenum drawType, int drawCount, GLenum usage);
+
+		Mesh(void);
+
 		~Mesh(void);
 		
 		/**
@@ -64,7 +67,14 @@ namespace sgl{
 		*/
 		void unbind();
 
+		/**
+			Add Shader Vertex Attributes
+		*/
 		void addAttribute(ShaderProgram& shader, std::string name);
+
+		/**
+		*/
+		void setDrawCount(GLint count);
 
 	private:
 		//! Handle to Vertex Array Object to save model state

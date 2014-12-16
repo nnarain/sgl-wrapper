@@ -15,7 +15,9 @@
 #include "Camera.h"
 #include "ShaderProgram.h"
 #include "Entity.h"
+
 #include "Mesh.h"
+#include "MeshGenerator.h"
 
 #include "Texture.h"
 #include "FrameBuffer.h"
