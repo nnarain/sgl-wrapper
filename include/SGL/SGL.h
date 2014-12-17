@@ -22,10 +22,9 @@
 #include "Texture.h"
 #include "FrameBuffer.h"
 #include "RenderBuffer.h"
-
 #include "Material.h"
 
-#include "Intersector.h"
+#include "Picking.h"
 
 #include "SGLException.h"
 

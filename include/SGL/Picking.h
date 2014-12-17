@@ -61,6 +61,16 @@ namespace sgl
 		/* Sort functions */
 		static int compare(const void* a, const void* b);
 	};
+
+	/**
+		Tests intersections of Bounding objects
+	*/
+	SGLCLASS Intersector
+	{
+	public:
+		static bool intersectRaySphere(Ray ray, BoundingSphere sphere);
+		static bool intersectRayBox(Ray ray, BoundingBox bbox);
+	};
 };
 
 #endif
