@@ -29,21 +29,11 @@
 
 #include "SGLException.h"
 
+#include "SGLExport.h"
+
 namespace sgl
 {
-	bool init()
-	{
-		// init glew
-		glewExperimental = true;
-		if (glewInit() != GLEW_OK){
-			return false;
-		}
-
-		// set error callback to null
-		setErrorCallback(NULL);
-
-		return true;
-	}
+	SGLBOOLFUNC init();
 };
 
 #endif
