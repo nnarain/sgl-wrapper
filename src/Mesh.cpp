@@ -75,9 +75,9 @@ void Mesh::unbind()
 	glBindVertexArray(0);
 }
 
-void Mesh::addAttribute(ShaderProgram& shader, std::string name)
+void Mesh::addAttribute(VertexAttribute attrib)
 {
-	_attribs->push_back(shader.getAttribute(name));
+	_attribs->push_back(attrib);
 }
 
 void Mesh::setDrawCount(GLint count)

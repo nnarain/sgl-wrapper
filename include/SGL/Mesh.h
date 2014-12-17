@@ -70,7 +70,7 @@ namespace sgl{
 		/**
 			Add Shader Vertex Attributes
 		*/
-		void addAttribute(ShaderProgram& shader, std::string name);
+		void addAttribute(VertexAttribute attrib);
 
 		/**
 		*/
