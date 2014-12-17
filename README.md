@@ -12,7 +12,7 @@ Features
 * Basic representation of 3D models
 	* translation, rotation, scaling
 	* vertex attributes (position, normals, texutures, colors)
-* Textures (2D and CubeMaps)
+* Textures, FrameBuffers
 * Selection
 	* Ray picking using spheres
 
@@ -29,9 +29,10 @@ Examples
 
 TODO
 ----
-* Clean up Model (Mesh?) API. (VertexAttributes, etc)
+* Camera Controller (Useful helper class)
 * Orthographic and Perspective Camera
-* Lighting API? (Point, Directional, Cone)
-* Helpers for mesh creation (Cube, Triangle, Sphere, Wireframe?)
+* Helpers for mesh creation (Cube, Triangles, Quads, Sphere, Wireframe?)
+	* Quads can use screen coordinates and convert to normalized device coordinates
+* Remove Bounding Box?
 * Test with Qt and on Linux
 * Make examples
