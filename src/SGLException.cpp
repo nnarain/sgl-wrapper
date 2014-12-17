@@ -46,6 +46,6 @@ void sgl::sglCheckGLError()
 
 void sgl::sglReportError(std::string what)
 {
-	_sglError(what);
+	if (_sglError != NULL) _sglError(what);
 }
 
