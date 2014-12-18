@@ -10,31 +10,25 @@ Camera::Camera()
 
 Camera::Camera(float fov, float viewportWidth, float viewportHeight)
 {
+	// set deafult near and far clipping planes
 	_nearClipping = 0.1f;
 	_farClipping = 100.0f;
 
 	_viewportWidth = viewportWidth;
 	_viewportHeight = viewportHeight;
 
+	// calculate screen ratio using viewport dimensions and create the projection matrix
 	float aspectRatio = viewportWidth / viewportHeight;
 	_proj = glm::perspective(fov, aspectRatio, _nearClipping, _farClipping);
+
+	// set default position and target
+	_target = glm::vec3(0, 0, -10);
+	_pos = glm::vec3(0, 0, 0);
 }
 
 void Camera::update()
 {
 	_view = glm::lookAt(_pos, _target, glm::vec3(0, 1, 0));
-}
-
-void Camera::translate(float x, float y, float z)
-{
-	_pos.x += x;
-	_pos.y += y;
-	_pos.z += z;
-}
-
-void Camera::translate(glm::vec3 vec)
-{
-	translate(vec.x, vec.y, vec.z);
 }
 
 void Camera::lookAt(glm::vec3 v)

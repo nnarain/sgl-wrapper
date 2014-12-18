@@ -41,16 +41,6 @@ namespace sgl{
 		void update();
 
 		/**
-			translate camera in (x, y, z)
-		*/
-		void translate(float x, float y, float z);
-
-		/**
-			translate camera in (x, y, z)
-		*/
-		void translate(glm::vec3);
-
-		/**
 			point camera to (x,y,z)
 		*/
 		void lookAt(glm::vec3);
