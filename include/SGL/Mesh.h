@@ -1,16 +1,15 @@
 
 #pragma once
 
-#ifndef MESH_H
-#define MESH_H
-
-#include "SGLExport.h"
+#ifndef SGLMESH_H
+#define SGLMESH_H
 
 #include <GL/glew.h>
-#include <vector>
 
-#include "ShaderProgram.h"
+#include "SGLExport.h"
 #include "VertexAttribute.h"
+
+#include <vector>
 
 namespace sgl{
 

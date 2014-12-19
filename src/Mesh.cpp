@@ -20,7 +20,10 @@ Mesh::Mesh(GLenum drawType, int drawCount, GLenum usage)
 
 Mesh::Mesh()
 {
-	_drawType = GL_TRIANGLES;
+	Mesh(GL_TRIANGLES, 0, GL_STATIC_DRAW);
+
+	/*
+		_drawType = GL_TRIANGLES;
 	_drawStart = 0;
 	_drawCount = 0;
 	_usage = GL_STATIC_DRAW;
@@ -30,6 +33,7 @@ Mesh::Mesh()
 	// generate opengl buffers
 	glGenVertexArrays(1, &_vao);
 	glGenBuffers(1, &_vbo);
+	*/
 }
 
 void Mesh::create(float *data, int len, int stride)

@@ -12,7 +12,7 @@ ShaderProgram::ShaderProgram(void)
 	_programID = NULL;
 	_numAttributes = 0;
 
-	_attributes = new std::map < std::string, VertexAttribute > ();
+	_attributes = new std::vector < VertexAttribute > ();
 }
 
 bool ShaderProgram::bind()
@@ -70,12 +70,20 @@ void ShaderProgram::addAttribute(const std::string name, int numComponents)
 	attrib.loc = _numAttributes++;
 	attrib.numComponents = numComponents;
 
-	(*_attributes)[name] = attrib;
+	//(*_attributes)[name] = attrib;
+	(*_attributes).push_back(attrib);
 }
 
-VertexAttribute ShaderProgram::getAttribute(std::string name)
+void ShaderProgram::assoicateMesh(Mesh* mesh)
 {
-	return (*_attributes)[name];
+	int i;
+	const int size = _attributes->size();
+
+	// add the shader attributes to the mesh 
+	for (i = 0; i < size; i++)
+	{
+		mesh->addAttribute((*_attributes)[i]);
+	}
 }
 
 bool ShaderProgram::loadFromFile(std::string vertSource, std::string fragSource)
@@ -154,26 +162,31 @@ bool ShaderProgram::freeProgram()
 void ShaderProgram::attribute(std::string name, glm::vec3 v)
 {
 	glUniform3f(getAttributeLocation(name), v.x, v.y, v.z);
+	sglCheckGLError();
 }
 
 void ShaderProgram::uniform(std::string name, glm::mat3 m)
 {
 	glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &m[0][0]);
+	sglCheckGLError();
 }
 
 void ShaderProgram::uniform(std::string name, glm::mat4 m)
 {
 	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &m[0][0]);
+	sglCheckGLError();
 }
 
 void ShaderProgram::uniform(std::string name, glm::vec3 v)
 {
 	glUniform3f(getUniformLocation(name), v.x, v.y, v.z);
+	sglCheckGLError();
 }
 
 void ShaderProgram::uniform(std::string name, glm::vec4 v)
 {
 	glUniform4f(getUniformLocation(name), v.x, v.y, v.z, v.w);
+	sglCheckGLError();
 }
 
 GLuint ShaderProgram::getAttributeLocation(std::string name)
@@ -202,7 +215,6 @@ void ShaderProgram::printProgramLog(GLuint program)
 		}
 
 		delete[] log;
-
 	}
 	else{
 		std::cout << "Invalid program ID" << std::endl;
