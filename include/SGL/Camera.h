@@ -50,16 +50,6 @@ namespace sgl{
 		void lookAt(float, float, float);
 
 		/**
-			Sets world position of camera, (x,y,z)
-		*/
-		void setPosition(glm::vec3);
-
-		/**
-			Sets world position of camera, (x,y,z)
-		*/
-		void setPosition(float, float, float);
-
-		/**
 			@return a Ray pointing into the world given the screen coordinates
 		*/
 		Ray pickRay(float viewportX, float viewportY);
@@ -84,26 +74,54 @@ namespace sgl{
 		*/
 		glm::vec3 direction() const;
 
+		/**
+			@return the world space transform of the camera
+		*/
 		glm::mat4 transform();
+
+		/* Setters & Getters */
+		
+		/**
+		Sets world position of camera, (x,y,z)
+		*/
+		void setPosition(glm::vec3);
+
+		/**
+		Sets world position of camera, (x,y,z)
+		*/
+		void setPosition(float, float, float);
+
+		glm::vec3 getPosition() const;
+
+		glm::vec3 getUpVector() const;
+		void setUpVector(glm::vec3 up);
+
+		glm::vec3 getLookDirection() const;
+
+		glm::vec3 getRightDirection() const;
 
 	private:
 		//! camera position
 		glm::vec3 _pos;
+		
 		//! where the camera is pointed to
 		glm::vec3 _target;
+		
+		//! cameras up vector
+		glm::vec3 _up;
+		//! cameras right vector
+		glm::vec3 _right;
+		// direction camera is looking
+		glm::vec3 _look;
 
 		//! camera projection
 		glm::mat4 _proj;
 		//! camera view
 		glm::mat4 _view;
 
-		glm::mat4 _inverseProj;
-		bool _calcInverseProj;
-
-		glm::mat4 _inverseView;
-		bool _calcInverseView;
-
+		//!
 		float _viewportWidth;
+		//!
 		float _viewportHeight;
 
 		//! near clipping distance

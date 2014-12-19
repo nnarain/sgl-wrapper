@@ -1,6 +1,9 @@
 
 #include "SGL/Camera.h"
+
+// Math
 #include <glm/gtx/transform.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 
 using namespace sgl;
 
@@ -21,14 +24,22 @@ Camera::Camera(float fov, float viewportWidth, float viewportHeight)
 	float aspectRatio = viewportWidth / viewportHeight;
 	_proj = glm::perspective(fov, aspectRatio, _nearClipping, _farClipping);
 
-	// set default position and target
+	//
 	_target = glm::vec3(0, 0, -10);
 	_pos = glm::vec3(0, 0, 0);
+	_up = glm::vec3(0, 1, 0);
 }
 
 void Camera::update()
 {
-	_view = glm::lookAt(_pos, _target, glm::vec3(0, 1, 0));
+	// calculate the view matrix
+	_view = glm::lookAt(_pos, _target, _up);
+
+	// calculate look direction vector
+	_look = glm::normalize(_target - _pos);
+
+	// calculate the right vector
+	_right = glm::normalize(glm::cross(glm::vec3(_target.x, 0, _target.z), _up));
 }
 
 void Camera::lookAt(glm::vec3 v)
@@ -112,6 +123,31 @@ void Camera::setPosition(float x, float y, float z)
 	_pos.x = x;
 	_pos.y = y;
 	_pos.z = z;
+}
+
+glm::vec3 Camera::getPosition() const
+{
+	return _pos;
+}
+
+glm::vec3 Camera::getUpVector() const
+{
+	return _up;
+}
+
+void Camera::setUpVector(glm::vec3 up)
+{
+	_up = up;
+}
+
+glm::vec3 Camera::getLookDirection() const
+{
+	return _look;
+}
+
+glm::vec3 Camera::getRightDirection() const
+{
+	return _right;
 }
 
 Camera::~Camera()

@@ -12,6 +12,10 @@ Mesh::Mesh(GLenum drawType, int drawCount, GLenum usage)
 	_usage = usage;
 
 	_attribs = new std::vector<VertexAttribute>();
+
+	// generate buffer
+	glGenVertexArrays(1, &_vao);
+	glGenBuffers(1, &_vbo);
 }
 
 Mesh::Mesh()
@@ -22,14 +26,14 @@ Mesh::Mesh()
 	_usage = GL_STATIC_DRAW;
 
 	_attribs = new std::vector<VertexAttribute>();
+
+	// generate opengl buffers
+	glGenVertexArrays(1, &_vao);
+	glGenBuffers(1, &_vbo);
 }
 
 void Mesh::create(float *data, int len, int stride)
 {
-	// generate buffer
-	glGenVertexArrays(1, &_vao);
-	glGenBuffers(1, &_vbo);
-
 	// start saving the state
 	bind();
 
