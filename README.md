@@ -34,7 +34,6 @@ TODO
 * Helpers for mesh creation (Cube, Triangles, Quads, Sphere, Wireframe?)
 	* Quads can use screen coordinates and convert to normalized device coordinates
 * Sprites? (Quad mesh with texture)
-	* SpriteSheets?
 * Remove Bounding Box?
 * Test with Qt and on Linux
 * Make examples

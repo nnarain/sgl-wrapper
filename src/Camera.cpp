@@ -39,7 +39,8 @@ void Camera::update()
 	_look = glm::normalize(_target - _pos);
 
 	// calculate the right vector
-	_right = glm::normalize(glm::cross(glm::vec3(_target.x, 0, _target.z), _up));
+	glm::vec3 crs = glm::cross(glm::vec3(_look.x, 0, _look.z), _up);
+	_right = glm::normalize(crs);
 }
 
 void Camera::lookAt(glm::vec3 v)

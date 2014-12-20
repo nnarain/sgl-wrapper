@@ -49,7 +49,7 @@ namespace sgl{
 			@param stride
 				stride between consecutive vertices
 		*/
-		void create(float *data, int len, int stride);
+		void create(void *data, int size, int stride);
 
 		/**
 			Bind the vertex data

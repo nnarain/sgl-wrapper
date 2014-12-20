@@ -36,14 +36,14 @@ Mesh::Mesh()
 	*/
 }
 
-void Mesh::create(float *data, int len, int stride)
+void Mesh::create(void *data, int size, int stride)
 {
 	// start saving the state
 	bind();
 
 	// set the vertex buffer data
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	glBufferData(GL_ARRAY_BUFFER, len, data, _usage);
+	glBufferData(GL_ARRAY_BUFFER, size, data, _usage);
 
 	// iterate over the model attributes and set offsets in the buffer
 	int i;
