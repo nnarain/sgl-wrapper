@@ -90,6 +90,8 @@ namespace sgl{
 		void uniform(std::string name, glm::vec3 value);
 		void uniform(std::string name, glm::vec4 value);
 
+		void uniform(std::string name, int value);
+
 		/**
 			Get the specified vertex attribute location
 		*/

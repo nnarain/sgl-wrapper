@@ -9,7 +9,7 @@ using namespace sgl;
 
 ShaderProgram::ShaderProgram(void)
 {
-	_programID = NULL;
+	_programID = 0;
 	_numAttributes = 0;
 
 	_attributes = new std::vector < VertexAttribute > ();
@@ -186,6 +186,12 @@ void ShaderProgram::uniform(std::string name, glm::vec3 v)
 void ShaderProgram::uniform(std::string name, glm::vec4 v)
 {
 	glUniform4f(getUniformLocation(name), v.x, v.y, v.z, v.w);
+	sglCheckGLError();
+}
+
+void ShaderProgram::uniform(std::string name, int value)
+{
+	glUniform1i(getUniformLocation(name), value);
 	sglCheckGLError();
 }
 

@@ -31,9 +31,9 @@ TODO
 ----
 * Camera Controller (Useful helper class)
 * Orthographic and Perspective Camera
-* Helpers for mesh creation (Cube, Triangles, Quads, Sphere, Wireframe?)
+* Helpers for mesh creation (Triangles, Quads?)
 	* Quads can use screen coordinates and convert to normalized device coordinates
-* Sprites? (Quad mesh with texture)
+* Sprites and SpriteBatch? (Quad mesh with texture)
 * Remove Bounding Box?
 * Test with Qt and on Linux
 * Make examples
