@@ -15,6 +15,16 @@ namespace sgl
 		GLuint loc;
 		//! number of components inthe attributes
 		int numComponents;
+
+		VertexAttribute()
+		{
+		}
+
+		VertexAttribute(GLuint l, int n)
+		{
+			loc = l;
+			numComponents = n;
+		}
 	};
 };
 

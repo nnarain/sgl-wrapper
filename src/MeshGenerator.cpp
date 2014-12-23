@@ -2937,16 +2937,12 @@ SGLVOIDFUNC sgl::generateSphereMesh(sgl::Mesh* mesh, float scale)
 	mesh->create(g_SphereMeshData, sizeof(g_SphereMeshData), 6 * sizeof(float));
 }
 
-#include <iostream>
-
 SGLVOIDFUNC sgl::generateWireframe(sgl::Mesh* mesh, void* buffer, int size, int stride)
 {
 	// iterating over bytes
 	char* byteBuffer = (char*)buffer;
 	int numTriangles = (size / stride) / 3.0f;
 	int i;
-
-	std::cout << "number of triangles : " << numTriangles << std::endl;
 
 	std::vector<Line> lines;
 
