@@ -76,6 +76,11 @@ glm::vec3 Entity::getPosition()
 	return glm::vec3(_pos.x, _pos.y, _pos.z);
 }
 
+glm::vec3 Entity::getRotation()
+{
+	return _angle;
+}
+
 glm::mat4 Entity::getRotationMatrix()
 {
 	glm::mat4 rotateX = glm::rotate(glm::mat4(), _angle.x, glm::vec3(1, 0, 0));
