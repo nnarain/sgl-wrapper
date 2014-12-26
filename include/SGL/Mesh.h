@@ -1,23 +1,22 @@
 
 #pragma once
 
-#ifndef MODEL_H
-#define MODEL_H
-
-#include "SGLExport.h"
+#ifndef SGLMESH_H
+#define SGLMESH_H
 
 #include <GL/glew.h>
-#include <vector>
 
-#include "ShaderProgram.h"
+#include "SGLExport.h"
 #include "VertexAttribute.h"
+
+#include <vector>
 
 namespace sgl{
 
 	/**
 		Encapsulates vertex data for a Model
 	*/
-	SGLCLASS Model
+	SGLCLASS Mesh
 	{
 
 	public:
@@ -32,8 +31,11 @@ namespace sgl{
 			@param usage
 				Draw usage
 		*/
-		Model(GLenum drawType, int drawCount, GLenum usage);
-		~Model(void);
+		Mesh(GLenum drawType, int drawCount, GLenum usage);
+
+		Mesh(void);
+
+		~Mesh(void);
 		
 		/**
 			Create the vertex buffer
@@ -47,7 +49,7 @@ namespace sgl{
 			@param stride
 				stride between consecutive vertices
 		*/
-		void create(float *data, int len, int stride);
+		void create(void *data, int size, int stride);
 
 		/**
 			Bind the vertex data
@@ -64,7 +66,14 @@ namespace sgl{
 		*/
 		void unbind();
 
-		void addAttribute(ShaderProgram& shader, std::string name);
+		/**
+			Add Shader Vertex Attributes
+		*/
+		void addAttribute(VertexAttribute attrib);
+
+		/**
+		*/
+		void setDrawCount(GLint count);
 
 	private:
 		//! Handle to Vertex Array Object to save model state

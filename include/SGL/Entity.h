@@ -32,6 +32,8 @@ namespace sgl{
 		void setPosition(glm::vec3);
 
 		glm::vec3 getPosition();
+		glm::vec3 getRotation();
+
 		glm::mat4 getRotationMatrix();
 		glm::mat4 getModelMatrix();
 		glm::mat3 getNormalMatrix();

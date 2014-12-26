@@ -1,10 +1,10 @@
 
-#include "SGL/Model.h"
+#include "SGL/Mesh.h"
 #include "SGL/SGLException.h"
 
 using namespace sgl;
 
-Model::Model(GLenum drawType, int drawCount, GLenum usage)
+Mesh::Mesh(GLenum drawType, int drawCount, GLenum usage)
 {
 	_drawType = drawType;
 	_drawStart = 0;
@@ -12,20 +12,38 @@ Model::Model(GLenum drawType, int drawCount, GLenum usage)
 	_usage = usage;
 
 	_attribs = new std::vector<VertexAttribute>();
-}
 
-void Model::create(float *data, int len, int stride)
-{
 	// generate buffer
 	glGenVertexArrays(1, &_vao);
 	glGenBuffers(1, &_vbo);
+}
 
+Mesh::Mesh()
+{
+	Mesh(GL_TRIANGLES, 0, GL_STATIC_DRAW);
+
+	/*
+		_drawType = GL_TRIANGLES;
+	_drawStart = 0;
+	_drawCount = 0;
+	_usage = GL_STATIC_DRAW;
+
+	_attribs = new std::vector<VertexAttribute>();
+
+	// generate opengl buffers
+	glGenVertexArrays(1, &_vao);
+	glGenBuffers(1, &_vbo);
+	*/
+}
+
+void Mesh::create(void *data, int size, int stride)
+{
 	// start saving the state
 	bind();
 
 	// set the vertex buffer data
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	glBufferData(GL_ARRAY_BUFFER, len, data, _usage);
+	glBufferData(GL_ARRAY_BUFFER, size, data, _usage);
 
 	// iterate over the model attributes and set offsets in the buffer
 	int i;
@@ -50,27 +68,32 @@ void Model::create(float *data, int len, int stride)
 	sglCheckGLError();
 }
 
-void Model::bind()
+void Mesh::bind()
 {
 	glBindVertexArray(_vao);
 }
 
-void Model::draw()
+void Mesh::draw()
 {
 	glDrawArrays(_drawType, _drawStart, _drawCount);
 }
 
-void Model::unbind()
+void Mesh::unbind()
 {
 	glBindVertexArray(0);
 }
 
-void Model::addAttribute(ShaderProgram& shader, std::string name)
+void Mesh::addAttribute(VertexAttribute attrib)
 {
-	_attribs->push_back(shader.getAttribute(name));
+	_attribs->push_back(attrib);
 }
 
-int Model::offset(int idx)
+void Mesh::setDrawCount(GLint count)
+{
+	_drawCount = count;
+}
+
+int Mesh::offset(int idx)
 {
 	int i;
 	int off = 0;
@@ -83,7 +106,7 @@ int Model::offset(int idx)
 	return off * sizeof(float);
 }
 
-Model::~Model(void)
+Mesh::~Mesh(void)
 {
 	glDeleteVertexArrays(1, &_vao);
 	glDeleteBuffers(1, &_vbo);

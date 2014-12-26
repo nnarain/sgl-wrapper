@@ -1,6 +1,9 @@
 
 #include "SGL/Camera.h"
+
+// Math
 #include <glm/gtx/transform.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 
 using namespace sgl;
 
@@ -10,31 +13,34 @@ Camera::Camera()
 
 Camera::Camera(float fov, float viewportWidth, float viewportHeight)
 {
+	// set deafult near and far clipping planes
 	_nearClipping = 0.1f;
 	_farClipping = 100.0f;
 
 	_viewportWidth = viewportWidth;
 	_viewportHeight = viewportHeight;
 
+	// calculate screen ratio using viewport dimensions and create the projection matrix
 	float aspectRatio = viewportWidth / viewportHeight;
 	_proj = glm::perspective(fov, aspectRatio, _nearClipping, _farClipping);
+
+	//
+	_target = glm::vec3(0, 0, -10);
+	_pos = glm::vec3(0, 0, 0);
+	_up = glm::vec3(0, 1, 0);
 }
 
 void Camera::update()
 {
-	_view = glm::lookAt(_pos, _target, glm::vec3(0, 1, 0));
-}
+	// calculate the view matrix
+	_view = glm::lookAt(_pos, _target, _up);
 
-void Camera::translate(float x, float y, float z)
-{
-	_pos.x += x;
-	_pos.y += y;
-	_pos.z += z;
-}
+	// calculate look direction vector
+	_look = glm::normalize(_target - _pos);
 
-void Camera::translate(glm::vec3 vec)
-{
-	translate(vec.x, vec.y, vec.z);
+	// calculate the right vector
+	glm::vec3 crs = glm::cross(glm::vec3(_look.x, 0, _look.z), _up);
+	_right = glm::normalize(crs);
 }
 
 void Camera::lookAt(glm::vec3 v)
@@ -118,6 +124,31 @@ void Camera::setPosition(float x, float y, float z)
 	_pos.x = x;
 	_pos.y = y;
 	_pos.z = z;
+}
+
+glm::vec3 Camera::getPosition() const
+{
+	return _pos;
+}
+
+glm::vec3 Camera::getUpVector() const
+{
+	return _up;
+}
+
+void Camera::setUpVector(glm::vec3 up)
+{
+	_up = up;
+}
+
+glm::vec3 Camera::getLookDirection() const
+{
+	return _look;
+}
+
+glm::vec3 Camera::getRightDirection() const
+{
+	return _right;
 }
 
 Camera::~Camera()

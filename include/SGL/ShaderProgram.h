@@ -10,14 +10,15 @@
 #include <GL/glew.h>
 
 #include "SGLExport.h"
-#include "Camera.h"
+
 #include "VertexAttribute.h"
+#include "Mesh.h"
 
 #include <glm/mat3x3.hpp>
 #include <glm/mat4x4.hpp>
 
 #include <string>
-#include <map>
+#include <vector>
 
 namespace sgl{
 
@@ -66,17 +67,38 @@ namespace sgl{
 
 		bool link();
 
+		/**
+			Creates and adds a vertex attribute to the shader, binding its location in the order that this function is called.
+			Locations start at 0
+		*/
 		void addAttribute(const std::string name, int numComponents);
-		VertexAttribute getAttribute(std::string name);
+		
+		/**
+			Associates the given mesh with this shader.
+			Meaning that the given mesh contains the corresponding shader attributes
+		*/
+		void assoicateMesh(Mesh* mesh);
 
-		void attribute(std::string name, glm::vec3);
+		/* Passes the value the corresponding attribute in the shader */
 
-		void uniform(std::string name, glm::mat4);
-		void uniform(std::string name, glm::mat3);
-		void uniform(std::string name, glm::vec3);
-		void uniform(std::string name, glm::vec4);
+		void attribute(std::string name, glm::vec3 value);
 
+		/* Passes the value to the corresponding uniform in the shader */
+
+		void uniform(std::string name, glm::mat3 value);
+		void uniform(std::string name, glm::mat4 value);
+		void uniform(std::string name, glm::vec3 value);
+		void uniform(std::string name, glm::vec4 value);
+
+		void uniform(std::string name, int value);
+
+		/**
+			Get the specified vertex attribute location
+		*/
 		GLuint getAttributeLocation(std::string name);
+		/**
+			Get the specified uniform location from the shader
+		*/
 		GLuint getUniformLocation(std::string name);
 
 	protected:
@@ -88,7 +110,7 @@ namespace sgl{
 		GLuint _fragmentShader;
 
 		//! store attributes
-		std::map<std::string, VertexAttribute>* _attributes;
+		std::vector<VertexAttribute>* _attributes;
 
 		/**
 			Print the Log for this program

@@ -15,9 +15,11 @@
 #	define DLLEXPORT __declspec(dllexport)
 #	define SGLCLASS class DLLEXPORT
 #	define SGLVOIDFUNC void DLLEXPORT
+#	define SGLBOOLFUNC bool DLLEXPORT
 #else
 #	define SGLCLASS class
 #	define SGLVOIDFUNC void
+#	define SGLBOOLFUNC bool
 #endif
 
 #endif

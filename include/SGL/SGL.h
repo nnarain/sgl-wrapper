@@ -15,33 +15,24 @@
 #include "Camera.h"
 #include "ShaderProgram.h"
 #include "Entity.h"
-#include "Model.h"
+
+#include "Mesh.h"
+#include "MeshGenerator.h"
 
 #include "Texture.h"
 #include "FrameBuffer.h"
 #include "RenderBuffer.h"
-
 #include "Material.h"
 
-#include "Intersector.h"
+#include "Picking.h"
 
 #include "SGLException.h"
 
+#include "SGLExport.h"
+
 namespace sgl
 {
-	bool init()
-	{
-		// init glew
-		glewExperimental = true;
-		if (glewInit() != GLEW_OK){
-			return false;
-		}
-
-		// set error callback to null
-		setErrorCallback(NULL);
-
-		return true;
-	}
+	SGLBOOLFUNC init();
 };
 
 #endif
