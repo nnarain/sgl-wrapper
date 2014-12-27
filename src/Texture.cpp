@@ -72,6 +72,39 @@ void Texture::parameter(GLenum name, GLfloat param)
 	}
 }
 
+Texture::TextureRegion Texture::region(float x, float y, float w, float h)
+{
+	TextureRegion region;
+
+	// convert pixel coordinates to texture coordinates
+	// opengl texture coordinates are [0, 1], left to right, bottom to top
+
+	// pixel x to texture s
+	float texS = x / _width;
+	// pixel y to texture y
+	float texT = y / _height;
+	// pixel width to texture width
+	float texW = w / _width;
+	// pixel height to texture height
+	float texH = h / _height;
+
+	// calculate the corners of the region using s, t, w, h 
+
+	region.bottomLeft.s = texS;
+	region.bottomLeft.t = texT;
+
+	region.topLeft.s = texS;
+	region.topLeft.t = texT + texH;
+
+	region.topRight.s = texS + texW;
+	region.topRight.t = texT + texH;
+
+	region.bottomRight.s = texS + texW;
+	region.bottomRight.t = texT;
+
+	return region;
+}
+
 Texture::~Texture()
 {
 	glDeleteTextures(1, id());

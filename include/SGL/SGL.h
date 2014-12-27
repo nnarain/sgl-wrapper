@@ -28,6 +28,8 @@
 
 #include "SGLException.h"
 
+#include "SGLCoordinate.h"
+
 #include "SGLExport.h"
 
 namespace sgl
