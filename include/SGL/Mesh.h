@@ -14,7 +14,7 @@
 namespace sgl{
 
 	/**
-		Encapsulates vertex data for a Model
+		Encapsulates vertex data for a Mesh
 	*/
 	SGLCLASS Mesh
 	{

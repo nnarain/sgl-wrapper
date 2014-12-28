@@ -1,8 +1,8 @@
 
 #pragma once
 
-#ifndef GEOMETRY_H
-#define GEOMETRY_H
+#ifndef PICKING_H
+#define PICKING_H
 
 #include "SGLExport.h"
 
