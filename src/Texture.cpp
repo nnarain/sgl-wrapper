@@ -79,16 +79,13 @@ Texture::TextureRegion Texture::region(float x, float y, float w, float h)
 	// convert pixel coordinates to texture coordinates
 	// opengl texture coordinates are [0, 1], left to right, bottom to top
 
-	float x1, x2, y1, y2;
+	float width, height;
+	
+	// widht or height less than 0 signals to use the full texture width or height
+	if (w < 0) width = _width;
+	if (h < 0) height = _height;
 
-	// pixel x to texture s
-	float texS = x / _width;
-	// pixel y to texture y
-	float texT = y / _height;
-	// pixel width to texture width
-	float texW = w / _width;
-	// pixel height to texture height
-	float texH = h / _height;
+	float x1, x2, y1, y2;
 
 	x1 = x / _width;
 	x2 = ( x + w ) / _width;
