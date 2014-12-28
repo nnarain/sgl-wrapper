@@ -13,6 +13,7 @@ Features
 	* translation, rotation, scaling
 	* vertex attributes (position, normals, texutures, colors)
 * Textures, FrameBuffers
+* Sprites and SpriteBatching
 * Selection
 	* Ray picking using spheres
 
@@ -24,16 +25,20 @@ Dependencies: GLEW, GLM
 
 Builds with CMake
 
+Note: This library compiles with Visual C++, GNU compiler **will not** work (yet).
+
+```bash
+/> cmake -G "Visual Studio 12" C:\path\to\src
+```
+
 Examples
 --------
 
 TODO
 ----
-* Camera Controller (Useful helper class)
-* Orthographic and Perspective Camera
-* Helpers for mesh creation (Triangles, Quads?)
-	* Quads can use screen coordinates and convert to normalized device coordinates
-* Sprites and SpriteBatch? (Quad mesh with texture)
-* Remove Bounding Box?
+* SpriteSheets? (Row, Col divided, array of Sprites)
+* Remove Bounding Box? Remove Picking?
+* Orthographic and Perspective Camera?
+* Camera Controller
 * Test with Qt and on Linux
 * Make examples

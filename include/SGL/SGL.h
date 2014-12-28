@@ -16,6 +16,9 @@
 #include "ShaderProgram.h"
 #include "Entity.h"
 
+#include "SpriteBatch.h"
+#include "Sprite.h"
+
 #include "Mesh.h"
 #include "MeshGenerator.h"
 

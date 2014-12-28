@@ -13,6 +13,10 @@ static bool sortGlyphs(SpriteBatch::Glyph* glyph1, SpriteBatch::Glyph* glyph2);
 SpriteBatch::SpriteBatch()
 {
 	_mesh = new Mesh(GL_TRIANGLES, 0, GL_STREAM_DRAW);
+
+	// bind position and texture coordinate attributes
+	_mesh->addAttribute(VertexAttribute(0, 2));
+	_mesh->addAttribute(VertexAttribute(1, 2));
 }
 
 void SpriteBatch::begin(ShaderProgram* shader)
@@ -67,7 +71,7 @@ void SpriteBatch::renderBatch()
 	// sort glyphs by texture handle
 	std::sort(_glyphBuffer.begin(), _glyphBuffer.end(), sortGlyphs);
 
-	Texture* currentTexture = NULL;
+	Texture* currentTexture = _glyphBuffer[0]->texture;
 	std::vector<Vertex> batch;
 
 	// iterate over the glyphs
@@ -80,14 +84,26 @@ void SpriteBatch::renderBatch()
 		if (glyph->texture == currentTexture)
 		{
 			// push the 4 vertices in order to create 2 triangle that make up a quad
-
-			batch.push_back(glyph->v1);
+			
+			// TODO: This order works, the other doesn't, why?
 			batch.push_back(glyph->v2);
-			batch.push_back(glyph->v3);
-
-			batch.push_back(glyph->v3);
 			batch.push_back(glyph->v1);
 			batch.push_back(glyph->v4);
+
+			batch.push_back(glyph->v2);
+			batch.push_back(glyph->v4);
+			batch.push_back(glyph->v3);
+		
+		//	batch.push_back(glyph->v1);
+		//	batch.push_back(glyph->v2);
+		//	batch.push_back(glyph->v3);
+
+		//	batch.push_back(glyph->v3);
+		//	batch.push_back(glyph->v1);
+		//	batch.push_back(glyph->v4);
+
+			// delete the glyph
+			delete glyph;
 		}
 		else
 		{
@@ -95,29 +111,49 @@ void SpriteBatch::renderBatch()
 			// so we reached the end of these quads with the current texture
 			// render the batch, change current texture and reset batch
 
-			render(currentTexture, &batch);
-			currentTexture = glyph->texture;
+			if (currentTexture != NULL)
+			{
+				render(currentTexture, &batch);
+			}
 
+			currentTexture = glyph->texture;
 		}
 	}
+
+	// render the last batch
+	if (currentTexture != NULL)
+	{
+		render(currentTexture, &batch);
+	}
+
+	_glyphBuffer.clear();
 }
 
 void SpriteBatch::render(Texture* texture, std::vector<Vertex> *batch)
 {
 	texture->bind(GL_TEXTURE0);
 
-	_mesh->create(&(*batch)[0], batch->size() * sizeof(Vertex), sizeof(Vertex));
-	_mesh->setDrawCount(0);
+	int size = batch->size();
 
+	// update the mesh data and draw count
+	_mesh->create(&(*batch)[0], size * sizeof(Vertex), sizeof(Vertex));
+	_mesh->setDrawCount(size);
+
+	// bind the batched mesh and draw the vertices
 	_mesh->bind();
 	_mesh->draw();
 	_mesh->unbind();
+
+	// clear the batch so its ready for the next
+	batch->clear();
 }
 
 void SpriteBatch::end()
 {
+	// begin the render process
 	_shader->begin();
 	{
+		_shader->uniform("texture", 0);
 		renderBatch();
 	}
 	_shader->end();

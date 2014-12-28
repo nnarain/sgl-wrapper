@@ -31,6 +31,11 @@ Texture* Sprite::getTexture()
 	return _texture;
 }
 
+void Sprite::setTextureRegion(float x, float y, float w, float h)
+{
+	_region = _texture->region(x, y, w, h);
+}
+
 Texture::TextureRegion* Sprite::getTextureRegion()
 {
 	return &_region;
