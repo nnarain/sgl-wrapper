@@ -80,44 +80,21 @@ void SpriteBatch::renderBatch()
 	{
 		Glyph* glyph = (*iter);
 
-		// if the glyph texture is the same, batch its vertices
-		if (glyph->texture == currentTexture)
+		if (glyph->texture != currentTexture)
 		{
-			// push the 4 vertices in order to create 2 triangle that make up a quad
-			
-			// TODO: This order works, the other doesn't, why?
-			batch.push_back(glyph->v2);
-			batch.push_back(glyph->v1);
-			batch.push_back(glyph->v4);
-
-			batch.push_back(glyph->v2);
-			batch.push_back(glyph->v4);
-			batch.push_back(glyph->v3);
-		
-		//	batch.push_back(glyph->v1);
-		//	batch.push_back(glyph->v2);
-		//	batch.push_back(glyph->v3);
-
-		//	batch.push_back(glyph->v3);
-		//	batch.push_back(glyph->v1);
-		//	batch.push_back(glyph->v4);
-
-			// delete the glyph
-			delete glyph;
-		}
-		else
-		{
-			// glyph texture is not the same 
-			// so we reached the end of these quads with the current texture
-			// render the batch, change current texture and reset batch
-
-			if (currentTexture != NULL)
-			{
-				render(currentTexture, &batch);
-			}
-
+			render(currentTexture, &batch);
 			currentTexture = glyph->texture;
 		}
+
+		batch.push_back(glyph->v2);
+		batch.push_back(glyph->v1);
+		batch.push_back(glyph->v4);
+
+		batch.push_back(glyph->v2);
+		batch.push_back(glyph->v4);
+		batch.push_back(glyph->v3);
+
+		delete glyph;
 	}
 
 	// render the last batch
