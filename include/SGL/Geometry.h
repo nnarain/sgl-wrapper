@@ -26,6 +26,25 @@ namespace sgl
 		glm::vec3 direction;
 	};
 
+	struct Triangle
+	{
+		glm::vec3 v1;
+		glm::vec3 v2;
+		glm::vec3 v3;
+	};
+
+	struct Line
+	{
+		glm::vec3 p1;
+		glm::vec3 p2;
+
+		Line(glm::vec3 a, glm::vec3 b)
+		{
+			p1 = a;
+			p2 = b;
+		}
+	};
+
 	namespace util
 	{
 		SGLVOIDFUNC makeQuad(Quad& quad, float x, float y, float w, float h);
