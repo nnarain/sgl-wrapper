@@ -28,12 +28,15 @@ void SpriteSheet::init(float w, float h)
 	float cellWidth = _width / _cols;
 	float cellHeight = _height / _rows;
 
+	// calculate the width, height and position of each sprite in the sheet
 	int i, j;
 	for (i = 0; i < _cols; ++i)
 	{
 		for (j = 0; j < _rows; ++j)
 		{
 			_regions.push_back(
+				// position the cell i widths over from the sheet offset in the texture
+				// position the cell j heights over from the sheet offset in the texture
 				_texture->region(_x + (cellWidth * i), _y + (cellHeight * j), cellWidth, cellHeight)
 			);
 		}
