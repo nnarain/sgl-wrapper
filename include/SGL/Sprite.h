@@ -35,13 +35,18 @@ namespace sgl
 		Sprite(float x, float y, float width, float height, Texture* tex);
 		~Sprite();
 
+		void setPosition(glm::vec2 pos);
+		void setPosition(float x, float y);
 		glm::vec2 getPosition();
+
+		void setDimensions(float w, float h);
 
 		float getWidth();
 		float getHeight();
 
 		Texture* getTexture();
 
+		void setTextureRegion(Texture::TextureRegion region);
 		void setTextureRegion(float x, float y, float w, float h);
 		Texture::TextureRegion* getTextureRegion();
 

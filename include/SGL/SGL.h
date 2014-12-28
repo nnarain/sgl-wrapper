@@ -18,6 +18,7 @@
 
 #include "SpriteBatch.h"
 #include "Sprite.h"
+#include "SpriteSheet.h"
 
 #include "Mesh.h"
 #include "MeshGenerator.h"

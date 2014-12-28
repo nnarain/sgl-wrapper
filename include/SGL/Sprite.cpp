@@ -31,9 +31,31 @@ Texture* Sprite::getTexture()
 	return _texture;
 }
 
+void Sprite::setTextureRegion(Texture::TextureRegion region)
+{
+	_region = region;
+}
+
 void Sprite::setTextureRegion(float x, float y, float w, float h)
 {
 	_region = _texture->region(x, y, w, h);
+}
+
+void Sprite::setDimensions(float w, float h)
+{
+	_width = w;
+	_height = h;
+}
+
+void Sprite::setPosition(glm::vec2 pos)
+{
+	setPosition(pos.x, pos.y);
+}
+
+void Sprite::setPosition(float x, float y)
+{
+	_pos.x = x;
+	_pos.y = y;
 }
 
 Texture::TextureRegion* Sprite::getTextureRegion()
