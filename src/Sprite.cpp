@@ -1,5 +1,5 @@
 
-#include "Sprite.h"
+#include "SGL/Sprite.h"
 
 using namespace sgl;
 
