@@ -28,8 +28,6 @@
 #include "RenderBuffer.h"
 #include "Material.h"
 
-#include "Picking.h"
-
 #include "SGLException.h"
 
 #include "SGLCoordinate.h"
