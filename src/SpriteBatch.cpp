@@ -68,6 +68,8 @@ void SpriteBatch::draw(Sprite& sprite)
 
 void SpriteBatch::renderBatch()
 {
+	if (_glyphBuffer.size() == 0) return;
+
 	// sort glyphs by texture handle
 	std::sort(_glyphBuffer.begin(), _glyphBuffer.end(), sortGlyphs);
 
