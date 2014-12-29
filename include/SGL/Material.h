@@ -20,10 +20,10 @@ namespace sgl{
 
 		void set(unsigned char R, unsigned char G, unsigned char B, unsigned A)
 		{
-			r = R;
-			g = G;
-			b = B;
-			a = A;
+			r = (float)R;
+			g = (float)G;
+			b = (float)B;
+			a = (float)A;
 			normalize();
 		}
 

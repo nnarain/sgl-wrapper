@@ -82,8 +82,8 @@ Texture::TextureRegion Texture::region(float x, float y, float w, float h)
 	float width, height;
 	
 	// widht or height less than 0 signals to use the full texture width or height
-	if (w < 0) width = _width;
-	if (h < 0) height = _height;
+	if (w < 0) width = (float)_width;
+	if (h < 0) height = (float)_height;
 
 	float x1, x2, y1, y2;
 
