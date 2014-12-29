@@ -17,6 +17,9 @@ SpriteBatch::SpriteBatch()
 	// bind position and texture coordinate attributes
 	_mesh->addAttribute(VertexAttribute(0, 2));
 	_mesh->addAttribute(VertexAttribute(1, 2));
+
+	//
+	_glyphBuffer = new std::vector<Glyph*>();
 }
 
 void SpriteBatch::begin(ShaderProgram* shader)
@@ -48,22 +51,22 @@ void SpriteBatch::draw(Sprite& sprite)
 	glyph->v4.pos      = quad.bottomRight;
 	glyph->v4.texCoord = region.bottomRight;
 
-	_glyphBuffer.push_back(glyph);
+	_glyphBuffer->push_back(glyph);
 }
 
 void SpriteBatch::renderBatch()
 {
-	if (_glyphBuffer.size() == 0) return;
+	if (_glyphBuffer->size() == 0) return;
 
 	// sort glyphs by texture handle
-	std::sort(_glyphBuffer.begin(), _glyphBuffer.end(), sortGlyphs);
+	std::sort(_glyphBuffer->begin(), _glyphBuffer->end(), sortGlyphs);
 
-	Texture* currentTexture = _glyphBuffer[0]->texture;
+	Texture* currentTexture = (*_glyphBuffer)[0]->texture;
 	std::vector<Vertex> batch;
 
 	// iterate over the glyphs
 	std::vector<Glyph*>::iterator iter;
-	for (iter = _glyphBuffer.begin(); iter != _glyphBuffer.end(); ++iter)
+	for (iter = _glyphBuffer->begin(); iter != _glyphBuffer->end(); ++iter)
 	{
 		Glyph* glyph = (*iter);
 
@@ -98,7 +101,7 @@ void SpriteBatch::renderBatch()
 		render(currentTexture, &batch);
 	}
 
-	_glyphBuffer.clear();
+	_glyphBuffer->clear();
 }
 
 void SpriteBatch::render(Texture* texture, std::vector<Vertex> *batch)
@@ -134,6 +137,7 @@ void SpriteBatch::end()
 
 SpriteBatch::~SpriteBatch()
 {
+	delete _glyphBuffer;
 }
 
 static bool sortGlyphs(SpriteBatch::Glyph* glyph1, SpriteBatch::Glyph* glyph2)

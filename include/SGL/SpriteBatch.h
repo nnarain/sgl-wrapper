@@ -79,7 +79,7 @@ namespace sgl
 		//! The shader to draw with
 		ShaderProgram* _shader;
 		//! 
-		std::vector<Glyph*> _glyphBuffer;
+		std::vector<Glyph*>* _glyphBuffer;
 
 		//! Mesh that the batches are bound to 
 		Mesh* _mesh;
