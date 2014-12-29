@@ -27,42 +27,26 @@ void SpriteBatch::begin(ShaderProgram* shader)
 
 void SpriteBatch::draw(Sprite& sprite)
 {
-	glm::vec2 pos = sprite.getPosition();
-	Texture::TextureRegion* region = sprite.getTextureRegion();
+	// use the sprites quad and region to create 4 textured vertices for the Quad that will be drawn
 
-	// make a quad with sprite dimensions and position
-	Quad quad;
-	sgl::util::makeQuad(quad, pos.x, pos.y, sprite.getWidth(), sprite.getHeight());
-
-	/* 
-		Create the 2 triangles that make up the quad of the sprite
-
-		1st Triangle - v1, v2, v3
-		2nd Triangle - v4, v5, v6
-
-		v4 = v3
-		v5 = v1
-
-		So:
-			1st Triangle - v1, v2, v3
-			2nd Triangle - v3, v1, v4
-	*/
+	Quad&                   quad   = sprite.getQuad();
+	Texture::TextureRegion& region = sprite.getTextureRegion();
 
 	Glyph* glyph = new Glyph;
 
 	glyph->texture = sprite.getTexture();
 
-	glyph->v1.pos = quad.bottomLeft;
-	glyph->v1.texCoord = (*region).bottomLeft;
+	glyph->v1.pos      = quad.bottomLeft;
+	glyph->v1.texCoord = region.bottomLeft;
 
-	glyph->v2.pos = quad.topLeft;
-	glyph->v2.texCoord = (*region).topLeft;
+	glyph->v2.pos      = quad.topLeft;
+	glyph->v2.texCoord = region.topLeft;
 
-	glyph->v3.pos = quad.topRight;
-	glyph->v3.texCoord = (*region).topRight;
+	glyph->v3.pos      = quad.topRight;
+	glyph->v3.texCoord = region.topRight;
 
-	glyph->v4.pos = quad.bottomRight;
-	glyph->v4.texCoord = (*region).bottomRight;
+	glyph->v4.pos      = quad.bottomRight;
+	glyph->v4.texCoord = region.bottomRight;
 
 	_glyphBuffer.push_back(glyph);
 }
@@ -88,6 +72,14 @@ void SpriteBatch::renderBatch()
 			render(currentTexture, &batch);
 			currentTexture = glyph->texture;
 		}
+
+		/*
+			Create the 2 triangles that make up the quad of the sprite
+
+			1st Triangle - v2, v1, v4
+			2nd Triangle - v2, v4, v3
+
+		*/
 
 		batch.push_back(glyph->v2);
 		batch.push_back(glyph->v1);

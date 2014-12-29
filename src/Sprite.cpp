@@ -9,6 +9,8 @@ Sprite::Sprite(float x, float y, float w, float h, Texture* tex)
 	_width = w;
 	_height = h;
 	_texture = tex;
+
+	_updateQuad = true;
 }
 
 glm::vec2 Sprite::getPosition()
@@ -45,6 +47,7 @@ void Sprite::setDimensions(float w, float h)
 {
 	_width = w;
 	_height = h;
+	_updateQuad = true;
 }
 
 void Sprite::setPosition(glm::vec2 pos)
@@ -56,11 +59,23 @@ void Sprite::setPosition(float x, float y)
 {
 	_pos.x = x;
 	_pos.y = y;
+	_updateQuad = true;
 }
 
-Texture::TextureRegion* Sprite::getTextureRegion()
+Texture::TextureRegion& Sprite::getTextureRegion()
 {
-	return &_region;
+	return _region;
+}
+
+Quad& Sprite::getQuad()
+{
+	if (_updateQuad)
+	{
+		sgl::util::makeQuad(_quad, _pos.x, _pos.y, _width, _height);
+		_updateQuad = false;
+	}
+
+	return _quad;
 }
 
 Sprite::~Sprite()

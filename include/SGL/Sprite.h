@@ -48,7 +48,9 @@ namespace sgl
 
 		void setTextureRegion(Texture::TextureRegion region);
 		void setTextureRegion(float x, float y, float w, float h);
-		Texture::TextureRegion* getTextureRegion();
+		Texture::TextureRegion& getTextureRegion();
+
+		Quad& getQuad();
 
 	private:
 		//! 2D position
@@ -62,6 +64,11 @@ namespace sgl
 		Texture* _texture;
 		//! The region of the texture that the sprite uses
 		Texture::TextureRegion _region;
+
+		//! quad
+		Quad _quad;
+		//! flag to update the quad
+		bool _updateQuad;
 	};
 };
 
