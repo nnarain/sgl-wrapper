@@ -18,6 +18,7 @@ SpriteSheet::SpriteSheet(float x, float y, float w, float h, int rows, int cols,
 	_cols = cols;
 
 	_sprite = new Sprite(0, 0, 0, 0, texture);
+	_regions = new std::vector<Texture::TextureRegion>();
 }
 
 void SpriteSheet::init(float w, float h)
@@ -34,7 +35,7 @@ void SpriteSheet::init(float w, float h)
 	{
 		for (j = 0; j < _rows; ++j)
 		{
-			_regions.push_back(
+			_regions->push_back(
 				// position the cell i widths over from the sheet offset in the texture
 				// position the cell j heights over from the sheet offset in the texture
 				_texture->region(_x + (cellWidth * i), _y + (cellHeight * j), cellWidth, cellHeight)
@@ -50,7 +51,7 @@ Sprite& SpriteSheet::getSprite()
 
 Sprite& SpriteSheet::getSprite(int idx)
 {
-	_sprite->setTextureRegion(_regions[idx]);
+	_sprite->setTextureRegion((*_regions)[idx]);
 	return *_sprite;
 }
 
@@ -61,5 +62,5 @@ int SpriteSheet::getNumSprites()
 
 SpriteSheet::~SpriteSheet()
 {
-
+	delete _regions;
 }

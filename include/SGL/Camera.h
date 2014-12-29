@@ -102,22 +102,22 @@ namespace sgl{
 
 	private:
 		//! camera position
-		glm::vec3 _pos;
+		glm::vec3* _pos;
 		
 		//! where the camera is pointed to
-		glm::vec3 _target;
+		glm::vec3* _target;
 		
 		//! cameras up vector
-		glm::vec3 _up;
+		glm::vec3* _up;
 		//! cameras right vector
-		glm::vec3 _right;
+		glm::vec3* _right;
 		// direction camera is looking
-		glm::vec3 _look;
+		glm::vec3* _look;
 
 		//! camera projection
-		glm::mat4 _proj;
+		glm::mat4* _proj;
 		//! camera view
-		glm::mat4 _view;
+		glm::mat4* _view;
 
 		//!
 		float _viewportWidth;

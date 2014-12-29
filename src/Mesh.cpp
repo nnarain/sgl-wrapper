@@ -46,7 +46,7 @@ void Mesh::create(void *data, int size, int stride)
 	glBufferData(GL_ARRAY_BUFFER, size, data, _usage);
 
 	// iterate over the model attributes and set offsets in the buffer
-	int i;
+	unsigned int i;
 	for (i = 0; i < _attribs->size(); ++i){
 		
 		VertexAttribute attrib = (*_attribs)[i];

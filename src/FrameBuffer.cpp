@@ -7,6 +7,7 @@ using namespace sgl;
 FrameBuffer::FrameBuffer() : IGLBuffer(GL_FRAMEBUFFER)
 {
 	glGenFramebuffers(1, id());
+	_attachments = new std::vector<GLenum>();
 }
 
 void FrameBuffer::bind(GLuint target)
@@ -40,12 +41,12 @@ void FrameBuffer::setRenderBuffer(RenderBuffer& renderBuffer, GLuint attachment)
 
 void FrameBuffer::setDrawBuffer()
 {
-	glDrawBuffers(_attachments.size(), &_attachments[0]);
+	glDrawBuffers((*_attachments).size(), &(*_attachments)[0]);
 }
 
 void FrameBuffer::addAttachment(GLenum attachment)
 {
-	_attachments.push_back(attachment);
+	(*_attachments).push_back(attachment);
 }
 
 bool FrameBuffer::error()
@@ -56,4 +57,5 @@ bool FrameBuffer::error()
 FrameBuffer::~FrameBuffer()
 {
 	glDeleteFramebuffers(1, id());
+	delete _attachments;
 }

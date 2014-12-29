@@ -52,7 +52,7 @@ namespace sgl
 		//!
 		Sprite* _sprite;
 		//! Hold the texture corrdinates of each cell
-		std::vector<Texture::TextureRegion> _regions;
+		std::vector<Texture::TextureRegion>* _regions;
 
 		//! bottom left x coord of the sheets sections in the texture
 		float _x;

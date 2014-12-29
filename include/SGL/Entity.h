@@ -39,11 +39,11 @@ namespace sgl{
 		glm::mat3 getNormalMatrix();
 
 	private:
-		glm::vec4 _pos;
-		glm::vec3 _angle;
-		glm::vec3 _scale;
+		glm::vec4* _pos;
+		glm::vec3* _angle;
+		glm::vec3* _scale;
 
-		glm::mat4 _transform;
+		glm::mat4* _transform;
 		bool _transformReCalcRequired;
 		
 
