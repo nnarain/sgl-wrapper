@@ -5,7 +5,7 @@ using namespace sgl;
 
 Sprite::Sprite(float x, float y, float w, float h, Texture* tex)
 {
-	_pos = glm::vec2(x, y);
+	_pos = new glm::vec2(x, y);
 	_width = w;
 	_height = h;
 	_texture = tex;
@@ -15,7 +15,7 @@ Sprite::Sprite(float x, float y, float w, float h, Texture* tex)
 
 glm::vec2 Sprite::getPosition()
 {
-	return _pos;
+	return *_pos;
 }
 
 float Sprite::getWidth()
@@ -57,8 +57,8 @@ void Sprite::setPosition(glm::vec2 pos)
 
 void Sprite::setPosition(float x, float y)
 {
-	_pos.x = x;
-	_pos.y = y;
+	(*_pos).x = x;
+	(*_pos).y = y;
 	_updateQuad = true;
 }
 
@@ -71,7 +71,7 @@ Quad& Sprite::getQuad()
 {
 	if (_updateQuad)
 	{
-		sgl::util::makeQuad(_quad, _pos.x, _pos.y, _width, _height);
+		sgl::util::makeQuad(_quad, (*_pos).x, (*_pos).y, _width, _height);
 		_updateQuad = false;
 	}
 

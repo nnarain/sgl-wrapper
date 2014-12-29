@@ -54,7 +54,7 @@ namespace sgl
 
 	private:
 		//! 2D position
-		glm::vec2 _pos;
+		glm::vec2* _pos;
 		//! pixel width
 		float _width;
 		//! pixel height
