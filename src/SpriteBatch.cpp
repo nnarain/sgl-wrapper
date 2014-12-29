@@ -22,6 +22,7 @@ SpriteBatch::SpriteBatch()
 void SpriteBatch::begin(ShaderProgram* shader)
 {
 	_shader = shader;
+	_shader->begin();
 }
 
 void SpriteBatch::draw(Sprite& sprite)
@@ -130,12 +131,13 @@ void SpriteBatch::render(Texture* texture, std::vector<Vertex> *batch)
 void SpriteBatch::end()
 {
 	// begin the render process
-	_shader->begin();
 	{
 		_shader->uniform("texture", 0);
 		renderBatch();
 	}
 	_shader->end();
+
+	_shader = NULL;
 }
 
 SpriteBatch::~SpriteBatch()
