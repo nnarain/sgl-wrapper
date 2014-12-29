@@ -2941,7 +2941,7 @@ SGLVOIDFUNC sgl::generateWireframe(sgl::Mesh* mesh, void* buffer, int size, int 
 {
 	// iterating over bytes
 	char* byteBuffer = (char*)buffer;
-	int numTriangles = (size / stride) / 3.0f;
+	int numTriangles = (int)((size / stride) / 3.0f);
 	int i;
 
 	std::vector<Line> lines;
