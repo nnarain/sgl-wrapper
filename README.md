@@ -12,10 +12,8 @@ Features
 * Basic representation of 3D models
 	* translation, rotation, scaling
 	* vertex attributes (position, normals, texutures, colors)
-* Textures, FrameBuffers
-* Sprites and SpriteBatching
-* Selection
-	* Ray picking using spheres
+* Textures, FrameBuffers, RenderBuffers
+* Sprites, SpriteSheets and SpriteBatching
 
 
 Build
@@ -27,6 +25,8 @@ Builds with CMake
 
 Note: This library compiles with Visual C++, GNU compiler **will not** work (yet).
 
+This command should do the trick:
+
 ```bash
 /> cmake -G "Visual Studio 12" C:\path\to\src
 ```
@@ -36,8 +36,6 @@ Examples
 
 TODO
 ----
-* SpriteSheets? (Row, Col divided, array of Sprites)
-* Remove Bounding Box? Remove Picking?
 * Orthographic and Perspective Camera?
 * Camera Controller
 * Test with Qt and on Linux
