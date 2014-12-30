@@ -41,8 +41,12 @@ namespace sgl
 		};
 
 		//! Intermediate structure to store vertex data before the batching stage
-		struct Glyph
+		class Glyph
 		{
+		public:
+			Glyph(void);
+			Glyph(Quad& quad, Texture::TextureRegion& region, Texture*);
+
 			Texture* texture;
 
 			Vertex v1;
@@ -79,7 +83,8 @@ namespace sgl
 		//! The shader to draw with
 		ShaderProgram* _shader;
 		//! 
-		std::vector<Glyph*>* _glyphBuffer;
+		std::vector<Glyph*>* _glyphPointers;
+		std::vector<Glyph>* _glyphs;
 
 		//! Mesh that the batches are bound to 
 		Mesh* _mesh;

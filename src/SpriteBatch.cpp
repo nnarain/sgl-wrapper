@@ -5,6 +5,29 @@
 
 using namespace sgl;
 
+/** Glyph Constructor */
+
+SpriteBatch::Glyph::Glyph()
+{
+}
+
+SpriteBatch::Glyph::Glyph(Quad& quad, Texture::TextureRegion& region, Texture* t)
+{
+	texture     = t;
+
+	v1.pos      = quad.bottomLeft;
+	v1.texCoord = region.bottomLeft;
+
+	v2.pos      = quad.topLeft;
+	v2.texCoord = region.topLeft;
+
+	v3.pos      = quad.topRight;
+	v3.texCoord = region.topRight;
+
+	v4.pos      = quad.bottomRight;
+	v4.texCoord = region.bottomRight;
+}
+
 /* Sort glyphs */
 static bool sortGlyphs(SpriteBatch::Glyph* glyph1, SpriteBatch::Glyph* glyph2);
 
@@ -19,7 +42,8 @@ SpriteBatch::SpriteBatch()
 	_mesh->addAttribute(VertexAttribute(1, 2));
 
 	//
-	_glyphBuffer = new std::vector<Glyph*>();
+	_glyphs = new std::vector<Glyph>();
+	_glyphPointers = new std::vector<Glyph*>();
 }
 
 void SpriteBatch::begin(ShaderProgram* shader)
@@ -32,44 +56,34 @@ void SpriteBatch::draw(Sprite& sprite)
 {
 	// use the sprites quad and region to create 4 textured vertices for the Quad that will be drawn
 
-	Quad&                   quad   = sprite.getQuad();
-	Texture::TextureRegion& region = sprite.getTextureRegion();
+	Quad                   &quad    = sprite.getQuad();
+	Texture::TextureRegion &region  = sprite.getTextureRegion();
+	Texture                *texture = sprite.getTexture();
 
-	Glyph* glyph = new Glyph;
+	_glyphs->emplace_back(quad, region, texture);
 
-	glyph->texture = sprite.getTexture();
+	Glyph* pGlyph = &((*_glyphs)[_glyphs->size() - 1]);
+	_glyphPointers->push_back(pGlyph);
 
-	glyph->v1.pos      = quad.bottomLeft;
-	glyph->v1.texCoord = region.bottomLeft;
-
-	glyph->v2.pos      = quad.topLeft;
-	glyph->v2.texCoord = region.topLeft;
-
-	glyph->v3.pos      = quad.topRight;
-	glyph->v3.texCoord = region.topRight;
-
-	glyph->v4.pos      = quad.bottomRight;
-	glyph->v4.texCoord = region.bottomRight;
-
-	_glyphBuffer->push_back(glyph);
 }
 
 void SpriteBatch::renderBatch()
 {
-	if (_glyphBuffer->size() == 0) return;
+	if (_glyphPointers->size() == 0) return;
 
 	// sort glyphs by texture handle
-	std::sort(_glyphBuffer->begin(), _glyphBuffer->end(), sortGlyphs);
+	std::sort(_glyphPointers->begin(), _glyphPointers->end(), sortGlyphs);
 
-	Texture* currentTexture = (*_glyphBuffer)[0]->texture;
+	Texture* currentTexture = (*_glyphPointers)[0]->texture;
 	std::vector<Vertex> batch;
 
 	// iterate over the glyphs
 	std::vector<Glyph*>::iterator iter;
-	for (iter = _glyphBuffer->begin(); iter != _glyphBuffer->end(); ++iter)
+	for (iter = _glyphPointers->begin(); iter != _glyphPointers->end(); ++iter)
 	{
 		Glyph* glyph = (*iter);
 
+		// when the texture changes render the batch
 		if (glyph->texture != currentTexture)
 		{
 			render(currentTexture, &batch);
@@ -77,6 +91,8 @@ void SpriteBatch::renderBatch()
 		}
 
 		/*
+			Batch quads of same texture
+
 			Create the 2 triangles that make up the quad of the sprite
 
 			1st Triangle - v2, v1, v4
@@ -92,20 +108,20 @@ void SpriteBatch::renderBatch()
 		batch.push_back(glyph->v4);
 		batch.push_back(glyph->v3);
 
-		delete glyph;
 	}
 
 	// render the last batch
-	if (currentTexture != NULL)
-	{
-		render(currentTexture, &batch);
-	}
+	render(currentTexture, &batch);
 
-	_glyphBuffer->clear();
+	// clear
+	_glyphPointers->clear();
+	_glyphs->clear();
 }
 
 void SpriteBatch::render(Texture* texture, std::vector<Vertex> *batch)
 {
+	if (texture == NULL) return;
+
 	texture->bind(GL_TEXTURE0);
 
 	int size = batch->size();
@@ -137,7 +153,8 @@ void SpriteBatch::end()
 
 SpriteBatch::~SpriteBatch()
 {
-	delete _glyphBuffer;
+	delete _glyphs;
+	delete _glyphPointers;
 }
 
 static bool sortGlyphs(SpriteBatch::Glyph* glyph1, SpriteBatch::Glyph* glyph2)
