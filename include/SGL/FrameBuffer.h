@@ -34,7 +34,7 @@ namespace sgl
 		void addAttachment(GLenum attachment);
 
 	private:
-		std::vector<GLenum> _attachments;
+		std::vector<GLenum>* _attachments;
 
 		bool error();
 	};

@@ -16,6 +16,10 @@
 #include "ShaderProgram.h"
 #include "Entity.h"
 
+#include "SpriteBatch.h"
+#include "Sprite.h"
+#include "SpriteSheet.h"
+
 #include "Mesh.h"
 #include "MeshGenerator.h"
 
@@ -24,9 +28,9 @@
 #include "RenderBuffer.h"
 #include "Material.h"
 
-#include "Picking.h"
-
 #include "SGLException.h"
+
+#include "SGLCoordinate.h"
 
 #include "SGLExport.h"
 

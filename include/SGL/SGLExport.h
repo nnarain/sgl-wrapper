@@ -16,10 +16,12 @@
 #	define SGLCLASS class DLLEXPORT
 #	define SGLVOIDFUNC void DLLEXPORT
 #	define SGLBOOLFUNC bool DLLEXPORT
+#	define SGLFLOATFUNC float DLLEXPORT
 #else
 #	define SGLCLASS class
 #	define SGLVOIDFUNC void
 #	define SGLBOOLFUNC bool
+#	define SGLFLOATFUNC float
 #endif
 
 #endif
