@@ -38,6 +38,9 @@ void sgl::sglCheckGLError()
 		case GL_STACK_OVERFLOW:
 			what = "stack overflow";
 			break;
+		default:
+			what = "unknown";
+			break;
 		}
 
 		sglReportError(what);
