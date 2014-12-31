@@ -62,8 +62,9 @@ void SpriteBatch::draw(Sprite& sprite)
 
 	_glyphs->emplace_back(quad, region, texture);
 
-	Glyph* pGlyph = &((*_glyphs)[_glyphs->size() - 1]);
-	_glyphPointers->push_back(pGlyph);
+	//Glyph* pGlyph = &((*_glyphs)[_glyphs->size() - 1]);
+	//Glyph* pGlyph = &_glyphs->back();
+	//_glyphPointers->push_back(pGlyph);
 
 }
 
@@ -141,6 +142,14 @@ void SpriteBatch::render(Texture* texture, std::vector<Vertex> *batch)
 
 void SpriteBatch::end()
 {
+	// add glyph pointers to buffer
+	int size = _glyphs->size();
+	int i;
+	for (i = 0; i < size; ++i)
+	{
+		_glyphPointers->push_back(&_glyphs->at(i));
+	}
+
 	// begin the render process
 	{
 		_shader->uniform("texture", 0);
