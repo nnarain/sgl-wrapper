@@ -6,26 +6,32 @@ using namespace sgl;
 Sprite::Sprite(float x, float y, float w, float h, Texture* tex)
 {
 	_pos = new glm::vec2(x, y);
-	_width = w;
-	_height = h;
+	_dim = new glm::vec2(w, h);
+
 	_texture = tex;
 
 	_updateQuad = true;
 }
 
-glm::vec2 Sprite::getPosition()
+glm::vec2& Sprite::getPosition()
 {
+	_updateQuad = true;
 	return *_pos;
 }
 
 float Sprite::getWidth()
 {
-	return _width;
+	return _dim->x;
 }
 
 float Sprite::getHeight()
 {
-	return _height;
+	return _dim->y;
+}
+
+glm::vec2& Sprite::getDimesions()
+{
+	return (*_dim);
 }
 
 Texture* Sprite::getTexture()
@@ -45,8 +51,8 @@ void Sprite::setTextureRegion(float x, float y, float w, float h)
 
 void Sprite::setDimensions(float w, float h)
 {
-	_width = w;
-	_height = h;
+	_dim->x = w;
+	_dim->y = h;
 	_updateQuad = true;
 }
 
@@ -71,7 +77,7 @@ Quad& Sprite::getQuad()
 {
 	if (_updateQuad)
 	{
-		sgl::util::makeQuad(_quad, (*_pos).x, (*_pos).y, _width, _height);
+		sgl::util::makeQuad(_quad, (*_pos).x, (*_pos).y, _dim->x, _dim->y);
 		_updateQuad = false;
 	}
 
@@ -80,4 +86,6 @@ Quad& Sprite::getQuad()
 
 Sprite::~Sprite()
 {
+	delete _pos;
+	delete _dim;
 }

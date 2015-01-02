@@ -37,10 +37,11 @@ namespace sgl
 
 		void setPosition(glm::vec2 pos);
 		void setPosition(float x, float y);
-		glm::vec2 getPosition();
+		glm::vec2& getPosition();
 
 		void setDimensions(float w, float h);
 
+		glm::vec2& getDimesions();
 		float getWidth();
 		float getHeight();
 
@@ -55,10 +56,8 @@ namespace sgl
 	private:
 		//! 2D position
 		glm::vec2* _pos;
-		//! pixel width
-		float _width;
-		//! pixel height
-		float _height;
+		//! dimesions in pixels
+		glm::vec2* _dim;
 
 		//! texture that the sprite uses
 		Texture* _texture;
