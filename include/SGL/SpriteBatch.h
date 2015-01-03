@@ -68,10 +68,26 @@ namespace sgl
 		*/
 		void begin(ShaderProgram* shader);
 
+
+
+		/* Draw functions */
+
 		/**
 			Add the given sprite to the batch to be rendered
 		*/
 		void draw(Sprite& sprite);
+
+		/**
+			Add a sprite, with option to flip on horizontal and vertical axis
+		*/
+		void draw(Sprite& sprite, bool flipH, bool flipV);
+
+		/**
+			Base draw
+		*/
+		void draw(Quad& quad, Texture::TextureRegion& region, Texture* texture);
+
+
 
 		/**
 			render the batches and tidy up
@@ -98,6 +114,11 @@ namespace sgl
 			batch and render
 		*/
 		void renderBatch();
+
+		/**
+			Flip a texture region horizontally or vertically
+		*/
+		void flip(Texture::TextureRegion& region, bool horizontal, bool vertical);
 	};
 };
 

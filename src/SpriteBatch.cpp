@@ -54,18 +54,32 @@ void SpriteBatch::begin(ShaderProgram* shader)
 
 void SpriteBatch::draw(Sprite& sprite)
 {
-	// use the sprites quad and region to create 4 textured vertices for the Quad that will be drawn
+	// call the base draw with the sprite's quad, region and texture
 
 	Quad                   &quad    = sprite.getQuad();
 	Texture::TextureRegion &region  = sprite.getTextureRegion();
 	Texture                *texture = sprite.getTexture();
 
+	draw(quad, region, texture);
+}
+
+void SpriteBatch::draw(Sprite& sprite, bool flipH, bool flipV)
+{
+	// call the base draw with the sprite's quad, region and texture.
+	// flip on the specified axis'
+
+	Quad                   &quad    = sprite.getQuad();
+	Texture::TextureRegion region   = sprite.getTextureRegion();
+	Texture                *texture = sprite.getTexture();
+
+	flip(region, flipH, flipV);
+
+	draw(quad, region, texture);
+}
+
+void SpriteBatch::draw(Quad& quad, Texture::TextureRegion& region, Texture* texture)
+{
 	_glyphs->emplace_back(quad, region, texture);
-
-	//Glyph* pGlyph = &((*_glyphs)[_glyphs->size() - 1]);
-	//Glyph* pGlyph = &_glyphs->back();
-	//_glyphPointers->push_back(pGlyph);
-
 }
 
 void SpriteBatch::renderBatch()
@@ -158,6 +172,43 @@ void SpriteBatch::end()
 	_shader->end();
 
 	_shader = NULL;
+}
+
+void SpriteBatch::flip(Texture::TextureRegion& region, bool horizontal, bool vertical)
+{
+	// flip on the vertical axis
+	if (vertical)
+	{
+		// swap top left with top right, and bottom left with bottom right
+		// to vertically flip the region on the quad
+
+		// tmp vars
+		glm::vec2 tl = region.topLeft;
+		glm::vec2 bl = region.bottomLeft;
+
+		// swap
+		region.topLeft = region.topRight;
+		region.bottomLeft = region.bottomRight;
+		region.topRight = tl;
+		region.bottomRight = bl;
+	}
+
+	// flip on the horizontal axis
+	if (horizontal)
+	{
+		// swap the top left with bottom left and top right with bottom right
+		// to horizontally flip the region on the quad
+
+		// tmp vars
+		glm::vec2 bl = region.bottomLeft;
+		glm::vec2 br = region.bottomRight;
+
+		// swap
+		region.bottomLeft = region.topLeft;
+		region.bottomRight = region.topRight;
+		region.topLeft = bl;
+		region.topRight = br;
+	}
 }
 
 SpriteBatch::~SpriteBatch()
