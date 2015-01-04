@@ -1,7 +1,9 @@
 
 #include "SGL/SpriteBatch.h"
+#include "SGL/SGLException.h"
 
 #include <algorithm>
+#include <cassert>
 
 using namespace sgl;
 
@@ -41,12 +43,20 @@ SpriteBatch::SpriteBatch()
 	//
 	_glyphs = new std::vector<Glyph>();
 	_glyphPointers = new std::vector<Glyph*>();
+
+	//
+	_isActive = false;
 }
 
 void SpriteBatch::begin(ShaderProgram* shader)
 {
+	if (shader == NULL) sglReportError("SpriteBatch::begin: Error: NULL Shader!");
+	assert(shader != NULL);
+
 	_shader = shader;
 	_shader->begin();
+
+	_isActive = true;
 }
 
 void SpriteBatch::draw(Sprite& sprite)
@@ -76,6 +86,9 @@ void SpriteBatch::draw(Sprite& sprite, bool flipH, bool flipV)
 
 void SpriteBatch::draw(Quad& quad, Texture::TextureRegion& region, Texture* texture)
 {
+	if (!_isActive) sglReportError("SpriteBatch::draw : Error: SpriteBatch has not been started!");
+	assert(_isActive);
+
 	_glyphs->emplace_back(quad, region, texture);
 }
 
@@ -153,6 +166,9 @@ void SpriteBatch::render(Texture* texture, std::vector<Vertex> *batch)
 
 void SpriteBatch::end()
 {
+	if (!_isActive) sglReportError("SpriteBatch::end : SpriteBatch has not been started!");
+	assert(_isActive);
+
 	// add glyph pointers to buffer
 	int size = _glyphs->size();
 	int i;

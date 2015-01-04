@@ -105,6 +105,9 @@ namespace sgl
 		//! Mesh that the batches are bound to 
 		Mesh* _mesh;
 
+		//! batch begin flag
+		bool _isActive;
+
 		/**
 			Render the given batch with its given texture
 		*/
