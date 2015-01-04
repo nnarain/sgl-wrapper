@@ -2,6 +2,8 @@
 #include "SGL/Mesh.h"
 #include "SGL/SGLException.h"
 
+#include <cassert>
+
 using namespace sgl;
 
 Mesh::Mesh(GLenum drawType, int drawCount, GLenum usage)
@@ -13,6 +15,8 @@ Mesh::Mesh(GLenum drawType, int drawCount, GLenum usage)
 
 	_attribs = new std::vector<VertexAttribute>();
 
+	_isBound = false;
+
 	// generate buffer
 	glGenVertexArrays(1, &_vao);
 	glGenBuffers(1, &_vbo);
@@ -20,20 +24,19 @@ Mesh::Mesh(GLenum drawType, int drawCount, GLenum usage)
 
 Mesh::Mesh()
 {
-	Mesh(GL_TRIANGLES, 0, GL_STATIC_DRAW);
-
-	/*
-		_drawType = GL_TRIANGLES;
+	_drawType = GL_TRIANGLES;
 	_drawStart = 0;
 	_drawCount = 0;
 	_usage = GL_STATIC_DRAW;
+
+	_isBound = false;
 
 	_attribs = new std::vector<VertexAttribute>();
 
 	// generate opengl buffers
 	glGenVertexArrays(1, &_vao);
 	glGenBuffers(1, &_vbo);
-	*/
+	
 }
 
 void Mesh::create(void *data, int size, int stride)
@@ -71,16 +74,22 @@ void Mesh::create(void *data, int size, int stride)
 void Mesh::bind()
 {
 	glBindVertexArray(_vao);
+	_isBound = true;
 }
 
 void Mesh::draw()
 {
+	assert(_isBound && "Mesh has not been bound");
+
 	glDrawArrays(_drawType, _drawStart, _drawCount);
 }
 
 void Mesh::unbind()
 {
+	assert(_isBound && "Mesh is not bound");
+
 	glBindVertexArray(0);
+	_isBound = false;
 }
 
 void Mesh::addAttribute(VertexAttribute attrib)

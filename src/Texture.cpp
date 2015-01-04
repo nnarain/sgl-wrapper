@@ -31,6 +31,8 @@ void Texture::data(char* pixels)
 
 void Texture::data(GLuint target, char* pixels)
 {
+	assert(isBound() && "Texture has not been bound");
+
 	glTexImage2D(target, 0, _internalFormat, _width, _height, 0, _format, GL_UNSIGNED_BYTE, pixels);
 	sglCheckGLError();
 }
@@ -49,27 +51,24 @@ void Texture::bind()
 
 void Texture::unbind()
 {
-	if (isBound())
-	{
-		IGLBuffer::unbind();
-		glBindTexture(currentTarget(), 0);
-	}
+	IGLBuffer::unbind();
+	glBindTexture(currentTarget(), 0);
 }
 
 void Texture::parameter(GLenum name, GLint param)
 {
-	if (isBound()){
-		glTexParameteri(currentTarget(), name, param);
-		sglCheckGLError();
-	}
+	assert(isBound() && "Texture is not bound");
+
+	glTexParameteri(currentTarget(), name, param);
+	sglCheckGLError();
 }
 
 void Texture::parameter(GLenum name, GLfloat param)
 {
-	if (isBound()){
-		glTexParameterf(currentTarget(), name, param);
-		sglCheckGLError();
-	}
+	assert(isBound() && "Texture is not bound");
+
+	glTexParameterf(currentTarget(), name, param);
+	sglCheckGLError();
 }
 
 Texture::TextureRegion Texture::region(float x, float y, float w, float h)

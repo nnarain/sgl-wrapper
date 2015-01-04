@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <cassert>
 
 using namespace sgl;
 
@@ -13,6 +14,8 @@ ShaderProgram::ShaderProgram(void)
 	_numAttributes = 0;
 
 	_attributes = new std::vector < VertexAttribute > ();
+
+	_isActive = false;
 }
 
 bool ShaderProgram::bind()
@@ -39,11 +42,15 @@ void ShaderProgram::unbind()
 void ShaderProgram::begin()
 {
 	bind();
+	_isActive = true;
 }
 
 void ShaderProgram::end()
 {
+	assert(_isActive && "Cannot terminate inactive shader");
+
 	unbind();
+	_isActive = false;
 }
 
 bool ShaderProgram::link()
@@ -54,7 +61,6 @@ bool ShaderProgram::link()
 	glGetProgramiv(_programID, GL_LINK_STATUS, &success);
 
 	if (success != GL_TRUE){
-		//std::cout << "Error linking program " << mProgramID << std::endl;
 		printProgramLog(_programID);
 		return false;
 	}
@@ -70,7 +76,6 @@ void ShaderProgram::addAttribute(const std::string name, int numComponents)
 	attrib.loc = _numAttributes++;
 	attrib.numComponents = numComponents;
 
-	//(*_attributes)[name] = attrib;
 	(*_attributes).push_back(attrib);
 }
 

@@ -29,23 +29,31 @@ void FrameBuffer::unbind()
 
 void FrameBuffer::setTexture(Texture& texture, GLuint attachment)
 {
+	assert(isBound() && "Frame buffer is not bound");
+
 	glFramebufferTexture(GL_FRAMEBUFFER, attachment, texture.handle(), 0);
 	sglCheckGLError();
 }
 
 void FrameBuffer::setRenderBuffer(RenderBuffer& renderBuffer, GLuint attachment)
 {
+	assert(isBound() && "Frame buffer is not bound");
+
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachment, GL_RENDERBUFFER, renderBuffer.handle());
 	sglCheckGLError();
 }
 
 void FrameBuffer::setDrawBuffer()
 {
+	assert(isBound() && "Frame buffer is not bound");
+
 	glDrawBuffers((*_attachments).size(), &(*_attachments)[0]);
 }
 
 void FrameBuffer::addAttachment(GLenum attachment)
 {
+	assert(isBound() && "Frame buffer is not bound");
+
 	(*_attachments).push_back(attachment);
 }
 

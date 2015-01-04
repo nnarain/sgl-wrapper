@@ -1,5 +1,8 @@
 
 #include "SGL/IGLBuffer.h"
+#include "SGL/SGLException.h"
+
+#include <cassert>
 
 using namespace sgl;
 
@@ -7,6 +10,7 @@ IGLBuffer::IGLBuffer(GLuint defaultTarget)
 {
 	_defaultTarget = defaultTarget;
 	_currentTarget = 0;
+	_isBound = false;
 }
 
 void IGLBuffer::bind(GLuint target)
@@ -22,6 +26,8 @@ void IGLBuffer::bind()
 
 void IGLBuffer::unbind()
 {
+	assert(_isBound && "buffer is already unbound");
+
 	_isBound = false;
 }
 

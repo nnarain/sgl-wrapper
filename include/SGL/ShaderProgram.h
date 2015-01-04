@@ -112,6 +112,9 @@ namespace sgl{
 		//! store attributes
 		std::vector<VertexAttribute>* _attributes;
 
+		//! is active flag
+		bool _isActive;
+
 		/**
 			Print the Log for this program
 		*/
