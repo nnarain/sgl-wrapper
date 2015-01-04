@@ -119,6 +119,11 @@ namespace sgl
 			Flip a texture region horizontally or vertically
 		*/
 		void flip(Texture::TextureRegion& region, bool horizontal, bool vertical);
+
+		/**
+			Sort Glyphs
+		*/
+		static bool sortGlyphs(Glyph* glyph1, Glyph* glyph2);
 	};
 };
 

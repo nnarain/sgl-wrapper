@@ -5,7 +5,7 @@
 
 using namespace sgl;
 
-/** Glyph Constructor */
+/** Glyph Constructors */
 
 SpriteBatch::Glyph::Glyph()
 {
@@ -27,9 +27,6 @@ SpriteBatch::Glyph::Glyph(Quad& quad, Texture::TextureRegion& region, Texture* t
 	v4.pos      = quad.bottomRight;
 	v4.texCoord = region.bottomRight;
 }
-
-/* Sort glyphs */
-static bool sortGlyphs(SpriteBatch::Glyph* glyph1, SpriteBatch::Glyph* glyph2);
 
 /* SpriteBatch */
 
@@ -217,7 +214,7 @@ SpriteBatch::~SpriteBatch()
 	delete _glyphPointers;
 }
 
-static bool sortGlyphs(SpriteBatch::Glyph* glyph1, SpriteBatch::Glyph* glyph2)
+bool SpriteBatch::sortGlyphs(SpriteBatch::Glyph* glyph1, SpriteBatch::Glyph* glyph2)
 {
 	return glyph1->texture->handle() < glyph2->texture->handle();
 }
