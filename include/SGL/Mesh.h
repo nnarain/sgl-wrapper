@@ -14,7 +14,7 @@
 namespace sgl{
 
 	/**
-		Encapsulates vertex data for a Model
+		Encapsulates vertex data for a Mesh
 	*/
 	SGLCLASS Mesh
 	{
@@ -89,6 +89,9 @@ namespace sgl{
 		GLint _drawCount;
 		//! Draw usage
 		GLenum _usage;
+
+		//! is bound flag
+		bool _isBound;
 
 		//! List of vertex attributes
 		std::vector<VertexAttribute>* _attribs;

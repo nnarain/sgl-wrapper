@@ -6,30 +6,14 @@
 
 #include "SGL/SGLExport.h"
 #include "SGL/Mesh.h"
+#include "Geometry.h"
 
 // math
 #include <glm/vec3.hpp>
 
 namespace sgl
 {
-	struct Triangle
-	{
-		glm::vec3 v1;
-		glm::vec3 v2;
-		glm::vec3 v3;
-	};
 
-	struct Line
-	{
-		glm::vec3 p1;
-		glm::vec3 p2;
-
-		Line(glm::vec3 a, glm::vec3 b)
-		{
-			p1 = a;
-			p2 = b;
-		}
-	};
 
 	SGLVOIDFUNC generateCubeMesh(Mesh* mesh, float scale);
 	SGLVOIDFUNC generateSphereMesh(Mesh* mesh, float scale);

@@ -9,6 +9,8 @@
 #include <GL/glew.h>
 #include "IGLBuffer.h"
 
+#include <glm/vec2.hpp>
+
 namespace sgl{
 
 	/**
@@ -17,6 +19,19 @@ namespace sgl{
 	SGLCLASS Texture : public IGLBuffer
 	{
 	public:
+		/* Types */
+
+		//! Holder for uv coordinates
+		struct TextureRegion
+		{
+			glm::vec2 bottomLeft;
+			glm::vec2 topLeft;
+			glm::vec2 topRight;
+			glm::vec2 bottomRight;
+		};
+
+		/* Constructors */
+
 		Texture(int width, int height, GLint internalFormat, GLenum format);
 		Texture(GLuint target, int width, int height, GLint internalFormal, GLenum format);
 		~Texture(void);
@@ -48,6 +63,11 @@ namespace sgl{
 			Set float parameter of texture
 		*/
 		void parameter(GLenum name, GLfloat param);
+
+		/**
+			Create texture region
+		*/
+		TextureRegion region(float x, float y, float w, float h);
 
 	private:
 		//! width of texture
