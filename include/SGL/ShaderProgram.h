@@ -43,11 +43,6 @@ namespace sgl{
 		bool createProgram(const GLchar*[], const GLchar*[]);
 
 		/**
-			Remove the shader from opengl
-		*/
-		bool freeProgram();
-
-		/**
 			bind the shader program
 		*/
 		bool bind();
@@ -101,7 +96,7 @@ namespace sgl{
 		*/
 		GLuint getUniformLocation(const std::string &name);
 
-	protected:
+	private:
 		//! program handle
 		GLuint _programID;
 		//! vertex shader handle
@@ -115,8 +110,10 @@ namespace sgl{
 		//! store attributes
 		std::vector<VertexAttribute>* _attributes;
 
-		//! is active flag
+		//! is active flag for this object
 		bool _isActive;
+		//! flag checks if any shader is active
+		static bool _inUse;
 
 		/**
 			Print the Log for this program
@@ -127,6 +124,11 @@ namespace sgl{
 			Print the log for a specigic shader
 		*/
 		void printShaderLog(GLuint);
+
+		/**
+			Remove the shader from opengl
+		*/
+		bool freeProgram();
 
 	};
 

@@ -8,6 +8,8 @@
 
 using namespace sgl;
 
+bool ShaderProgram::_inUse = false;
+
 ShaderProgram::ShaderProgram(void)
 {
 	_programID = 0;
@@ -41,16 +43,18 @@ void ShaderProgram::unbind()
 
 void ShaderProgram::begin()
 {
+	assert(!_isActive && !_inUse && "This or another shader is already bound!!");
+
 	bind();
-	_isActive = true;
+	_isActive = _inUse = true;
 }
 
 void ShaderProgram::end()
 {
-	assert(_isActive && "Cannot terminate inactive shader");
+	assert(_isActive && _inUse && "Cannot terminate inactive shader");
 
 	unbind();
-	_isActive = false;
+	_isActive = _inUse = false;
 }
 
 bool ShaderProgram::link()
