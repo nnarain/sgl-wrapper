@@ -230,4 +230,5 @@ SpriteBatch::~SpriteBatch()
 {
 	delete _glyphs;
 	delete _glyphPointers;
+	delete _mesh;
 }
