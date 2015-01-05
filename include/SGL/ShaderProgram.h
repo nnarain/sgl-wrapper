@@ -35,7 +35,7 @@ namespace sgl{
 		/**
 			load the shader program from to files
 		*/
-		bool loadFromFile(std::string vertSource, std::string fragSource);
+		bool loadFromFile(const std::string& vertSource, const std::string& fragSource);
 
 		/**
 			Create the program directly
@@ -71,7 +71,7 @@ namespace sgl{
 			Creates and adds a vertex attribute to the shader, binding its location in the order that this function is called.
 			Locations start at 0
 		*/
-		void addAttribute(const std::string name, int numComponents);
+		void addAttribute(const std::string &name, int numComponents);
 		
 		/**
 			Associates the given mesh with this shader.
@@ -81,25 +81,25 @@ namespace sgl{
 
 		/* Passes the value the corresponding attribute in the shader */
 
-		void attribute(std::string name, glm::vec3 value);
+		void attribute(const std::string &name, glm::vec3 value);
 
 		/* Passes the value to the corresponding uniform in the shader */
 
-		void uniform(std::string name, glm::mat3 value);
-		void uniform(std::string name, glm::mat4 value);
-		void uniform(std::string name, glm::vec3 value);
-		void uniform(std::string name, glm::vec4 value);
+		void uniform(const std::string &name, glm::mat3 value);
+		void uniform(const std::string &name, glm::mat4 value);
+		void uniform(const std::string &name, glm::vec3 value);
+		void uniform(const std::string &name, glm::vec4 value);
 
-		void uniform(std::string name, int value);
+		void uniform(const std::string &name, int value);
 
 		/**
 			Get the specified vertex attribute location
 		*/
-		GLuint getAttributeLocation(std::string name);
+		GLuint getAttributeLocation(const std::string &name);
 		/**
 			Get the specified uniform location from the shader
 		*/
-		GLuint getUniformLocation(std::string name);
+		GLuint getUniformLocation(const std::string &name);
 
 	protected:
 		//! program handle
@@ -108,6 +108,9 @@ namespace sgl{
 		GLuint _vertexShader;
 		//! fragment shader handle
 		GLuint _fragmentShader;
+
+		//! attribute location
+		int _numAttributes;
 
 		//! store attributes
 		std::vector<VertexAttribute>* _attributes;
@@ -124,8 +127,6 @@ namespace sgl{
 			Print the log for a specigic shader
 		*/
 		void printShaderLog(GLuint);
-
-		int _numAttributes;
 
 	};
 

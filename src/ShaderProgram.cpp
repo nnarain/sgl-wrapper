@@ -36,7 +36,7 @@ bool ShaderProgram::bind()
 void ShaderProgram::unbind()
 {
 	// use default program
-	glUseProgram(NULL);
+	glUseProgram(0);
 }
 
 void ShaderProgram::begin()
@@ -68,7 +68,7 @@ bool ShaderProgram::link()
 	return true;
 }
 
-void ShaderProgram::addAttribute(const std::string name, int numComponents)
+void ShaderProgram::addAttribute(const std::string &name, int numComponents)
 {
 	glBindAttribLocation(_programID, _numAttributes, name.c_str());
 
@@ -91,10 +91,10 @@ void ShaderProgram::assoicateMesh(Mesh* mesh)
 	}
 }
 
-bool ShaderProgram::loadFromFile(std::string vertSource, std::string fragSource)
+bool ShaderProgram::loadFromFile(const std::string &vertSource, const std::string &fragSource)
 {
-	std::ifstream fVertSource(vertSource);
-	std::ifstream fFragSource(fragSource);
+	std::ifstream fVertSource(vertSource.c_str());
+	std::ifstream fFragSource(fragSource.c_str());
 
 	std::string vsContent((std::istreambuf_iterator<char>(fVertSource)), std::istreambuf_iterator<char>());
 	std::string fsContent((std::istreambuf_iterator<char>(fFragSource)), std::istreambuf_iterator<char>());
@@ -164,48 +164,48 @@ bool ShaderProgram::freeProgram()
 	return true;
 }
 
-void ShaderProgram::attribute(std::string name, glm::vec3 v)
+void ShaderProgram::attribute(const std::string &name, glm::vec3 v)
 {
 	glUniform3f(getAttributeLocation(name), v.x, v.y, v.z);
 	sglCheckGLError();
 }
 
-void ShaderProgram::uniform(std::string name, glm::mat3 m)
+void ShaderProgram::uniform(const std::string &name, glm::mat3 m)
 {
 	glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &m[0][0]);
 	sglCheckGLError();
 }
 
-void ShaderProgram::uniform(std::string name, glm::mat4 m)
+void ShaderProgram::uniform(const std::string &name, glm::mat4 m)
 {
 	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &m[0][0]);
 	sglCheckGLError();
 }
 
-void ShaderProgram::uniform(std::string name, glm::vec3 v)
+void ShaderProgram::uniform(const std::string &name, glm::vec3 v)
 {
 	glUniform3f(getUniformLocation(name), v.x, v.y, v.z);
 	sglCheckGLError();
 }
 
-void ShaderProgram::uniform(std::string name, glm::vec4 v)
+void ShaderProgram::uniform(const std::string &name, glm::vec4 v)
 {
 	glUniform4f(getUniformLocation(name), v.x, v.y, v.z, v.w);
 	sglCheckGLError();
 }
 
-void ShaderProgram::uniform(std::string name, int value)
+void ShaderProgram::uniform(const std::string &name, int value)
 {
 	glUniform1i(getUniformLocation(name), value);
 	sglCheckGLError();
 }
 
-GLuint ShaderProgram::getAttributeLocation(std::string name)
+GLuint ShaderProgram::getAttributeLocation(const std::string &name)
 {
 	return glGetAttribLocation(_programID, name.c_str());
 }
 
-GLuint ShaderProgram::getUniformLocation(std::string name)
+GLuint ShaderProgram::getUniformLocation(const std::string &name)
 {
 	return glGetUniformLocation(_programID, name.c_str());
 }
@@ -260,4 +260,6 @@ void ShaderProgram::printShaderLog(GLuint shader)
 ShaderProgram::~ShaderProgram(void)
 {
 	freeProgram();
+
+	delete _attributes;
 }
