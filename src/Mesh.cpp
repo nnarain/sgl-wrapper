@@ -19,7 +19,7 @@ Mesh::Mesh(GLenum drawType, int drawCount, GLenum usage)
 
 	// generate buffer
 	glGenVertexArrays(1, &_vao);
-	glGenBuffers(1, &_vbo);
+	_vbo.setUsage(_usage);
 }
 
 Mesh::Mesh()
@@ -35,8 +35,7 @@ Mesh::Mesh()
 
 	// generate opengl buffers
 	glGenVertexArrays(1, &_vao);
-	glGenBuffers(1, &_vbo);
-	
+	_vbo.setUsage(_usage);
 }
 
 void Mesh::create(void *data, int size, int stride)
@@ -45,8 +44,8 @@ void Mesh::create(void *data, int size, int stride)
 	bind();
 
 	// set the vertex buffer data
-	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	glBufferData(GL_ARRAY_BUFFER, size, data, _usage);
+	_vbo.bind();
+	_vbo.data(data, size);
 
 	// iterate over the model attributes and set offsets in the buffer
 	unsigned int i;
@@ -67,6 +66,8 @@ void Mesh::create(void *data, int size, int stride)
 
 	//
 	unbind();
+
+	_vbo.unbind();
 
 	sglCheckGLError();
 }
@@ -118,7 +119,7 @@ int Mesh::offset(int idx)
 Mesh::~Mesh(void)
 {
 	glDeleteVertexArrays(1, &_vao);
-	glDeleteBuffers(1, &_vbo);
+	//glDeleteBuffers(1, &_vbo);
 
 	delete _attribs;
 }
