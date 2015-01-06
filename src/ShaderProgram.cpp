@@ -100,6 +100,8 @@ bool ShaderProgram::loadFromFile(const std::string &vertSource, const std::strin
 	std::ifstream fVertSource(vertSource.c_str());
 	std::ifstream fFragSource(fragSource.c_str());
 
+	if (!fVertSource.good() || !fFragSource.good()) return false;
+
 	std::string vsContent((std::istreambuf_iterator<char>(fVertSource)), std::istreambuf_iterator<char>());
 	std::string fsContent((std::istreambuf_iterator<char>(fFragSource)), std::istreambuf_iterator<char>());
 
