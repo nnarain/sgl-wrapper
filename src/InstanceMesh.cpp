@@ -87,29 +87,36 @@ void InstanceMesh::setVertexPointers(const VertexAttribute& attrib, std::vector<
 	{
 		int i;
 
-		// if has 4 components
+		int numComponents;
+
 		if (attrib.numComponents % 4 == 0)
 		{
-			int off = offset(*_instanceAttributes, idx);
+			numComponents = 4;
+		}
+		else
+		{
+			numComponents = 3;
+		}
 
-			for (i = 0; i < 4; ++i)
-			{
-				GLuint loc = attrib.loc + i;
+		int off = offset(*_instanceAttributes, idx);
 
-				glEnableVertexAttribArray(loc);
+		for (i = 0; i < numComponents; ++i)
+		{
+			GLuint loc = attrib.loc + i;
 
-				glVertexAttribPointer(
-					loc,
-					4,
-					GL_FLOAT,
-					GL_FALSE,
-					stride,
-					//(const GLvoid*)(sizeof(float) * i * 4)
-					(const GLvoid *)(off + (sizeof(float) * i * 4))
-				);
+			glEnableVertexAttribArray(loc);
 
-				glVertexAttribDivisor(attrib.loc + i, 1);
-			}
+			glVertexAttribPointer(
+				loc,
+				numComponents,
+				GL_FLOAT,
+				GL_FALSE,
+				stride,
+				//(const GLvoid*)(sizeof(float) * i * 4)
+				(const GLvoid *)(off + (sizeof(float) * i * numComponents))
+			);
+
+			glVertexAttribDivisor(attrib.loc + i, 1);
 		}
 	}
 

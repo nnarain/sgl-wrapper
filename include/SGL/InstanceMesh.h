@@ -13,10 +13,16 @@
 
 namespace sgl
 {
+	/**
+		Use this mesh to apply instance rendering to a mesh
+	*/
 	SGLCLASS InstanceMesh
 	{
 	public:
 
+		/**
+			
+		*/
 		InstanceMesh(GLuint drawType, GLuint drawCount, GLenum usage);
 		~InstanceMesh();
 
@@ -24,13 +30,47 @@ namespace sgl
 		void draw();
 		void unbind();
 
+		/**
+			Setup the vertex pointers in the mesh and instance buffers
+
+			@param meshStride
+				stride between mesh data
+
+			@param instanceStride
+				stride between instance data
+		*/
 		void create(int meshStride, int instanceStride);
+
+		/* Adding attributes */
 
 		void addMeshAttribute(const VertexAttribute& a);
 		void addInstanceAttribute(const VertexAttribute& a);
 
+		/* Set buffer data */
+
+		/**
+			Set mesh data
+
+			@param buffer
+				pointer to the vertex buffer
+
+			@param size
+				size of the buffer in bytes
+		*/
 		void setMeshData(void * buffer, int size);
+
+		/**
+			Set the instance data
+
+			@param buffer
+				pointer to the instance data
+
+			@param size
+				size of the buffer in bytes
+		*/
 		void setInstanceData(void * buffer, int size);
+
+		/* Getter & Setter */
 
 		void setInstances(unsigned int n);
 
@@ -50,8 +90,9 @@ namespace sgl
 		//! object attribute buffer
 		std::vector<VertexAttribute>* _instanceAttributes;
 
-		//!
+		//! Set the primitive type
 		GLuint _drawType;
+		//! vertex count
 		GLuint _drawCount;
 
 		//! the number of instances to render

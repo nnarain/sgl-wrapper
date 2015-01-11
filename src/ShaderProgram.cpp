@@ -2,7 +2,6 @@
 
 #include "SGL/SGLException.h"
 
-#include <iostream>
 #include <fstream>
 #include <cassert>
 
@@ -13,7 +12,7 @@ bool ShaderProgram::_inUse = false;
 ShaderProgram::ShaderProgram(void)
 {
 	_programID = 0;
-	_numAttributes = 0;
+	_attributeLocation = 0;
 
 	_attributes = new std::vector < VertexAttribute > ();
 
@@ -74,18 +73,27 @@ bool ShaderProgram::link()
 
 void ShaderProgram::addAttribute(const std::string &name, int numComponents)
 {
-	glBindAttribLocation(_programID, _numAttributes, name.c_str());
+	glBindAttribLocation(_programID, _attributeLocation, name.c_str());
 
 	VertexAttribute attrib;
-	attrib.loc = _numAttributes;
+	attrib.loc = _attributeLocation;
 	attrib.numComponents = numComponents;
 
 	// maximum component size is 4
 	// if a component is more than 4 (i.e. a MAT4 for instanced rendering)
 	// the location has to adjusted accordingly
-	_numAttributes += (numComponents > 4) ? (numComponents / 4) : 1;
+	_attributeLocation++;
 
-	(*_attributes).push_back(attrib);
+	_attributes->emplace_back(_attributeLocation, numComponents);
+}
+
+void ShaderProgram::addAttribute(const std::string &name, int numComponents, int numComponentsPerLocations)
+{
+	glBindAttribLocation(_programID, _attributeLocation, name.c_str());
+
+	_attributeLocation += numComponents / numComponentsPerLocations;
+
+	_attributes->emplace_back(_attributeLocation, numComponents);
 }
 
 void ShaderProgram::assoicateMesh(Mesh* mesh)
@@ -244,7 +252,7 @@ void ShaderProgram::printProgramLog(GLuint program)
 		delete[] log;
 	}
 	else{
-		std::cout << "Invalid program ID" << std::endl;
+		sglReportError("Invalid program id");
 	}
 }
 
@@ -261,7 +269,6 @@ void ShaderProgram::printShaderLog(GLuint shader)
 
 		glGetShaderInfoLog(shader, len, &lenLog, log);
 		if (lenLog > 0){
-			//std::cout << log << std::endl;
 			sglReportError(std::string(log));
 		}
 
@@ -269,7 +276,7 @@ void ShaderProgram::printShaderLog(GLuint shader)
 
 	}
 	else{
-		std::cout << "Invalid shader ID" << std::endl;
+		sglReportError("Invalid program id");
 	}
 }
 

@@ -67,6 +67,8 @@ namespace sgl{
 			Locations start at 0
 		*/
 		void addAttribute(const std::string &name, int numComponents);
+
+		void addAttribute(const std::string &name, int numComponents, int numComponentsPerLocations);
 		
 		/**
 			Associates the given mesh with this shader.
@@ -109,7 +111,7 @@ namespace sgl{
 		GLuint _fragmentShader;
 
 		//! attribute location
-		int _numAttributes;
+		int _attributeLocation;
 
 		//! store attributes
 		std::vector<VertexAttribute>* _attributes;
