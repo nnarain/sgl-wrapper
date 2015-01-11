@@ -77,8 +77,13 @@ void ShaderProgram::addAttribute(const std::string &name, int numComponents)
 	glBindAttribLocation(_programID, _numAttributes, name.c_str());
 
 	VertexAttribute attrib;
-	attrib.loc = _numAttributes++;
+	attrib.loc = _numAttributes;
 	attrib.numComponents = numComponents;
+
+	// maximum component size is 4
+	// if a component is more than 4 (i.e. a MAT4 for instanced rendering)
+	// the location has to adjusted accordingly
+	_numAttributes += (numComponents > 4) ? (numComponents / 4) : 1;
 
 	(*_attributes).push_back(attrib);
 }
@@ -214,6 +219,11 @@ GLuint ShaderProgram::getAttributeLocation(const std::string &name)
 GLuint ShaderProgram::getUniformLocation(const std::string &name)
 {
 	return glGetUniformLocation(_programID, name.c_str());
+}
+
+const VertexAttribute & ShaderProgram::getVertexAttribute(int idx) const
+{
+	return (*_attributes)[idx];
 }
 
 void ShaderProgram::printProgramLog(GLuint program)

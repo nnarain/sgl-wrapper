@@ -19,6 +19,7 @@ namespace sgl
 		void unbind();
 
 		void data(void * buffer, int size);
+		void subData(void * buffer, int offset, int size);
 
 		void setUsage(GLenum usage);
 

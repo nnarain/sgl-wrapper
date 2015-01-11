@@ -1,6 +1,8 @@
 
 #include "SGL/ArrayBuffer.h"
 
+#include "SGL/SGLException.h"
+
 using namespace sgl;
 
 ArrayBuffer::ArrayBuffer() : IGLBuffer(GL_ARRAY_BUFFER)
@@ -23,6 +25,13 @@ void ArrayBuffer::unbind()
 void ArrayBuffer::data(void * buffer, int size)
 {
 	glBufferData(defaultTarget(), size, buffer, _usage);
+	sglCheckGLError();
+}
+
+void ArrayBuffer::subData(void * buffer, int offset, int size)
+{
+	glBufferSubData(defaultTarget(), offset, size, buffer);
+	sglCheckGLError();
 }
 
 void ArrayBuffer::setUsage(GLenum usage)

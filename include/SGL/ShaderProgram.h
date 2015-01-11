@@ -96,6 +96,10 @@ namespace sgl{
 		*/
 		GLuint getUniformLocation(const std::string &name);
 
+		/*  */
+
+		const VertexAttribute & getVertexAttribute(int idx) const;
+
 	private:
 		//! program handle
 		GLuint _programID;
