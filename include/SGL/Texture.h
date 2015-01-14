@@ -16,7 +16,7 @@ namespace sgl{
 	/**
 		Interface for OpenGL texture
 	*/
-	SGLCLASS Texture : public IGLBuffer
+	SGLCLASS Texture
 	{
 	public:
 		/* Types */
@@ -45,11 +45,6 @@ namespace sgl{
 		void bind(GLuint target);
 
 		/**
-			Bind to the default target
-		*/
-		void bind();
-
-		/**
 			Unbind to texture
 		*/
 		void unbind();
@@ -69,7 +64,15 @@ namespace sgl{
 		*/
 		TextureRegion region(float x, float y, float w, float h);
 
+		/*  */
+
+		GLuint handle();
+
+		bool isBound();
+
 	private:
+		GLuint _id;
+
 		//! width of texture
 		int _width;
 		//! height of texture
@@ -79,6 +82,9 @@ namespace sgl{
 		GLint _internalFormat;
 		//! format of pixel data
 		GLenum _format;
+
+		//!
+		bool _isBound;
 	};
 
 };
