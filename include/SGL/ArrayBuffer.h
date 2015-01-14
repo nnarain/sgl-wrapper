@@ -9,7 +9,7 @@
 
 namespace sgl
 {
-	SGLCLASS ArrayBuffer : public IGLBuffer
+	SGLCLASS ArrayBuffer
 	{
 	public:
 		ArrayBuffer();
@@ -24,6 +24,7 @@ namespace sgl
 		void setUsage(GLenum usage);
 
 	private:
+		GLuint _id;
 		GLenum _usage;
 
 		int _size;

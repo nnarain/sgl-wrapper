@@ -12,7 +12,7 @@ Features
 * Basic representation of 3D models
 	* translation, rotation, scaling
 	* vertex attributes (position, normals, texutures, colors)
-* Textures, FrameBuffers, RenderBuffers
+* Textures
 * Sprites, SpriteSheets and SpriteBatching
 
 

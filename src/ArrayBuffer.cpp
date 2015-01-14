@@ -5,32 +5,30 @@
 
 using namespace sgl;
 
-ArrayBuffer::ArrayBuffer() : IGLBuffer(GL_ARRAY_BUFFER)
+ArrayBuffer::ArrayBuffer()
 {
-	glGenBuffers(1, id());
+	glGenBuffers(1, &_id);
 }
 
 void ArrayBuffer::bind()
 {
-	IGLBuffer::bind();
-	glBindBuffer(defaultTarget(), handle());
+	glBindBuffer(GL_ARRAY_BUFFER, _id);
 }
 
 void ArrayBuffer::unbind()
 {
-	IGLBuffer::unbind();
-	glBindBuffer(defaultTarget(), 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void ArrayBuffer::data(void * buffer, int size)
 {
-	glBufferData(defaultTarget(), size, buffer, _usage);
+	glBufferData(GL_ARRAY_BUFFER, size, buffer, _usage);
 	sglCheckGLError();
 }
 
 void ArrayBuffer::subData(void * buffer, int offset, int size)
 {
-	glBufferSubData(defaultTarget(), offset, size, buffer);
+	glBufferSubData(GL_ARRAY_BUFFER, offset, size, buffer);
 	sglCheckGLError();
 }
 
@@ -41,5 +39,5 @@ void ArrayBuffer::setUsage(GLenum usage)
 
 ArrayBuffer::~ArrayBuffer()
 {
-	glDeleteBuffers(1, id());
+	glDeleteBuffers(1, &_id);
 }
