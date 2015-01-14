@@ -77,12 +77,7 @@ namespace sgl
 	private:
 		//! Vertex Array Object handle
 		GLuint _vao;
-
-		//! Buffer to store mesh data
-		ArrayBuffer _meshBuffer;
-
-		//! Buffer to store instance data
-		ArrayBuffer _instanceBuffer;
+		GLuint _vbo[2];
 
 		//! mesh attribute buffer
 		std::vector<VertexAttribute>* _meshAttributes;
@@ -94,6 +89,8 @@ namespace sgl
 		GLuint _drawType;
 		//! vertex count
 		GLuint _drawCount;
+		//!
+		GLenum _usage;
 
 		//! the number of instances to render
 		unsigned int _numInstances;

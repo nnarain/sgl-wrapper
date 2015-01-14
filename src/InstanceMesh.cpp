@@ -6,18 +6,20 @@
 
 using namespace sgl;
 
+#define MESH_BUFFER     0
+#define INSTANCE_BUFFER 1
+
 InstanceMesh::InstanceMesh(GLuint drawType, GLuint drawCount, GLenum usage)
 {
 	_drawType = drawType;
 	_drawCount = drawCount;
-
-	_meshBuffer.setUsage(GL_STATIC_DRAW);
-	_instanceBuffer.setUsage(usage);
+	_usage = usage;
 
 	_meshAttributes = new std::vector<VertexAttribute>();
 	_instanceAttributes = new std::vector<VertexAttribute>();
 
 	glGenVertexArrays(1, &_vao);
+	glGenBuffers(2, _vbo);
 }
 
 void InstanceMesh::bind()
@@ -40,8 +42,7 @@ void InstanceMesh::create(int meshStride, int instanceStride)
 	unsigned int i;
 
 	glBindVertexArray(_vao);
-
-	_meshBuffer.bind();
+	glBindBuffer(GL_ARRAY_BUFFER, _vbo[MESH_BUFFER]);
 
 	// enable and set offsets for the mesh vertex attributes
 	for (i = 0; i < _meshAttributes->size(); ++i)
@@ -49,12 +50,10 @@ void InstanceMesh::create(int meshStride, int instanceStride)
 		const VertexAttribute& attrib = (*_meshAttributes)[i];
 		setVertexPointers(attrib, (*_meshAttributes), i, meshStride);	
 	}
-	
-	_meshBuffer.unbind();
 
 	// enable and set the offsets for the instance vertex attributes
 
-	_instanceBuffer.bind();
+	glBindBuffer(GL_ARRAY_BUFFER, _vbo[INSTANCE_BUFFER]);
 
 	for (i = 0; i < _instanceAttributes->size(); ++i)
 	{
@@ -62,7 +61,8 @@ void InstanceMesh::create(int meshStride, int instanceStride)
 		setVertexPointers(attrib, *_instanceAttributes, i, instanceStride);
 	}
 
-	_instanceBuffer.unbind();
+	//_instanceBuffer.unbind();
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glBindVertexArray(0);
 }
@@ -140,16 +140,16 @@ void InstanceMesh::setInstances(unsigned int n)
 
 void InstanceMesh::setMeshData(void * buffer, int size)
 {
-	_meshBuffer.bind();
-	_meshBuffer.data(buffer, size);
-	_meshBuffer.unbind();
+	glBindBuffer(GL_ARRAY_BUFFER, _vbo[MESH_BUFFER]);
+	glBufferData(GL_ARRAY_BUFFER, size, buffer, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void InstanceMesh::setInstanceData(void * buffer, int size)
 {
-	_instanceBuffer.bind();
-	_instanceBuffer.data(buffer, size);
-	_instanceBuffer.unbind();
+	glBindBuffer(GL_ARRAY_BUFFER, _vbo[INSTANCE_BUFFER]);
+	glBufferData(GL_ARRAY_BUFFER, size, buffer, _usage);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 int InstanceMesh::offset(std::vector<VertexAttribute>& attrib, int idx)
@@ -171,4 +171,5 @@ InstanceMesh::~InstanceMesh()
 	delete _instanceAttributes;
 
 	glDeleteVertexArrays(1, &_vao);
+	glDeleteBuffers(2, _vbo);
 }
