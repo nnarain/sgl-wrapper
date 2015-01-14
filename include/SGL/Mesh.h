@@ -82,7 +82,7 @@ namespace sgl{
 		GLuint _vao;
 
 		//! Vertex Buffer Object
-		ArrayBuffer _vbo;
+		GLuint _vbo;
 
 		//! Type of primitive that the mesh is composed of
 		GLenum _drawType;
