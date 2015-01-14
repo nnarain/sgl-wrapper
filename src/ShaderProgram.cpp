@@ -75,13 +75,6 @@ void ShaderProgram::addAttribute(const std::string &name, int numComponents)
 {
 	glBindAttribLocation(_programID, _attributeLocation, name.c_str());
 
-	VertexAttribute attrib;
-	attrib.loc = _attributeLocation;
-	attrib.numComponents = numComponents;
-
-	// maximum component size is 4
-	// if a component is more than 4 (i.e. a MAT4 for instanced rendering)
-	// the location has to adjusted accordingly
 	_attributeLocation++;
 
 	_attributes->emplace_back(_attributeLocation, numComponents);
@@ -113,7 +106,11 @@ bool ShaderProgram::loadFromFile(const std::string &vertSource, const std::strin
 	std::ifstream fVertSource(vertSource.c_str());
 	std::ifstream fFragSource(fragSource.c_str());
 
-	if (!fVertSource.good() || !fFragSource.good()) return false;
+	if (!fVertSource.good() || !fFragSource.good())
+	{
+		sglReportError("shader file could not be found!");
+		return false;
+	}
 
 	std::string vsContent((std::istreambuf_iterator<char>(fVertSource)), std::istreambuf_iterator<char>());
 	std::string fsContent((std::istreambuf_iterator<char>(fFragSource)), std::istreambuf_iterator<char>());
