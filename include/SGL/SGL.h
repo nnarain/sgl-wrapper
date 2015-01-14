@@ -21,6 +21,7 @@
 #include "SpriteSheet.h"
 
 #include "Mesh.h"
+#include "InstanceMesh.h"
 #include "MeshGenerator.h"
 
 #include "Texture.h"

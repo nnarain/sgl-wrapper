@@ -2,7 +2,6 @@
 
 #include "SGL/SGLException.h"
 
-#include <iostream>
 #include <fstream>
 #include <cassert>
 
@@ -13,7 +12,7 @@ bool ShaderProgram::_inUse = false;
 ShaderProgram::ShaderProgram(void)
 {
 	_programID = 0;
-	_numAttributes = 0;
+	_attributeLocation = 0;
 
 	_attributes = new std::vector < VertexAttribute > ();
 
@@ -74,13 +73,20 @@ bool ShaderProgram::link()
 
 void ShaderProgram::addAttribute(const std::string &name, int numComponents)
 {
-	glBindAttribLocation(_programID, _numAttributes, name.c_str());
+	glBindAttribLocation(_programID, _attributeLocation, name.c_str());
 
-	VertexAttribute attrib;
-	attrib.loc = _numAttributes++;
-	attrib.numComponents = numComponents;
+	_attributeLocation++;
 
-	(*_attributes).push_back(attrib);
+	_attributes->emplace_back(_attributeLocation, numComponents);
+}
+
+void ShaderProgram::addAttribute(const std::string &name, int numComponents, int numComponentsPerLocations)
+{
+	glBindAttribLocation(_programID, _attributeLocation, name.c_str());
+
+	_attributeLocation += numComponents / numComponentsPerLocations;
+
+	_attributes->emplace_back(_attributeLocation, numComponents);
 }
 
 void ShaderProgram::assoicateMesh(Mesh* mesh)
@@ -100,7 +106,11 @@ bool ShaderProgram::loadFromFile(const std::string &vertSource, const std::strin
 	std::ifstream fVertSource(vertSource.c_str());
 	std::ifstream fFragSource(fragSource.c_str());
 
-	if (!fVertSource.good() || !fFragSource.good()) return false;
+	if (!fVertSource.good() || !fFragSource.good())
+	{
+		sglReportError("shader file could not be found!");
+		return false;
+	}
 
 	std::string vsContent((std::istreambuf_iterator<char>(fVertSource)), std::istreambuf_iterator<char>());
 	std::string fsContent((std::istreambuf_iterator<char>(fFragSource)), std::istreambuf_iterator<char>());
@@ -216,6 +226,11 @@ GLuint ShaderProgram::getUniformLocation(const std::string &name)
 	return glGetUniformLocation(_programID, name.c_str());
 }
 
+const VertexAttribute & ShaderProgram::getVertexAttribute(int idx) const
+{
+	return (*_attributes)[idx];
+}
+
 void ShaderProgram::printProgramLog(GLuint program)
 {
 	if (glIsProgram(program)){
@@ -234,7 +249,7 @@ void ShaderProgram::printProgramLog(GLuint program)
 		delete[] log;
 	}
 	else{
-		std::cout << "Invalid program ID" << std::endl;
+		sglReportError("Invalid program id");
 	}
 }
 
@@ -251,7 +266,6 @@ void ShaderProgram::printShaderLog(GLuint shader)
 
 		glGetShaderInfoLog(shader, len, &lenLog, log);
 		if (lenLog > 0){
-			//std::cout << log << std::endl;
 			sglReportError(std::string(log));
 		}
 
@@ -259,7 +273,7 @@ void ShaderProgram::printShaderLog(GLuint shader)
 
 	}
 	else{
-		std::cout << "Invalid shader ID" << std::endl;
+		sglReportError("Invalid program id");
 	}
 }
 
