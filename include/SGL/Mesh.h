@@ -7,8 +7,6 @@
 #include <GL/glew.h>
 
 #include "SGLExport.h"
-
-#include "ArrayBuffer.h"
 #include "VertexAttribute.h"
 
 #include <vector>

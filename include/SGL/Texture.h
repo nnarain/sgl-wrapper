@@ -7,7 +7,6 @@
 #include "SGLExport.h"
 
 #include <GL/glew.h>
-#include "IGLBuffer.h"
 
 #include <glm/vec2.hpp>
 
