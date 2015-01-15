@@ -32,15 +32,16 @@ namespace sgl{
 		ShaderProgram(void);
 		virtual ~ShaderProgram(void);
 
+		/* Load Shader program in various ways */
+
+		bool load(GLuint shader, const std::string &source);
+
+		bool loadFromFile(GLuint shader, const std::string & file);
+
 		/**
 			load the shader program from to files
 		*/
 		bool loadFromFile(const std::string& vertSource, const std::string& fragSource);
-
-		/**
-			Create the program directly
-		*/
-		bool createProgram(const GLchar*[], const GLchar*[]);
 
 		/**
 			bind the shader program

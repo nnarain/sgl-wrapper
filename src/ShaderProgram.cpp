@@ -11,7 +11,11 @@ bool ShaderProgram::_inUse = false;
 
 ShaderProgram::ShaderProgram(void)
 {
-	_programID = 0;
+	// allocate space for a shader program
+	_programID = glCreateProgram();
+	_vertexShader = 0;
+	_fragmentShader = 0;
+
 	_attributeLocation = 0;
 
 	_attributes = new std::vector < VertexAttribute > ();
@@ -103,82 +107,68 @@ void ShaderProgram::assoicateMesh(Mesh* mesh)
 
 bool ShaderProgram::loadFromFile(const std::string &vertSource, const std::string &fragSource)
 {
-	std::ifstream fVertSource(vertSource.c_str());
-	std::ifstream fFragSource(fragSource.c_str());
-
-	if (!fVertSource.good() || !fFragSource.good())
-	{
-		sglReportError("shader file could not be found!");
-		return false;
-	}
-
-	std::string vsContent((std::istreambuf_iterator<char>(fVertSource)), std::istreambuf_iterator<char>());
-	std::string fsContent((std::istreambuf_iterator<char>(fFragSource)), std::istreambuf_iterator<char>());
-
-	const GLchar* vs[] = { vsContent.c_str() };
-	const GLchar* fs[] = { fsContent.c_str() };
-
-	return createProgram(vs, fs);
+	// load the vertex and fragment shaders from a file pointed to by the strings
+	return loadFromFile(GL_VERTEX_SHADER, vertSource) && loadFromFile(GL_FRAGMENT_SHADER, fragSource);
 }
 
-bool ShaderProgram::createProgram(const GLchar* vs[], const GLchar* fs[])
+bool ShaderProgram::loadFromFile(GLuint shaderType, const std::string & filename)
 {
-	// allocate space for a shader program
-	_programID = glCreateProgram();
+	// open the file
+	std::ifstream file(filename.c_str());
 
-	// get the vertex shader source
-	_vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	if (!file.good()) return false;
+
+	std::string source((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
+	bool ret = load(shaderType, source);
+
+	file.close();
+
+	return ret;
+}
+
+bool ShaderProgram::load(GLuint shaderType, const std::string & source)
+{
+	assert(shaderType == GL_VERTEX_SHADER || shaderType == GL_FRAGMENT_SHADER && "Invalid argument");
+
+	// set which shader handle to set
+	GLuint * shader;
+	switch (shaderType)
+	{
+	case GL_VERTEX_SHADER:
+		shader = &_vertexShader;
+		break;
+	case GL_FRAGMENT_SHADER:
+		shader = &_fragmentShader;
+		break;
+	}
+
+	// allocate a shader
+	*shader = glCreateShader(shaderType);
 
 	// set the shader source
-	glShaderSource(_vertexShader, 1, vs, NULL);
+	const GLchar * shaderSrc[] = { source.c_str() };
+	glShaderSource(*shader, 1, shaderSrc, NULL);
 
-	// verify shader
-	glCompileShader(_vertexShader);
+	// compile the shader
+	glCompileShader(*shader);
 
-	// check shader errors
+	// check compile status
 	GLint shaderCompiled = GL_FALSE;
-	glGetShaderiv(_vertexShader, GL_COMPILE_STATUS, &shaderCompiled);
+	glGetShaderiv(*shader, GL_COMPILE_STATUS, &shaderCompiled);
 
-	if (shaderCompiled != GL_TRUE){
-		//std::cout << "Unable to compile vertex shader" << std::endl;
-		printShaderLog(_vertexShader);
+	if (shaderCompiled != GL_TRUE)
+	{
 		return false;
 	}
 
-	// attach the compiled vertex shader
-	glAttachShader(_programID, _vertexShader);
-
-	// get the fragmenet shader source
-	_fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-	// set frag shader soource
-	glShaderSource(_fragmentShader, 1, fs, NULL);
-
-	glCompileShader(_fragmentShader);
-
-	shaderCompiled = GL_FALSE;
-	glGetShaderiv(_fragmentShader, GL_COMPILE_STATUS, &shaderCompiled);
-
-	if (shaderCompiled != GL_TRUE){
-		//std::cout << "Unable to compile fragment shader" << std::endl;
-		printShaderLog(_fragmentShader);
-		return false;
-	}
-
-	glAttachShader(_programID, _fragmentShader);
+	// attach the shader to the program
+	glAttachShader(_programID, *shader);
 
 	return true;
 }
 
-bool ShaderProgram::freeProgram()
-{
-	glDetachShader(_programID, _vertexShader);
-	glDetachShader(_programID, _fragmentShader);
-	glDeleteShader(_vertexShader);
-	glDeleteShader(_fragmentShader);
-	glDeleteProgram(_programID);
-	return true;
-}
+
 
 void ShaderProgram::attribute(const std::string &name, glm::vec3 v)
 {
@@ -276,6 +266,29 @@ void ShaderProgram::printShaderLog(GLuint shader)
 		sglReportError("Invalid program id");
 	}
 }
+
+bool ShaderProgram::freeProgram()
+{
+	if (_vertexShader != 0)
+	{
+		glDetachShader(_programID, _vertexShader);
+		glDeleteShader(_vertexShader);
+	}
+
+	if (_fragmentShader != 0)
+	{
+		glDetachShader(_programID, _fragmentShader);
+		glDeleteShader(_fragmentShader);
+	}
+	
+	if (_programID != 0)
+	{
+		glDeleteProgram(_programID);
+	}
+	
+	return true;
+}
+
 
 ShaderProgram::~ShaderProgram(void)
 {
