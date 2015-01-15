@@ -7,8 +7,6 @@
 #include <GL/glew.h>
 
 #include "SGLExport.h"
-
-#include "ArrayBuffer.h"
 #include "VertexAttribute.h"
 
 #include <vector>
@@ -82,7 +80,7 @@ namespace sgl{
 		GLuint _vao;
 
 		//! Vertex Buffer Object
-		ArrayBuffer _vbo;
+		GLuint _vbo;
 
 		//! Type of primitive that the mesh is composed of
 		GLenum _drawType;
