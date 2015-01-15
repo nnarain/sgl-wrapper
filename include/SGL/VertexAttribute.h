@@ -26,6 +26,19 @@ namespace sgl
 			numComponents = n;
 		}
 	};
+
+	//!
+	struct InstancedVertexAttriute
+	{
+		GLuint loc;
+		int size;
+
+		InstancedVertexAttriute(GLuint l, int s)
+		{
+			loc = l;
+			size = s;
+		}
+	};
 };
 
 #endif

@@ -4,34 +4,38 @@
 
 using namespace sgl;
 
-Texture::Texture(int width, int height, GLint internalFormat, GLenum format) : IGLBuffer(GL_TEXTURE_2D)
+Texture::Texture(int width, int height, GLint internalFormat, GLenum format)
 {
 	_width = width;
 	_height = height;
 	_internalFormat = internalFormat;
 	_format = format;
 
-	glGenTextures(1, id());
+	_isBound = false;
+
+	glGenTextures(1, &_id);
 }
 
-Texture::Texture(GLuint target, int width, int height, GLint internalFormat, GLenum format) : IGLBuffer(target)
+Texture::Texture(GLuint target, int width, int height, GLint internalFormat, GLenum format)
 {
 	_width = width;
 	_height = height;
 	_internalFormat = internalFormat;
 	_format = format;
 
-	glGenTextures(1, id());
+	_isBound = false;
+
+	glGenTextures(1, &_id);
 }
 
 void Texture::data(char* pixels)
 {
-	data(currentTarget(), pixels);
+	data(GL_TEXTURE_2D, pixels);
 }
 
 void Texture::data(GLuint target, char* pixels)
 {
-	assert(isBound() && "Texture has not been bound");
+	assert(_isBound && "Texture has not been bound");
 
 	glTexImage2D(target, 0, _internalFormat, _width, _height, 0, _format, GL_UNSIGNED_BYTE, pixels);
 	sglCheckGLError();
@@ -39,35 +43,31 @@ void Texture::data(GLuint target, char* pixels)
 
 void Texture::bind(GLuint target)
 {
-	IGLBuffer::bind(defaultTarget());
 	glActiveTexture(target);
-	glBindTexture(defaultTarget(), handle());
-}
+	glBindTexture(GL_TEXTURE_2D, _id);
 
-void Texture::bind()
-{
-	glBindTexture(defaultTarget(), handle());
+	_isBound = true;
 }
 
 void Texture::unbind()
 {
-	IGLBuffer::unbind();
-	glBindTexture(currentTarget(), 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	_isBound = false;
 }
 
 void Texture::parameter(GLenum name, GLint param)
 {
-	assert(isBound() && "Texture is not bound");
+	assert(_isBound && "Texture is not bound");
 
-	glTexParameteri(currentTarget(), name, param);
+	glTexParameteri(GL_TEXTURE_2D, name, param);
 	sglCheckGLError();
 }
 
 void Texture::parameter(GLenum name, GLfloat param)
 {
-	assert(isBound() && "Texture is not bound");
+	assert(_isBound && "Texture is not bound");
 
-	glTexParameterf(currentTarget(), name, param);
+	glTexParameterf(GL_TEXTURE_2D, name, param);
 	sglCheckGLError();
 }
 
@@ -108,7 +108,17 @@ Texture::TextureRegion Texture::region(float x, float y, float w, float h)
 	return region;
 }
 
+GLuint Texture::handle()
+{
+	return _id;
+}
+
+bool Texture::isBound()
+{
+	return _isBound;
+}
+
 Texture::~Texture()
 {
-	glDeleteTextures(1, id());
+	glDeleteTextures(1, &_id);
 }

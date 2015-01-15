@@ -21,12 +21,9 @@
 #include "SpriteSheet.h"
 
 #include "Mesh.h"
-#include "MeshGenerator.h"
+#include "InstanceMesh.h"
 
 #include "Texture.h"
-#include "FrameBuffer.h"
-#include "RenderBuffer.h"
-#include "Material.h"
 
 #include "SGLException.h"
 

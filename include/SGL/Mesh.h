@@ -78,7 +78,8 @@ namespace sgl{
 	private:
 		//! Handle to Vertex Array Object to save model state
 		GLuint _vao;
-		//! Handle to Vertex Buffer Object 
+
+		//! Vertex Buffer Object
 		GLuint _vbo;
 
 		//! Type of primitive that the mesh is composed of

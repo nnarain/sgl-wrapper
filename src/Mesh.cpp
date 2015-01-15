@@ -36,7 +36,6 @@ Mesh::Mesh()
 	// generate opengl buffers
 	glGenVertexArrays(1, &_vao);
 	glGenBuffers(1, &_vbo);
-	
 }
 
 void Mesh::create(void *data, int size, int stride)
@@ -67,6 +66,8 @@ void Mesh::create(void *data, int size, int stride)
 
 	//
 	unbind();
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	sglCheckGLError();
 }
