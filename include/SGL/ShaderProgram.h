@@ -68,14 +68,7 @@ namespace sgl{
 			Locations start at 0
 		*/
 		void addAttribute(const std::string &name, int numComponents);
-
 		void addAttribute(const std::string &name, int numComponents, int numComponentsPerLocations);
-		
-		/**
-			Associates the given mesh with this shader.
-			Meaning that the given mesh contains the corresponding shader attributes
-		*/
-		void assoicateMesh(Mesh* mesh);
 
 		/* Passes the value the corresponding attribute in the shader */
 
@@ -85,10 +78,13 @@ namespace sgl{
 
 		void uniform(const std::string &name, glm::mat3 value);
 		void uniform(const std::string &name, glm::mat4 value);
+
 		void uniform(const std::string &name, glm::vec3 value);
 		void uniform(const std::string &name, glm::vec4 value);
 
 		void uniform(const std::string &name, int value);
+
+		void uniform(const std::string &name, float value);
 
 		/**
 			Get the specified vertex attribute location
@@ -99,9 +95,15 @@ namespace sgl{
 		*/
 		GLuint getUniformLocation(const std::string &name);
 
-		/*  */
+		/**
+			@return vector containing vertex attributes
+		*/
+		const std::vector<VertexAttribute> & getVertexAttributes() const;
 
-		const VertexAttribute & getVertexAttribute(int idx) const;
+		/**
+			@return the program handle
+		*/
+		GLuint handle() const;
 
 	private:
 		//! program handle

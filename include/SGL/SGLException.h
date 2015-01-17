@@ -15,6 +15,12 @@
 #include <GL/glew.h>
 #include <string>
 
+#ifdef SGL_DEBUG
+#	define checkGLError() sglCheckGLError()
+#else
+#	define checkGLError()
+#endif
+
 namespace sgl
 {
 	typedef void(*SGLErrorCallback)(std::string what);

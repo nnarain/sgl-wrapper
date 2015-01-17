@@ -41,11 +41,11 @@ SpriteBatch::SpriteBatch()
 	_mesh->addAttribute(VertexAttribute(1, 2));
 
 	//
-	_glyphs = new std::vector<Glyph>();
-	_glyphPointers = new std::vector<Glyph*>();
+	_shader = NULL;
 
 	//
-	_isActive = false;
+	_glyphs = new std::vector<Glyph>();
+	_glyphPointers = new std::vector<Glyph*>();
 }
 
 void SpriteBatch::begin(ShaderProgram* shader)
@@ -54,8 +54,6 @@ void SpriteBatch::begin(ShaderProgram* shader)
 
 	_shader = shader;
 	_shader->begin();
-
-	_isActive = true;
 }
 
 void SpriteBatch::draw(Sprite& sprite)
@@ -85,8 +83,6 @@ void SpriteBatch::draw(Sprite& sprite, bool flipH, bool flipV)
 
 void SpriteBatch::draw(Quad& quad, Texture::TextureRegion& region, Texture* texture)
 {
-	assert(_isActive && "SpriteBatch::draw : SpriteBatch has not been started!");
-
 	_glyphs->emplace_back(quad, region, texture);
 }
 
@@ -164,7 +160,7 @@ void SpriteBatch::render(Texture* texture, std::vector<Vertex> *batch)
 
 void SpriteBatch::end()
 {
-	assert(_isActive && "SpriteBatch::end : SpriteBatch has not been started!");
+	assert(_shader != NULL && "Shader program is null!");
 
 	// add glyph pointers to buffer
 	int size = _glyphs->size();
