@@ -93,18 +93,6 @@ void ShaderProgram::addAttribute(const std::string &name, int numComponents, int
 	_attributes->emplace_back(_attributeLocation, numComponents);
 }
 
-void ShaderProgram::assoicateMesh(Mesh* mesh)
-{
-	int i;
-	const int size = _attributes->size();
-
-	// add the shader attributes to the mesh 
-	for (i = 0; i < size; i++)
-	{
-		mesh->addAttribute((*_attributes)[i]);
-	}
-}
-
 bool ShaderProgram::loadFromFile(const std::string &vertSource, const std::string &fragSource)
 {
 	// load the vertex and fragment shaders from a file pointed to by the strings
@@ -159,6 +147,7 @@ bool ShaderProgram::load(GLuint shaderType, const std::string & source)
 
 	if (shaderCompiled != GL_TRUE)
 	{
+		printShaderLog(*shader);
 		return false;
 	}
 
@@ -168,42 +157,46 @@ bool ShaderProgram::load(GLuint shaderType, const std::string & source)
 	return true;
 }
 
-
-
 void ShaderProgram::attribute(const std::string &name, glm::vec3 v)
 {
 	glUniform3f(getAttributeLocation(name), v.x, v.y, v.z);
-	sglCheckGLError();
+	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, glm::mat3 m)
 {
 	glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &m[0][0]);
-	sglCheckGLError();
+	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, glm::mat4 m)
 {
 	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &m[0][0]);
-	sglCheckGLError();
+	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, glm::vec3 v)
 {
 	glUniform3f(getUniformLocation(name), v.x, v.y, v.z);
-	sglCheckGLError();
+	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, glm::vec4 v)
 {
 	glUniform4f(getUniformLocation(name), v.x, v.y, v.z, v.w);
-	sglCheckGLError();
+	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, int value)
 {
 	glUniform1i(getUniformLocation(name), value);
-	sglCheckGLError();
+	checkGLError();
+}
+
+void ShaderProgram::uniform(const std::string &name, float value)
+{
+	glUniform1f(getUniformLocation(name), value);
+	checkGLError();
 }
 
 GLuint ShaderProgram::getAttributeLocation(const std::string &name)
@@ -216,9 +209,14 @@ GLuint ShaderProgram::getUniformLocation(const std::string &name)
 	return glGetUniformLocation(_programID, name.c_str());
 }
 
-const VertexAttribute & ShaderProgram::getVertexAttribute(int idx) const
+const std::vector<VertexAttribute> & ShaderProgram::getVertexAttributes() const
 {
-	return (*_attributes)[idx];
+	return (*_attributes);
+}
+
+GLuint ShaderProgram::handle() const
+{
+	return _programID;
 }
 
 void ShaderProgram::printProgramLog(GLuint program)

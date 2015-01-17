@@ -32,10 +32,10 @@ namespace sgl{
 				Draw usage
 		*/
 		Mesh(GLenum drawType, int drawCount, GLenum usage);
-
 		Mesh(void);
-
 		~Mesh(void);
+
+		/* Public Functions */
 		
 		/**
 			Create the vertex buffer
@@ -74,6 +74,11 @@ namespace sgl{
 		/**
 		*/
 		void setDrawCount(GLint count);
+
+		/**
+			@return handle to underlying VBO
+		*/
+		GLuint handle() const;
 
 	private:
 		//! Handle to Vertex Array Object to save model state
