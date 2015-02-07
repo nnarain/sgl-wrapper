@@ -31,12 +31,16 @@ This command should do the trick:
 /> cmake -G "Visual Studio 12" C:\path\to\src
 ```
 
+Also Note: Assertions are used in library code, disable with:
+
+```C++
+#define NDEBUG
+```
+
 Examples
 --------
 
 TODO
 ----
-* Orthographic and Perspective Camera?
-* Camera Controller
 * Test with Qt and on Linux
 * Make examples

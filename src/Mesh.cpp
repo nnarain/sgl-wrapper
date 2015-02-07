@@ -108,6 +108,11 @@ void Mesh::setDrawCount(GLint count)
 	_drawCount = count;
 }
 
+GLuint Mesh::handle() const
+{
+	return _vbo;
+}
+
 int Mesh::offset(int idx)
 {
 	int i;
