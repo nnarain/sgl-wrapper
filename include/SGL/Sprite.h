@@ -10,7 +10,7 @@
 #include "Geometry.h"
 
 // math
-#include <glm/vec2.hpp>
+#include <glm/glm.hpp>
 
 namespace sgl
 {

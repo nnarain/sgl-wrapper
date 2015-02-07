@@ -14,8 +14,7 @@
 #include "VertexAttribute.h"
 #include "Mesh.h"
 
-#include <glm/mat3x3.hpp>
-#include <glm/mat4x4.hpp>
+#include <glm/glm.hpp>
 
 #include <string>
 #include <vector>
