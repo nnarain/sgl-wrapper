@@ -5,10 +5,9 @@
 #define CAMERA_H
 
 #include "SGLExport.h"
-
-#include <glm/mat4x4.hpp>
-#include <glm/vec3.hpp>
 #include "Geometry.h"
+
+#include <glm/glm.hpp>
 
 namespace sgl{
 

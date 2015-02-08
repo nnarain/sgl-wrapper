@@ -98,6 +98,11 @@ void Mesh::addAttribute(VertexAttribute attrib)
 	_attribs->push_back(attrib);
 }
 
+void Mesh::setDrawType(GLenum drawtype)
+{
+	_drawType = drawtype;
+}
+
 void Mesh::setDrawCount(GLint count)
 {
 	_drawCount = count;

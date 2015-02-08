@@ -73,6 +73,10 @@ namespace sgl{
 
 		/**
 		*/
+		void setDrawType(GLenum);
+
+		/**
+		*/
 		void setDrawCount(GLint count);
 
 		/**

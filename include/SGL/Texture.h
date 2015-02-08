@@ -7,8 +7,7 @@
 #include "SGLExport.h"
 
 #include <GL/glew.h>
-
-#include <glm/vec2.hpp>
+#include <glm/glm.hpp>
 
 namespace sgl{
 
