@@ -1,8 +1,10 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include <memory>
 
 #include "SGLExport.h"
+
+#include <glm/glm.hpp>
 
 namespace sgl{
 
