@@ -33,6 +33,10 @@ namespace sgl
 				The texture that the sprite uses
 		*/
 		Sprite(float x, float y, float width, float height, Texture* tex);
+		Sprite(const Sprite&);
+		Sprite& operator=(Sprite);
+		friend void swap(Sprite&, Sprite&);
+
 		~Sprite();
 
 		void flip(bool h, bool v);
@@ -71,6 +75,8 @@ namespace sgl
 		//! flag to update the quad
 		bool _updateQuad;
 	};
+
+
 };
 
 #endif
