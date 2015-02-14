@@ -118,6 +118,14 @@ glm::mat3 Entity::getNormalMatrix()
 	return glm::transpose(glm::inverse(glm::mat3(getModelMatrix())));
 }
 
+void Entity::operator=(const Entity& that)
+{
+	*_pos = *that._pos;
+	*_angle = *that._angle;
+	*_scale = *that._scale;
+	_transformReCalcRequired = true;
+}
+
 Entity::~Entity(void)
 {
 	delete _angle;
