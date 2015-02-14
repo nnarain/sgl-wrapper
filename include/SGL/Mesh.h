@@ -34,7 +34,7 @@ namespace sgl{
 		Mesh(GLenum drawType, int drawCount, GLenum usage);
 		Mesh(void);
 		Mesh(const Mesh&);
-		void operator=(const Mesh&);
+		Mesh& operator=(const Mesh&);
 
 		~Mesh(void);
 
@@ -81,6 +81,10 @@ namespace sgl{
 		/**
 		*/
 		void setDrawCount(GLint count);
+
+		/**
+		*/
+		const std::vector<VertexAttribute> &getVertexAttributes() const;
 
 		/**
 			@return handle to underlying VBO

@@ -22,6 +22,9 @@ namespace sgl
 			
 		*/
 		InstanceMesh(GLuint drawType, GLuint drawCount, GLenum usage);
+		InstanceMesh(const InstanceMesh&);
+		InstanceMesh& operator=(const InstanceMesh&);
+
 		~InstanceMesh();
 
 		void bind();
@@ -71,6 +74,9 @@ namespace sgl
 		/* Getter & Setter */
 
 		void setInstances(unsigned int n);
+
+		const std::vector<VertexAttribute> &getMeshAttributes() const;
+		const std::vector<VertexAttribute> &getInstanceAttributes() const;
 
 	private:
 		//! Vertex Array Object handle

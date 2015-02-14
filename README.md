@@ -1,7 +1,7 @@
 SGL Wrapper
 ===========
 
-Simple OpenGL Wrapper. A, very light weight and simplistic, C++ library for creating simple opengl projects.
+Simple OpenGL Wrapper. A, very light weight and simplistic, object oriented wrapper for OpenGL.
 
 
 Features
@@ -28,7 +28,7 @@ Note: This library compiles with Visual C++, GNU compiler **will not** work (yet
 This command should do the trick:
 
 ```bash
-/> cmake -G "Visual Studio 12" C:\path\to\src
+/> cmake -G "Visual Studio 12" C:\path\to\project
 ```
 
 Also Note: Assertions are used in library code, disable with:
