@@ -12,6 +12,15 @@ Entity::Entity(void) :
 {
 }
 
+Entity::Entity(const Entity& that) :
+	_pos(new glm::vec4(*that._pos)),
+	_angle(new glm::vec3(*that._angle)),
+	_scale(new glm::vec3(*that._scale)),
+	_transform(new glm::mat4),
+	_transformReCalcRequired(true)
+{
+}
+
 void Entity::translate(glm::vec3 t)
 {
 	translate(t.x, t.y, t.z);

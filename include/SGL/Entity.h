@@ -16,6 +16,8 @@ namespace sgl{
 	public:
 
 		Entity(void);
+		Entity(const Entity&);
+
 		~Entity(void);
 
 		void translate(glm::vec3);
