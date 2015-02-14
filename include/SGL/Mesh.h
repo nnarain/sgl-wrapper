@@ -33,6 +33,9 @@ namespace sgl{
 		*/
 		Mesh(GLenum drawType, int drawCount, GLenum usage);
 		Mesh(void);
+		Mesh(const Mesh&);
+		void operator=(const Mesh&);
+
 		~Mesh(void);
 
 		/* Public Functions */
