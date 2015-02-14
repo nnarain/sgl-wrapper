@@ -27,9 +27,14 @@ namespace sgl{
 	SGLCLASS ShaderProgram
 	{
 	public:
-
 		ShaderProgram(void);
 		virtual ~ShaderProgram(void);
+
+	private:
+		ShaderProgram(const ShaderProgram&);
+		ShaderProgram& operator=(const ShaderProgram&);
+
+	public:
 
 		/* Load Shader program in various ways */
 

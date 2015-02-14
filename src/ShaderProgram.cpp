@@ -9,18 +9,15 @@ using namespace sgl;
 
 bool ShaderProgram::_inUse = false;
 
-ShaderProgram::ShaderProgram(void)
+ShaderProgram::ShaderProgram(void) :
+	_vertexShader(0),
+	_fragmentShader(0),
+	_attributeLocation(0),
+	_attributes(new std::vector<VertexAttribute>),
+	_isActive(false)
 {
 	// allocate space for a shader program
 	_programID = glCreateProgram();
-	_vertexShader = 0;
-	_fragmentShader = 0;
-
-	_attributeLocation = 0;
-
-	_attributes = new std::vector < VertexAttribute > ();
-
-	_isActive = false;
 }
 
 bool ShaderProgram::bind()
