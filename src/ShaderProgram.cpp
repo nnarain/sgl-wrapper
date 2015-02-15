@@ -126,6 +126,9 @@ bool ShaderProgram::load(Type shaderType, const std::string & source)
 	case GL_FRAGMENT_SHADER:
 		shader = &_fragmentShader;
 		break;
+	default:
+		throw SGLException("Invalid Shader Type");
+		break;
 	}
 
 	// allocate a shader
