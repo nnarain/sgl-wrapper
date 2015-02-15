@@ -31,7 +31,10 @@ namespace sgl{
 		/* Constructors */
 
 		Texture(int width, int height, GLint internalFormat, GLenum format);
-		Texture(GLuint target, int width, int height, GLint internalFormal, GLenum format);
+		
+		Texture(const Texture &that);
+		Texture& operator=(Texture);
+		friend void swap(Texture&, Texture&);
 		~Texture(void);
 
 		void data(char* pixels);

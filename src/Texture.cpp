@@ -2,31 +2,33 @@
 #include "SGL/Texture.h"
 #include "SGL/SGLException.h"
 
+#include <memory>
+#include <algorithm>
+
 using namespace sgl;
 
-Texture::Texture(int width, int height, GLint internalFormat, GLenum format)
+Texture::Texture(int width, int height, GLint internalFormat, GLenum format) :
+	_width(width),
+	_height(height),
+	_internalFormat(internalFormat),
+	_format(format),
+	_isBound(false)
 {
-	_width = width;
-	_height = height;
-	_internalFormat = internalFormat;
-	_format = format;
-
-	_isBound = false;
-
 	glGenTextures(1, &_id);
 }
 
-Texture::Texture(GLuint target, int width, int height, GLint internalFormat, GLenum format)
+Texture::Texture(const Texture& that) : Texture(that._width, that._height, that._internalFormat, that._format)
 {
-	_width = width;
-	_height = height;
-	_internalFormat = internalFormat;
-	_format = format;
+	char *pixels = new char[_width * _height];
 
-	_isBound = false;
+	// get the texture data
+	glBindTexture(GL_TEXTURE_2D, _id);
+	glGetTexImage(GL_TEXTURE_2D, 0, _format, GL_UNSIGNED_BYTE, pixels);
 
-	glGenTextures(1, &_id);
+	// set into new texture
+	data(pixels);
 }
+
 
 void Texture::data(char* pixels)
 {
@@ -116,6 +118,24 @@ GLuint Texture::handle()
 bool Texture::isBound()
 {
 	return _isBound;
+}
+
+void sgl::swap(Texture& first, Texture& second)
+{
+	using std::swap;
+
+	swap(first._format, second._format);
+	swap(first._height, second._height);
+	swap(first._id, second._id);
+	swap(first._internalFormat, second._internalFormat);
+	swap(first._isBound, second._isBound);
+	swap(first._width, second._width);
+}
+
+Texture& Texture::operator=(Texture that)
+{
+	swap(*this, that);
+	return *this;
 }
 
 Texture::~Texture()
