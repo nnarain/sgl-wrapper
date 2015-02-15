@@ -24,6 +24,7 @@ namespace sgl
 	public:
 		SGLException();
 		SGLException(const std::string& what);
+		SGLException(const char *what);
 		~SGLException();
 
 		const char *what() const throw();

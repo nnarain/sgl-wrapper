@@ -13,6 +13,11 @@ SGLException::SGLException(const std::string& what) :
 {
 }
 
+SGLException::SGLException(const char *what) : 
+	_msg(new std::string(what))
+{
+}
+
 const char *SGLException::what() const throw()
 {
 	return _msg->c_str();
