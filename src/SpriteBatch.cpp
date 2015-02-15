@@ -32,20 +32,15 @@ SpriteBatch::Glyph::Glyph(Quad& quad, Texture::TextureRegion& region, Texture* t
 
 /* SpriteBatch */
 
-SpriteBatch::SpriteBatch()
+SpriteBatch::SpriteBatch() :
+	_mesh(new Mesh(GL_TRIANGLES, 0, GL_STREAM_DRAW)),
+	_shader(NULL),
+	_glyphs(new std::vector<Glyph>),
+	_glyphPointers(new std::vector<Glyph*>)
 {
-	_mesh = new Mesh(GL_TRIANGLES, 0, GL_STREAM_DRAW);
-
 	// bind position and texture coordinate attributes
 	_mesh->addAttribute(VertexAttribute(0, 2));
 	_mesh->addAttribute(VertexAttribute(1, 2));
-
-	//
-	_shader = NULL;
-
-	//
-	_glyphs = new std::vector<Glyph>();
-	_glyphPointers = new std::vector<Glyph*>();
 }
 
 void SpriteBatch::begin(ShaderProgram* shader)
