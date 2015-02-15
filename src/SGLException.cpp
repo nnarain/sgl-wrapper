@@ -18,7 +18,7 @@ SGLException::SGLException(const char *what) :
 {
 }
 
-const char *SGLException::what() const throw()
+const char *SGLException::what()
 {
 	return _msg->c_str();
 }
