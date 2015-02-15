@@ -5,35 +5,33 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
+#include <algorithm>
+
 using namespace sgl;
 
 Camera::Camera()
 {
 }
 
-Camera::Camera(float fov, float viewportWidth, float viewportHeight)
+Camera::Camera(float fov, float viewportWidth, float viewportHeight) :
+	_fov(fov),
+	_nearClipping(0.1f),
+	_farClipping(100.0f),
+	_viewportWidth(viewportWidth),
+	_viewportHeight(viewportHeight),
+	_proj(new glm::mat4),
+	_view(new glm::mat4),
+	_target(new glm::vec3),
+	_up(new glm::vec3(0,1,0)),
+	_right(new glm::vec3),
+	_look(new glm::vec3)
 {
-	// set deafult near and far clipping planes
-	_nearClipping = 0.1f;
-	_farClipping = 100.0f;
-
-	_viewportWidth = viewportWidth;
-	_viewportHeight = viewportHeight;
-
-	// calculate screen ratio using viewport dimensions and create the projection matrix
-	_proj = new glm::mat4;
-	_view = new glm::mat4;
-
-	float aspectRatio = viewportWidth / viewportHeight;
+	float aspectRatio = _viewportWidth / _viewportHeight;
 	*_proj = glm::perspective(fov, aspectRatio, _nearClipping, _farClipping);
+}
 
-	//
-	_target = new glm::vec3(0, 0, -10);
-	_pos = new glm::vec3(0, 0, 0);
-	_up = new glm::vec3(0, 1, 0);
-
-	_right = new glm::vec3;
-	_look = new glm::vec3;
+Camera::Camera(const Camera& that) : Camera::Camera(that._fov, that._viewportWidth, that._viewportHeight)
+{
 }
 
 void Camera::update()
@@ -155,6 +153,28 @@ glm::vec3 Camera::getLookDirection() const
 glm::vec3 Camera::getRightDirection() const
 {
 	return *_right;
+}
+
+void sgl::swap(Camera& first, Camera& second)
+{
+	using std::swap;
+
+	swap(first._fov, second._fov);
+	swap(first._pos, second._pos);
+	swap(first._target, second._target);
+	swap(first._proj, second._proj);
+	swap(first._view, second._view);
+	swap(first._farClipping, second._farClipping);
+	swap(first._nearClipping, second._nearClipping);
+	swap(first._up, second._up);
+	swap(first._look, second._look);
+	swap(first._right, second._right);
+}
+
+Camera& Camera::operator=(Camera that)
+{
+	swap(*this, that);
+	return *this;
 }
 
 Camera::~Camera()

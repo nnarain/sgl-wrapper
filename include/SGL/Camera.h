@@ -32,6 +32,9 @@ namespace sgl{
 				height of your viewport
 		*/
 		Camera(float fov, float viewportWidth, float viewportHeight);
+		Camera(const Camera&);
+		Camera& operator=(Camera);
+		friend void swap(Camera&, Camera&);
 		~Camera(void);
 
 		/**
@@ -118,6 +121,8 @@ namespace sgl{
 		//! camera view
 		glm::mat4* _view;
 
+		//! field of view
+		float _fov;
 		//!
 		float _viewportWidth;
 		//!
