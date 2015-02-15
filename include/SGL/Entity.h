@@ -17,7 +17,8 @@ namespace sgl{
 
 		Entity(void);
 		Entity(const Entity&);
-		void operator=(const Entity&);
+		Entity& operator=(Entity);
+		friend void swap(Entity&, Entity&);
 
 		~Entity(void);
 

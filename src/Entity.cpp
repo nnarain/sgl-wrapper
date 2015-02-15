@@ -1,6 +1,8 @@
 #include "SGL/Entity.h"
 #include <glm/gtx/transform.hpp>
 
+#include <algorithm>
+
 using namespace sgl;
 
 Entity::Entity(void) :
@@ -118,16 +120,26 @@ glm::mat3 Entity::getNormalMatrix()
 	return glm::transpose(glm::inverse(glm::mat3(getModelMatrix())));
 }
 
-void Entity::operator=(const Entity& that)
+void sgl::swap(Entity& e1, Entity& e2)
 {
-	*_pos = *that._pos;
-	*_angle = *that._angle;
-	*_scale = *that._scale;
-	_transformReCalcRequired = true;
+	using std::swap;
+
+	swap(e1._angle, e2._angle);
+	swap(e1._pos, e2._pos);
+	swap(e1._scale, e2._scale);
+	swap(e1._transform, e2._transform);
+	swap(e1._transformReCalcRequired, e2._transformReCalcRequired);
+}
+
+Entity& Entity::operator=(Entity that)
+{
+	swap(*this, that);
+	return *this;
 }
 
 Entity::~Entity(void)
 {
+	delete _pos;
 	delete _angle;
 	delete _scale;
 	delete _transform;
