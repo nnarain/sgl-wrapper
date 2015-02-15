@@ -93,10 +93,10 @@ void ShaderProgram::addAttribute(const std::string &name, int numComponents, int
 bool ShaderProgram::loadFromFile(const std::string &vertSource, const std::string &fragSource)
 {
 	// load the vertex and fragment shaders from a file pointed to by the strings
-	return loadFromFile(GL_VERTEX_SHADER, vertSource) && loadFromFile(GL_FRAGMENT_SHADER, fragSource);
+	return loadFromFile(Type::VERTEX, vertSource) && loadFromFile(Type::FRAGMENT, fragSource);
 }
 
-bool ShaderProgram::loadFromFile(GLuint shaderType, const std::string & filename)
+bool ShaderProgram::loadFromFile(Type shaderType, const std::string & filename)
 {
 	// open the file
 	std::ifstream file(filename.c_str());
@@ -112,13 +112,13 @@ bool ShaderProgram::loadFromFile(GLuint shaderType, const std::string & filename
 	return ret;
 }
 
-bool ShaderProgram::load(GLuint shaderType, const std::string & source)
+bool ShaderProgram::load(Type shaderType, const std::string & source)
 {
-	assert(shaderType == GL_VERTEX_SHADER || shaderType == GL_FRAGMENT_SHADER && "Invalid argument");
+	GLuint type = static_cast<GLuint>(shaderType);
 
 	// set which shader handle to set
 	GLuint * shader;
-	switch (shaderType)
+	switch (type)
 	{
 	case GL_VERTEX_SHADER:
 		shader = &_vertexShader;
@@ -129,7 +129,7 @@ bool ShaderProgram::load(GLuint shaderType, const std::string & source)
 	}
 
 	// allocate a shader
-	*shader = glCreateShader(shaderType);
+	*shader = glCreateShader(type);
 
 	// set the shader source
 	const GLchar * shaderSrc[] = { source.c_str() };

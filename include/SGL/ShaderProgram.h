@@ -37,11 +37,18 @@ namespace sgl{
 
 	public:
 
+		/* Types */
+		enum class Type
+		{
+			VERTEX   = GL_VERTEX_SHADER,
+			FRAGMENT = GL_FRAGMENT_SHADER
+		};
+
 		/* Load Shader program in various ways */
 
-		bool load(GLuint shader, const std::string &source);
+		bool load(Type shader, const std::string &source);
 
-		bool loadFromFile(GLuint shader, const std::string & file);
+		bool loadFromFile(Type shader, const std::string & file);
 
 		/**
 			load the shader program from to files
