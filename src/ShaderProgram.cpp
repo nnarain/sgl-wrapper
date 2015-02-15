@@ -221,7 +221,7 @@ void ShaderProgram::printProgramLog(GLuint program)
 
 		glGetProgramInfoLog(program, len, &logLength, log);
 		if (logLength > 0){
-			
+			throw SGLException(log);
 		}
 
 		delete[] log;
@@ -244,7 +244,7 @@ void ShaderProgram::printShaderLog(GLuint shader)
 
 		glGetShaderInfoLog(shader, len, &lenLog, log);
 		if (lenLog > 0){
-			
+			throw SGLException(log);
 		}
 
 		delete[] log;
