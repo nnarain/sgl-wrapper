@@ -1,54 +1,24 @@
 
 #include "SGL/SGLException.h"
 
-static sgl::SGLErrorCallback _sglError;
+using namespace sgl;
 
-void sgl::setErrorCallback(SGLErrorCallback callback)
+SGLException::SGLException() :
+	_msg(new std::string("An opengl error occurred"))
 {
-	_sglError = callback;
 }
 
-void sgl::sglCheckGLError()
+SGLException::SGLException(const std::string& what) :
+	_msg(new std::string(what))
 {
-	GLenum error = glGetError();
-	std::string what;
-
-	if (error != GL_NO_ERROR)
-	{
-		switch (error)
-		{
-		case GL_INVALID_ENUM:
-			what =  "invalid enum";
-			break;
-		case GL_INVALID_VALUE:
-			what = "invalid value";
-			break;
-		case GL_INVALID_OPERATION:
-			what = "invalid operation";
-			break;
-		case GL_INVALID_FRAMEBUFFER_OPERATION:
-			what = "invalid frame buffer";
-			break;
-		case GL_OUT_OF_MEMORY:
-			what = "out of memeory";
-			break;
-		case GL_STACK_UNDERFLOW:
-			what = "stack underflow";
-			break;
-		case GL_STACK_OVERFLOW:
-			what = "stack overflow";
-			break;
-		default:
-			what = "unknown";
-			break;
-		}
-
-		sglReportError(what);
-	}
 }
 
-void sgl::sglReportError(std::string what)
+const char *SGLException::what() const throw()
 {
-	if (_sglError != NULL) _sglError(what);
+	return _msg->c_str();
 }
 
+SGLException::~SGLException()
+{
+	delete _msg;
+}

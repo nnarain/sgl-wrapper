@@ -127,7 +127,7 @@ void InstanceMesh::setVertexPointers(const VertexAttribute& attrib, std::vector<
 		}
 	}
 
-	sglCheckGLError();
+
 }
 
 void InstanceMesh::addMeshAttribute(const VertexAttribute &a)

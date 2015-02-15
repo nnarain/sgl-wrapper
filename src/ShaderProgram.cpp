@@ -157,43 +157,36 @@ bool ShaderProgram::load(GLuint shaderType, const std::string & source)
 void ShaderProgram::attribute(const std::string &name, glm::vec3 v)
 {
 	glUniform3f(getAttributeLocation(name), v.x, v.y, v.z);
-	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, glm::mat3 m)
 {
 	glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &m[0][0]);
-	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, glm::mat4 m)
 {
 	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &m[0][0]);
-	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, glm::vec3 v)
 {
 	glUniform3f(getUniformLocation(name), v.x, v.y, v.z);
-	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, glm::vec4 v)
 {
 	glUniform4f(getUniformLocation(name), v.x, v.y, v.z, v.w);
-	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, int value)
 {
 	glUniform1i(getUniformLocation(name), value);
-	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, float value)
 {
 	glUniform1f(getUniformLocation(name), value);
-	checkGLError();
 }
 
 GLuint ShaderProgram::getAttributeLocation(const std::string &name)
@@ -228,13 +221,13 @@ void ShaderProgram::printProgramLog(GLuint program)
 
 		glGetProgramInfoLog(program, len, &logLength, log);
 		if (logLength > 0){
-			sglReportError(std::string(log));
+			
 		}
 
 		delete[] log;
 	}
 	else{
-		sglReportError("Invalid program id");
+		
 	}
 }
 
@@ -251,14 +244,14 @@ void ShaderProgram::printShaderLog(GLuint shader)
 
 		glGetShaderInfoLog(shader, len, &lenLog, log);
 		if (lenLog > 0){
-			sglReportError(std::string(log));
+			
 		}
 
 		delete[] log;
 
 	}
 	else{
-		sglReportError("Invalid program id");
+		
 	}
 }
 

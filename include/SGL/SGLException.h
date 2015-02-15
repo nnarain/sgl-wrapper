@@ -10,25 +10,26 @@
 #ifndef SGLEXCEPTION_H
 #define SGLEXCEPTION_H
 
-#include "SGLExport.h"
 
 #include <GL/glew.h>
-#include <string>
+#include "SGLExport.h"
 
-#ifdef SGL_DEBUG
-#	define checkGLError() sglCheckGLError()
-#else
-#	define checkGLError()
-#endif
+#include <exception>
+#include <string>
 
 namespace sgl
 {
-	typedef void(*SGLErrorCallback)(std::string what);
+	SGLCLASS SGLException : public std::exception
+	{
+	public:
+		SGLException();
+		SGLException(const std::string& what);
+		~SGLException();
 
-	SGLVOIDFUNC setErrorCallback(SGLErrorCallback callback);
-	
-	SGLVOIDFUNC sglCheckGLError();
-	SGLVOIDFUNC sglReportError(std::string what);
+		const char *what() const throw();
+	private:
+		std::string * _msg;
+	};
 };
 
 #endif

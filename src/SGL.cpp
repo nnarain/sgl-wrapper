@@ -11,9 +11,6 @@ namespace sgl
 			return false;
 		}
 
-		// set error callback to null
-		setErrorCallback(NULL);
-
 		return true;
 	}
 };

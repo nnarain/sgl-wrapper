@@ -67,7 +67,7 @@ void Mesh::create(void *data, int size, int stride)
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	sglCheckGLError();
+
 }
 
 void Mesh::bind()

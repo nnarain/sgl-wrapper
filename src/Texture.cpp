@@ -1,6 +1,5 @@
 
 #include "SGL/Texture.h"
-#include "SGL/SGLException.h"
 
 #include <memory>
 #include <algorithm>
@@ -40,7 +39,6 @@ void Texture::data(GLuint target, char* pixels)
 	assert(_isBound && "Texture has not been bound");
 
 	glTexImage2D(target, 0, _internalFormat, _width, _height, 0, _format, GL_UNSIGNED_BYTE, pixels);
-	sglCheckGLError();
 }
 
 void Texture::bind(GLuint target)
@@ -62,7 +60,6 @@ void Texture::parameter(GLenum name, GLint param)
 	assert(_isBound && "Texture is not bound");
 
 	glTexParameteri(GL_TEXTURE_2D, name, param);
-	sglCheckGLError();
 }
 
 void Texture::parameter(GLenum name, GLfloat param)
@@ -70,7 +67,6 @@ void Texture::parameter(GLenum name, GLfloat param)
 	assert(_isBound && "Texture is not bound");
 
 	glTexParameterf(GL_TEXTURE_2D, name, param);
-	sglCheckGLError();
 }
 
 Texture::TextureRegion Texture::region(float x, float y, float w, float h)
