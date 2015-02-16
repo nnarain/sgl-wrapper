@@ -8,20 +8,18 @@
 
 using namespace sgl;
 
-Mesh::Mesh(GLenum drawType, int drawCount, GLenum usage) :
+Mesh::Mesh(GLenum drawType, int drawCount, VertexBuffer::Usage usage) :
+	_vao(),
+	_vbo(usage),
 	_drawType(drawType),
 	_drawCount(drawCount),
-	_usage(usage),
 	_drawStart(0),
 	_attribs(new std::vector<VertexAttribute>),
 	_isBound(false)
 {
-	// generate buffer
-	glGenVertexArrays(1, &_vao);
-	glGenBuffers(1, &_vbo);
 }
 
-Mesh::Mesh() : Mesh::Mesh(GL_TRIANGLES, 0, GL_STATIC_DRAW)
+Mesh::Mesh() : Mesh::Mesh(GL_TRIANGLES, 0, VertexBuffer::Usage::STATIC)
 {
 }
 
@@ -42,8 +40,8 @@ void Mesh::create(void *data, int size, int stride)
 	bind();
 
 	// set the vertex buffer data
-	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	glBufferData(GL_ARRAY_BUFFER, size, data, _usage);
+	_vbo.bind();
+	_vbo.data(data, size);
 
 	// iterate over the model attributes and set offsets in the buffer
 	unsigned int i;
@@ -64,15 +62,12 @@ void Mesh::create(void *data, int size, int stride)
 
 	//
 	unbind();
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-
+	_vbo.unbind();
 }
 
 void Mesh::bind()
 {
-	glBindVertexArray(_vao);
+	_vao.bind();
 	_isBound = true;
 }
 
@@ -87,7 +82,7 @@ void Mesh::unbind()
 {
 	assert(_isBound && "Mesh is not bound");
 
-	glBindVertexArray(0);
+	_vao.unbind();
 	_isBound = false;
 }
 
@@ -104,11 +99,6 @@ void Mesh::setDrawType(GLenum drawtype)
 void Mesh::setDrawCount(GLint count)
 {
 	_drawCount = count;
-}
-
-GLuint Mesh::handle() const
-{
-	return _vbo;
 }
 
 int Mesh::offset(int idx)
@@ -146,8 +136,5 @@ Mesh& Mesh::operator=(const Mesh& that)
 
 Mesh::~Mesh(void)
 {
-	glDeleteVertexArrays(1, &_vao);
-	glDeleteBuffers(1, &_vbo);
-
 	delete _attribs;
 }

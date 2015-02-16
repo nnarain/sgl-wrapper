@@ -86,6 +86,9 @@ namespace sgl{
 
 		//!
 		bool _isBound;
+
+		void create();
+		void destroy();
 	};
 
 };

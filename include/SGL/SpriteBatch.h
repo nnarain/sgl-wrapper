@@ -115,7 +115,7 @@ namespace sgl
 		std::vector<Glyph*>* _glyphPointers;
 
 		//! Mesh that the batches are bound to 
-		Mesh* _mesh;
+		Mesh _mesh;
 
 		/**
 			Render the given batch with its given texture

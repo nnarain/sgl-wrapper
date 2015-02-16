@@ -13,6 +13,11 @@ Texture::Texture(int width, int height, GLint internalFormat, GLenum format) :
 	_format(format),
 	_isBound(false)
 {
+	create();
+}
+
+void Texture::create()
+{
 	glGenTextures(1, &_id);
 }
 
@@ -134,7 +139,12 @@ Texture& Texture::operator=(Texture that)
 	return *this;
 }
 
-Texture::~Texture()
+void Texture::destroy()
 {
 	glDeleteTextures(1, &_id);
+}
+
+Texture::~Texture()
+{
+	destroy();
 }

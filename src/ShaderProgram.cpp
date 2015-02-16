@@ -16,11 +16,16 @@ ShaderProgram::ShaderProgram(void) :
 	_attributes(new std::vector<VertexAttribute>),
 	_isActive(false)
 {
+	create();
+}
+
+void ShaderProgram::create()
+{
 	// allocate space for a shader program
 	_programID = glCreateProgram();
 }
 
-bool ShaderProgram::bind()
+void ShaderProgram::bind()
 {
 	// use this shader's ID
 	glUseProgram(_programID);
@@ -30,8 +35,6 @@ bool ShaderProgram::bind()
 	if (error != GL_NO_ERROR){
 		throw SGLException(getProgramLog());
 	}
-
-	return true;
 }
 
 void ShaderProgram::unbind()
@@ -243,7 +246,7 @@ std::string ShaderProgram::getShaderLog(GLuint shader)
 	return message;
 }
 
-bool ShaderProgram::freeProgram()
+void ShaderProgram::destroy()
 {
 	if (_vertexShader != 0)
 	{
@@ -261,14 +264,11 @@ bool ShaderProgram::freeProgram()
 	{
 		glDeleteProgram(_programID);
 	}
-	
-	return true;
 }
 
 
 ShaderProgram::~ShaderProgram(void)
 {
-	freeProgram();
-
+	destroy();
 	delete _attributes;
 }
