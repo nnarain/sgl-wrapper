@@ -8,6 +8,8 @@
 
 #include "SGLExport.h"
 #include "VertexAttribute.h"
+#include "VertexBuffer.h"
+#include "VertexArray.h"
 
 #include <vector>
 
@@ -31,7 +33,7 @@ namespace sgl{
 			@param usage
 				Draw usage
 		*/
-		Mesh(GLenum drawType, int drawCount, GLenum usage);
+		Mesh(GLenum drawType, int drawCount, VertexBuffer::Usage usage);
 		Mesh(void);
 		Mesh(const Mesh&);
 		Mesh& operator=(const Mesh&);
@@ -86,17 +88,12 @@ namespace sgl{
 		*/
 		const std::vector<VertexAttribute> &getVertexAttributes() const;
 
-		/**
-			@return handle to underlying VBO
-		*/
-		GLuint handle() const;
-
 	private:
 		//! Handle to Vertex Array Object to save model state
-		GLuint _vao;
+		VertexArray _vao;
 
 		//! Vertex Buffer Object
-		GLuint _vbo;
+		VertexBuffer _vbo;
 
 		//! Type of primitive that the mesh is composed of
 		GLenum _drawType;
@@ -105,7 +102,7 @@ namespace sgl{
 		//! number of indices to draw
 		GLint _drawCount;
 		//! Draw usage
-		GLenum _usage;
+		VertexBuffer::Usage _usage;
 
 		//! is bound flag
 		bool _isBound;
