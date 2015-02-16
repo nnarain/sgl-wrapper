@@ -58,7 +58,7 @@ namespace sgl{
 		/**
 			bind the shader program
 		*/
-		bool bind();
+		void bind();
 		/**
 			Unbind the shader program
 		*/
@@ -146,10 +146,11 @@ namespace sgl{
 		*/
 		std::string getShaderLog(GLuint);
 
+		void create();
 		/**
 			Remove the shader from opengl
 		*/
-		bool freeProgram();
+		void destroy();
 
 	};
 
