@@ -28,8 +28,7 @@ bool ShaderProgram::bind()
 	// Get any errors
 	GLenum error = glGetError();
 	if (error != GL_NO_ERROR){
-		printProgramLog(_programID);
-		return false;
+		throw SGLException(getProgramLog());
 	}
 
 	return true;
@@ -65,8 +64,7 @@ bool ShaderProgram::link()
 	glGetProgramiv(_programID, GL_LINK_STATUS, &success);
 
 	if (success != GL_TRUE){
-		printProgramLog(_programID);
-		return false;
+		throw SGLException(getProgramLog());
 	}
 
 	return true;
@@ -90,40 +88,42 @@ void ShaderProgram::addAttribute(const std::string &name, int numComponents, int
 	_attributes->emplace_back(_attributeLocation, numComponents);
 }
 
-bool ShaderProgram::loadFromFile(const std::string &vertSource, const std::string &fragSource)
+void ShaderProgram::loadFromFile(const std::string &vertSource, const std::string &fragSource)
 {
 	// load the vertex and fragment shaders from a file pointed to by the strings
-	return loadFromFile(Type::VERTEX, vertSource) && loadFromFile(Type::FRAGMENT, fragSource);
+	loadFromFile(Type::VERTEX, vertSource);
+	loadFromFile(Type::FRAGMENT, fragSource);
 }
 
-bool ShaderProgram::loadFromFile(Type shaderType, const std::string & filename)
+void ShaderProgram::loadFromFile(Type shaderType, const std::string & filename)
 {
 	// open the file
 	std::ifstream file(filename.c_str());
 
-	if (!file.good()) return false;
+	if (!file.good())
+	{
+		char *buff = new char[filename.length() + 40];
+		sprintf(buff, "SGL Error: File \"%s\" could not be found", filename.c_str());
+		std::string message(buff);
+		delete[]buff;
+		throw SGLException(message);
+	}
 
 	std::string source((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
-	bool ret = load(shaderType, source);
-
-	file.close();
-
-	return ret;
+	load(shaderType, source);
 }
 
-bool ShaderProgram::load(Type shaderType, const std::string & source)
+void ShaderProgram::load(Type shaderType, const std::string & source)
 {
-	GLuint type = static_cast<GLuint>(shaderType);
-
 	// set which shader handle to set
 	GLuint * shader;
-	switch (type)
+	switch (shaderType)
 	{
-	case GL_VERTEX_SHADER:
+	case Type::VERTEX:
 		shader = &_vertexShader;
 		break;
-	case GL_FRAGMENT_SHADER:
+	case Type::FRAGMENT:
 		shader = &_fragmentShader;
 		break;
 	default:
@@ -132,7 +132,7 @@ bool ShaderProgram::load(Type shaderType, const std::string & source)
 	}
 
 	// allocate a shader
-	*shader = glCreateShader(type);
+	*shader = glCreateShader(static_cast<GLuint>(shaderType));
 
 	// set the shader source
 	const GLchar * shaderSrc[] = { source.c_str() };
@@ -147,14 +147,12 @@ bool ShaderProgram::load(Type shaderType, const std::string & source)
 
 	if (shaderCompiled != GL_TRUE)
 	{
-		printShaderLog(*shader);
-		return false;
+		std::string log = getShaderLog(*shader);
+		throw SGLException(log);
 	}
 
 	// attach the shader to the program
 	glAttachShader(_programID, *shader);
-
-	return true;
 }
 
 void ShaderProgram::attribute(const std::string &name, glm::vec3 v)
@@ -212,50 +210,37 @@ GLuint ShaderProgram::handle() const
 	return _programID;
 }
 
-void ShaderProgram::printProgramLog(GLuint program)
+std::string ShaderProgram::getProgramLog()
 {
-	if (glIsProgram(program)){
-		// get length
-		int len;
-		int logLength;
-		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &len);
+	// get length
+	int len;
+	int logLength;
+	glGetProgramiv(_programID, GL_INFO_LOG_LENGTH, &len);
 
-		char* log = new char[len];
+	char* log = new char[len];
+	glGetProgramInfoLog(_programID, len, &logLength, log);
 
-		glGetProgramInfoLog(program, len, &logLength, log);
-		if (logLength > 0){
-			throw SGLException(log);
-		}
+	std::string message(log);
+	delete[] log;
 
-		delete[] log;
-	}
-	else{
-		
-	}
+	return message;
 }
 
-void ShaderProgram::printShaderLog(GLuint shader)
+std::string ShaderProgram::getShaderLog(GLuint shader)
 {
-	if (glIsShader(shader)){
+	int len;
+	int lenLog;
 
-		int len;
-		int lenLog;
+	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &len);
 
-		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &len);
+	char* log = new char[len];
 
-		char* log = new char[len];
+	glGetShaderInfoLog(shader, len, &lenLog, log);
 
-		glGetShaderInfoLog(shader, len, &lenLog, log);
-		if (lenLog > 0){
-			throw SGLException(log);
-		}
+	std::string message(log);
+	delete[] log;
 
-		delete[] log;
-
-	}
-	else{
-		
-	}
+	return message;
 }
 
 bool ShaderProgram::freeProgram()
