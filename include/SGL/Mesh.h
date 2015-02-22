@@ -128,11 +128,6 @@ namespace sgl{
 
 		//! List of vertex attributes
 		std::vector<VertexAttribute>* _attribs;
-
-		/**
-			Calculates the offset in the buffer
-		*/
-		int offset(int idx);
 	};
 
 };
