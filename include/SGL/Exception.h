@@ -28,6 +28,8 @@ namespace sgl
 		~Exception();
 
 		const char *what();
+
+		static void glerror(const std::string&);
 	private:
 		std::string * _msg;
 	};

@@ -8,40 +8,34 @@
 
 using namespace sgl;
 
-Mesh::Mesh(GLenum drawType, int drawCount, Buffer::Usage usage) :
+Mesh::Mesh(Type drawtype, int drawCount, Buffer::Usage usage) :
 	_vao(),
 	_vbo(Buffer::Target::ARRAY, usage),
-	_drawType(drawType),
 	_drawCount(drawCount),
 	_drawStart(0),
 	_attribs(new std::vector<VertexAttribute>),
 	_isBound(false)
 {
+	setDrawType(drawtype);
 }
 
-Mesh::Mesh() : Mesh::Mesh(GL_TRIANGLES, 0, Buffer::Usage::STATIC_DRAW)
+Mesh::Mesh() : Mesh::Mesh(Type::TRIANGLES, 0, Buffer::Usage::STATIC_DRAW)
 {
 }
 
 Mesh::Mesh(const Mesh& that) : Mesh::Mesh(that._drawType, that._drawCount, that._usage)
 {
-	// copy attributes
-	for (const VertexAttribute& v : that.getVertexAttributes())
-	{
-		_attribs->push_back(v);
-	}
 
-	// TODO : copy contents of buffer
 }
 
-void Mesh::create(void *data, int size, int stride)
+void Mesh::create(int stride)
 {
 	// start saving the state
 	bind();
 
 	// set the vertex buffer data
 	_vbo.bind();
-	_vbo.data(data, size);
+	//_vbo.setData(data, size);
 
 	// iterate over the mesh attributes and set offsets in the buffer
 	unsigned int i;
@@ -75,7 +69,7 @@ void Mesh::draw()
 {
 	assert(_isBound && "Mesh has not been bound");
 
-	glDrawArrays(_drawType, _drawStart, _drawCount);
+	glDrawArrays(static_cast<GLenum>(_drawType), _drawStart, _drawCount);
 }
 
 void Mesh::unbind()
@@ -91,9 +85,9 @@ void Mesh::addAttribute(VertexAttribute attrib)
 	_attribs->push_back(attrib);
 }
 
-void Mesh::setDrawType(GLenum drawtype)
+void Mesh::setDrawType(Type type)
 {
-	_drawType = drawtype;
+	_drawType = type;
 }
 
 void Mesh::setDrawCount(GLint count)
@@ -112,6 +106,11 @@ int Mesh::offset(int idx)
 	}
 
 	return off * sizeof(float);
+}
+
+Buffer& Mesh::getVBO()
+{
+	return _vbo;
 }
 
 const std::vector<VertexAttribute> &Mesh::getVertexAttributes() const

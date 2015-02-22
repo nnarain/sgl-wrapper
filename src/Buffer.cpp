@@ -29,9 +29,11 @@ void Buffer::unbind()
 	glBindBuffer(_target, 0);
 }
 
-void Buffer::data(void * buffer, int size)
+void Buffer::setData(void * buffer, int size)
 {
+	bind();
 	glBufferData(_target, size, buffer, _usage);
+	unbind();
 }
 
 void Buffer::subData(void * buffer, int offset, int size)

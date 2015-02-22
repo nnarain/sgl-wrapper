@@ -223,10 +223,19 @@ std::string ShaderProgram::getProgramLog()
 	char* log = new char[len];
 	glGetProgramInfoLog(_programID, len, &logLength, log);
 
-	std::string message(log);
-	delete[] log;
+	if (logLength > 0)
+	{
+		std::string message(log);
+		delete[] log;
 
-	return message;
+		return message;
+	}
+	else
+	{
+		std::string message("Nothing here");
+		delete[] log;
+		return message;
+	}
 }
 
 std::string ShaderProgram::getShaderLog(GLuint shader)

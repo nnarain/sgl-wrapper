@@ -33,7 +33,7 @@ SpriteBatch::Glyph::Glyph(Quad& quad, Texture::TextureRegion& region, Texture* t
 /* SpriteBatch */
 
 SpriteBatch::SpriteBatch() :
-	_mesh(GL_TRIANGLES, 0, Buffer::Usage::STREAM_DRAW),
+	_mesh(Mesh::Type::TRIANGLES, 0, Buffer::Usage::STREAM_DRAW),
 	_shader(NULL),
 	_glyphs(new std::vector<Glyph>),
 	_glyphPointers(new std::vector<Glyph*>)
@@ -41,6 +41,8 @@ SpriteBatch::SpriteBatch() :
 	// bind position and texture coordinate attributes
 	_mesh.addAttribute(VertexAttribute(0, 2));
 	_mesh.addAttribute(VertexAttribute(1, 2));
+
+	_mesh.create(sizeof(Vertex));
 }
 
 void SpriteBatch::begin(ShaderProgram* shader)
@@ -141,7 +143,8 @@ void SpriteBatch::render(Texture* texture, std::vector<Vertex> *batch)
 	int size = batch->size();
 
 	// update the mesh data and draw count
-	_mesh.create(&(*batch)[0], size * sizeof(Vertex), sizeof(Vertex));
+	_mesh.getVBO().setData(&(*batch)[0], size * sizeof(Vertex));
+
 	_mesh.setDrawCount(size);
 
 	// bind the batched mesh and draw the vertices

@@ -5,6 +5,8 @@
 
 #include <GL/glew.h>
 
+#include <vector>
+
 namespace sgl
 {
 	/**
@@ -55,7 +57,8 @@ namespace sgl
 		void bind();
 		void unbind();
 
-		void data(void * buffer, int size);
+		void setData(void * buffer, int size);
+
 		void subData(void * buffer, int offset, int size);
 
 		void setTarget(Target);
