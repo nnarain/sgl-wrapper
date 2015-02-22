@@ -8,9 +8,9 @@
 
 using namespace sgl;
 
-Mesh::Mesh(GLenum drawType, int drawCount, VertexBuffer::Usage usage) :
+Mesh::Mesh(GLenum drawType, int drawCount, Buffer::Usage usage) :
 	_vao(),
-	_vbo(usage),
+	_vbo(Buffer::Target::ARRAY, usage),
 	_drawType(drawType),
 	_drawCount(drawCount),
 	_drawStart(0),
@@ -19,7 +19,7 @@ Mesh::Mesh(GLenum drawType, int drawCount, VertexBuffer::Usage usage) :
 {
 }
 
-Mesh::Mesh() : Mesh::Mesh(GL_TRIANGLES, 0, VertexBuffer::Usage::STATIC)
+Mesh::Mesh() : Mesh::Mesh(GL_TRIANGLES, 0, Buffer::Usage::STATIC_DRAW)
 {
 }
 
@@ -43,7 +43,7 @@ void Mesh::create(void *data, int size, int stride)
 	_vbo.bind();
 	_vbo.data(data, size);
 
-	// iterate over the model attributes and set offsets in the buffer
+	// iterate over the mesh attributes and set offsets in the buffer
 	unsigned int i;
 	for (i = 0; i < _attribs->size(); ++i){
 		

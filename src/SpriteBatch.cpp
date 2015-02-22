@@ -33,7 +33,7 @@ SpriteBatch::Glyph::Glyph(Quad& quad, Texture::TextureRegion& region, Texture* t
 /* SpriteBatch */
 
 SpriteBatch::SpriteBatch() :
-	_mesh(GL_TRIANGLES, 0, VertexBuffer::Usage::STREAM),
+	_mesh(GL_TRIANGLES, 0, Buffer::Usage::STREAM_DRAW),
 	_shader(NULL),
 	_glyphs(new std::vector<Glyph>),
 	_glyphPointers(new std::vector<Glyph*>)
