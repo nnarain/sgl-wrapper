@@ -1,6 +1,6 @@
 #include "SGL/ShaderProgram.h"
 
-#include "SGL/SGLException.h"
+#include "SGL/Exception.h"
 
 #include <fstream>
 #include <cassert>
@@ -33,7 +33,7 @@ void ShaderProgram::bind()
 	// Get any errors
 	GLenum error = glGetError();
 	if (error != GL_NO_ERROR){
-		throw SGLException(getProgramLog());
+		throw Exception(getProgramLog());
 	}
 }
 
@@ -67,7 +67,7 @@ bool ShaderProgram::link()
 	glGetProgramiv(_programID, GL_LINK_STATUS, &success);
 
 	if (success != GL_TRUE){
-		throw SGLException(getProgramLog());
+		throw Exception(getProgramLog());
 	}
 
 	return true;
@@ -109,7 +109,7 @@ void ShaderProgram::loadFromFile(Type shaderType, const std::string & filename)
 		sprintf(buff, "SGL Error: File \"%s\" could not be found", filename.c_str());
 		std::string message(buff);
 		delete[]buff;
-		throw SGLException(message);
+		throw Exception(message);
 	}
 
 	std::string source((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
@@ -130,7 +130,7 @@ void ShaderProgram::load(Type shaderType, const std::string & source)
 		shader = &_fragmentShader;
 		break;
 	default:
-		throw SGLException("Invalid Shader Type");
+		throw Exception("Invalid Shader Type");
 		break;
 	}
 
@@ -151,7 +151,7 @@ void ShaderProgram::load(Type shaderType, const std::string & source)
 	if (shaderCompiled != GL_TRUE)
 	{
 		std::string log = getShaderLog(*shader);
-		throw SGLException(log);
+		throw Exception(log);
 	}
 
 	// attach the shader to the program

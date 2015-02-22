@@ -25,7 +25,7 @@
 
 #include "Texture.h"
 
-#include "SGLException.h"
+#include "Exception.h"
 
 #include "SGLCoordinate.h"
 

@@ -1,6 +1,6 @@
 
 #include "SGL/Mesh.h"
-#include "SGL/SGLException.h"
+#include "SGL/Exception.h"
 
 #include <cassert>
 

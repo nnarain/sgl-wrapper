@@ -1,5 +1,5 @@
 #include "SGL/FrameBuffer.h"
-#include "SGL/SGLException.h"
+#include "SGL/Exception.h"
 
 using namespace sgl;
 

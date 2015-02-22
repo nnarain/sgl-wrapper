@@ -19,13 +19,13 @@
 
 namespace sgl
 {
-	SGLCLASS SGLException : public std::exception
+	SGLCLASS Exception : public std::exception
 	{
 	public:
-		SGLException();
-		SGLException(const std::string& what);
-		SGLException(const char *what);
-		~SGLException();
+		Exception();
+		Exception(const std::string& what);
+		Exception(const char *what);
+		~Exception();
 
 		const char *what();
 	private:

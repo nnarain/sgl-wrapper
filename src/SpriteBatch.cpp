@@ -1,6 +1,6 @@
 
 #include "SGL/SpriteBatch.h"
-#include "SGL/SGLException.h"
+#include "SGL/Exception.h"
 
 #include <algorithm>
 #include <cassert>

@@ -13,7 +13,7 @@
 
 #include "VertexAttribute.h"
 #include "Mesh.h"
-#include "SGLException.h"
+#include "Exception.h"
 
 #include <glm/glm.hpp>
 
