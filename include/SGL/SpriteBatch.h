@@ -55,10 +55,19 @@ namespace sgl
 			Vertex v4;
 		};
 
-		/* SpriteBatch members */
+	public:
+		/* SpriteBatch Public Constructor and Destructor */
 
 		SpriteBatch(void);
 		~SpriteBatch(void);
+
+	private:
+		/* SpriteBatch Private Copy Constructor and Assignment Operator */
+		SpriteBatch(const SpriteBatch&);
+		SpriteBatch& operator=(SpriteBatch);
+
+	public:
+		/* Public Functions */
 
 		/**
 			Get ready to draw sprites.
@@ -95,15 +104,18 @@ namespace sgl
 		void end();
 
 	private:
+		/* Private Members */
 
 		//! The shader to draw with
 		ShaderProgram* _shader;
+
+		//!
+		std::vector<Glyph>* _glyphs;
 		//! 
 		std::vector<Glyph*>* _glyphPointers;
-		std::vector<Glyph>* _glyphs;
 
 		//! Mesh that the batches are bound to 
-		Mesh* _mesh;
+		Mesh _mesh;
 
 		/**
 			Render the given batch with its given texture

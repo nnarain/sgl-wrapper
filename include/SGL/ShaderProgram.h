@@ -13,6 +13,7 @@
 
 #include "VertexAttribute.h"
 #include "Mesh.h"
+#include "Exception.h"
 
 #include <glm/glm.hpp>
 
@@ -27,25 +28,37 @@ namespace sgl{
 	SGLCLASS ShaderProgram
 	{
 	public:
-
 		ShaderProgram(void);
 		virtual ~ShaderProgram(void);
 
+	private:
+		ShaderProgram(const ShaderProgram&);
+		ShaderProgram& operator=(const ShaderProgram&);
+
+	public:
+
+		/* Types */
+		enum class Type
+		{
+			VERTEX   = GL_VERTEX_SHADER,
+			FRAGMENT = GL_FRAGMENT_SHADER
+		};
+
 		/* Load Shader program in various ways */
 
-		bool load(GLuint shader, const std::string &source);
+		void load(Type shader, const std::string &source);
 
-		bool loadFromFile(GLuint shader, const std::string & file);
+		void loadFromFile(Type shader, const std::string & file);
 
 		/**
 			load the shader program from to files
 		*/
-		bool loadFromFile(const std::string& vertSource, const std::string& fragSource);
+		void loadFromFile(const std::string& vertSource, const std::string& fragSource);
 
 		/**
 			bind the shader program
 		*/
-		bool bind();
+		void bind();
 		/**
 			Unbind the shader program
 		*/
@@ -126,17 +139,18 @@ namespace sgl{
 		/**
 			Print the Log for this program
 		*/
-		void printProgramLog(GLuint);
+		std::string getProgramLog();
 
 		/**
 			Print the log for a specigic shader
 		*/
-		void printShaderLog(GLuint);
+		std::string getShaderLog(GLuint);
 
+		void create();
 		/**
 			Remove the shader from opengl
 		*/
-		bool freeProgram();
+		void destroy();
 
 	};
 

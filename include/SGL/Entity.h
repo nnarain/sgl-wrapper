@@ -1,8 +1,10 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include <memory>
 
 #include "SGLExport.h"
+
+#include <glm/glm.hpp>
 
 namespace sgl{
 
@@ -14,6 +16,10 @@ namespace sgl{
 	public:
 
 		Entity(void);
+		Entity(const Entity&);
+		Entity& operator=(Entity);
+		friend void swap(Entity&, Entity&);
+
 		~Entity(void);
 
 		void translate(glm::vec3);

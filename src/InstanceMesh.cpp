@@ -2,24 +2,31 @@
 #include "SGL/InstanceMesh.h"
 #include "SGL/VertexAttribute.h"
 
-#include "SGL/SGLException.h"
+#include "SGL/Exception.h"
 
 using namespace sgl;
 
 #define MESH_BUFFER     0
 #define INSTANCE_BUFFER 1
 
-InstanceMesh::InstanceMesh(GLuint drawType, GLuint drawCount, GLenum usage)
+InstanceMesh::InstanceMesh(GLuint drawType, GLuint drawCount, GLenum usage) :
+	_drawType(drawType),
+	_drawCount(drawCount),
+	_usage(usage),
+	_meshAttributes(new std::vector<VertexAttribute>),
+	_instanceAttributes(new std::vector<VertexAttribute>)
 {
-	_drawType = drawType;
-	_drawCount = drawCount;
-	_usage = usage;
-
-	_meshAttributes = new std::vector<VertexAttribute>();
-	_instanceAttributes = new std::vector<VertexAttribute>();
-
 	glGenVertexArrays(1, &_vao);
 	glGenBuffers(2, _vbo);
+}
+
+InstanceMesh::InstanceMesh(const InstanceMesh& that) : InstanceMesh::InstanceMesh(that._drawType, that._drawCount, that._usage)
+{
+	// copy attributes
+	_meshAttributes = that._meshAttributes;
+	_instanceAttributes = that._instanceAttributes;
+
+	// TODO: copy buffers
 }
 
 void InstanceMesh::bind()
@@ -120,7 +127,7 @@ void InstanceMesh::setVertexPointers(const VertexAttribute& attrib, std::vector<
 		}
 	}
 
-	sglCheckGLError();
+
 }
 
 void InstanceMesh::addMeshAttribute(const VertexAttribute &a)
@@ -163,6 +170,28 @@ int InstanceMesh::offset(std::vector<VertexAttribute>& attrib, int idx)
 	}
 
 	return off * sizeof(float);
+}
+
+const std::vector<VertexAttribute> &InstanceMesh::getMeshAttributes() const
+{
+	return *(_meshAttributes);
+}
+
+const std::vector<VertexAttribute> &InstanceMesh::getInstanceAttributes() const
+{
+	return *(_instanceAttributes);
+}
+
+InstanceMesh& InstanceMesh::operator=(const InstanceMesh& that)
+{
+	// copy attributes
+	_meshAttributes = that._meshAttributes;
+	_instanceAttributes = that._instanceAttributes;
+
+	// TODO: copy buffers
+
+
+	return *this;
 }
 
 InstanceMesh::~InstanceMesh()

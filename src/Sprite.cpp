@@ -1,16 +1,20 @@
 
 #include "SGL/Sprite.h"
 
+#include <algorithm>
+
 using namespace sgl;
 
-Sprite::Sprite(float x, float y, float w, float h, Texture* tex)
+Sprite::Sprite(float x, float y, float w, float h, Texture* tex) :
+	_pos(new glm::vec2(x,y)),
+	_dim(new glm::vec2(w,h)),
+	_texture(tex),
+	_updateQuad(true)
 {
-	_pos = new glm::vec2(x, y);
-	_dim = new glm::vec2(w, h);
+}
 
-	_texture = tex;
-
-	_updateQuad = true;
+Sprite::Sprite(const Sprite& that) : Sprite::Sprite(that._pos->x, that._pos->y, that._dim->x, that._dim->y, that._texture)
+{
 }
 
 void Sprite::flip(bool h, bool v)
@@ -119,6 +123,24 @@ Quad& Sprite::getQuad()
 	}
 
 	return _quad;
+}
+
+void sgl::swap(Sprite& first, Sprite& second)
+{
+	using std::swap;
+
+	swap(first._pos, second._pos);
+	swap(first._dim, second._dim);
+	swap(first._region, second._region);
+	swap(first._texture, second._texture);
+	swap(first._quad, second._quad);
+	swap(first._updateQuad, second._updateQuad);
+}
+
+Sprite& Sprite::operator=(Sprite that)
+{
+	swap(*this, that);
+	return *this;
 }
 
 Sprite::~Sprite()

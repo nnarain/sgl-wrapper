@@ -1,6 +1,6 @@
 #include "SGL/ShaderProgram.h"
 
-#include "SGL/SGLException.h"
+#include "SGL/Exception.h"
 
 #include <fstream>
 #include <cassert>
@@ -9,21 +9,23 @@ using namespace sgl;
 
 bool ShaderProgram::_inUse = false;
 
-ShaderProgram::ShaderProgram(void)
+ShaderProgram::ShaderProgram(void) :
+	_vertexShader(0),
+	_fragmentShader(0),
+	_attributeLocation(0),
+	_attributes(new std::vector<VertexAttribute>),
+	_isActive(false)
+{
+	create();
+}
+
+void ShaderProgram::create()
 {
 	// allocate space for a shader program
 	_programID = glCreateProgram();
-	_vertexShader = 0;
-	_fragmentShader = 0;
-
-	_attributeLocation = 0;
-
-	_attributes = new std::vector < VertexAttribute > ();
-
-	_isActive = false;
 }
 
-bool ShaderProgram::bind()
+void ShaderProgram::bind()
 {
 	// use this shader's ID
 	glUseProgram(_programID);
@@ -31,11 +33,8 @@ bool ShaderProgram::bind()
 	// Get any errors
 	GLenum error = glGetError();
 	if (error != GL_NO_ERROR){
-		printProgramLog(_programID);
-		return false;
+		throw Exception(getProgramLog());
 	}
-
-	return true;
 }
 
 void ShaderProgram::unbind()
@@ -68,8 +67,7 @@ bool ShaderProgram::link()
 	glGetProgramiv(_programID, GL_LINK_STATUS, &success);
 
 	if (success != GL_TRUE){
-		printProgramLog(_programID);
-		return false;
+		throw Exception(getProgramLog());
 	}
 
 	return true;
@@ -93,46 +91,51 @@ void ShaderProgram::addAttribute(const std::string &name, int numComponents, int
 	_attributes->emplace_back(_attributeLocation, numComponents);
 }
 
-bool ShaderProgram::loadFromFile(const std::string &vertSource, const std::string &fragSource)
+void ShaderProgram::loadFromFile(const std::string &vertSource, const std::string &fragSource)
 {
 	// load the vertex and fragment shaders from a file pointed to by the strings
-	return loadFromFile(GL_VERTEX_SHADER, vertSource) && loadFromFile(GL_FRAGMENT_SHADER, fragSource);
+	loadFromFile(Type::VERTEX, vertSource);
+	loadFromFile(Type::FRAGMENT, fragSource);
 }
 
-bool ShaderProgram::loadFromFile(GLuint shaderType, const std::string & filename)
+void ShaderProgram::loadFromFile(Type shaderType, const std::string & filename)
 {
 	// open the file
 	std::ifstream file(filename.c_str());
 
-	if (!file.good()) return false;
+	if (!file.good())
+	{
+		char *buff = new char[filename.length() + 40];
+		sprintf(buff, "SGL Error: File \"%s\" could not be found", filename.c_str());
+		std::string message(buff);
+		delete[]buff;
+		throw Exception(message);
+	}
 
 	std::string source((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
-	bool ret = load(shaderType, source);
-
-	file.close();
-
-	return ret;
+	load(shaderType, source);
 }
 
-bool ShaderProgram::load(GLuint shaderType, const std::string & source)
+void ShaderProgram::load(Type shaderType, const std::string & source)
 {
-	assert(shaderType == GL_VERTEX_SHADER || shaderType == GL_FRAGMENT_SHADER && "Invalid argument");
-
 	// set which shader handle to set
 	GLuint * shader;
 	switch (shaderType)
 	{
-	case GL_VERTEX_SHADER:
+	case Type::VERTEX:
 		shader = &_vertexShader;
 		break;
-	case GL_FRAGMENT_SHADER:
+	case Type::FRAGMENT:
 		shader = &_fragmentShader;
+		break;
+	default:
+		throw Exception("Invalid Shader Type");
 		break;
 	}
 
 	// allocate a shader
-	*shader = glCreateShader(shaderType);
+	*shader = glCreateShader(static_cast<GLuint>(shaderType));
 
 	// set the shader source
 	const GLchar * shaderSrc[] = { source.c_str() };
@@ -147,56 +150,47 @@ bool ShaderProgram::load(GLuint shaderType, const std::string & source)
 
 	if (shaderCompiled != GL_TRUE)
 	{
-		printShaderLog(*shader);
-		return false;
+		std::string log = getShaderLog(*shader);
+		throw Exception(log);
 	}
 
 	// attach the shader to the program
 	glAttachShader(_programID, *shader);
-
-	return true;
 }
 
 void ShaderProgram::attribute(const std::string &name, glm::vec3 v)
 {
 	glUniform3f(getAttributeLocation(name), v.x, v.y, v.z);
-	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, glm::mat3 m)
 {
 	glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &m[0][0]);
-	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, glm::mat4 m)
 {
 	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &m[0][0]);
-	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, glm::vec3 v)
 {
 	glUniform3f(getUniformLocation(name), v.x, v.y, v.z);
-	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, glm::vec4 v)
 {
 	glUniform4f(getUniformLocation(name), v.x, v.y, v.z, v.w);
-	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, int value)
 {
 	glUniform1i(getUniformLocation(name), value);
-	checkGLError();
 }
 
 void ShaderProgram::uniform(const std::string &name, float value)
 {
 	glUniform1f(getUniformLocation(name), value);
-	checkGLError();
 }
 
 GLuint ShaderProgram::getAttributeLocation(const std::string &name)
@@ -219,53 +213,49 @@ GLuint ShaderProgram::handle() const
 	return _programID;
 }
 
-void ShaderProgram::printProgramLog(GLuint program)
+std::string ShaderProgram::getProgramLog()
 {
-	if (glIsProgram(program)){
-		// get length
-		int len;
-		int logLength;
-		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &len);
+	// get length
+	int len;
+	int logLength;
+	glGetProgramiv(_programID, GL_INFO_LOG_LENGTH, &len);
 
-		char* log = new char[len];
+	char* log = new char[len];
+	glGetProgramInfoLog(_programID, len, &logLength, log);
 
-		glGetProgramInfoLog(program, len, &logLength, log);
-		if (logLength > 0){
-			sglReportError(std::string(log));
-		}
-
+	if (logLength > 0)
+	{
+		std::string message(log);
 		delete[] log;
+
+		return message;
 	}
-	else{
-		sglReportError("Invalid program id");
+	else
+	{
+		std::string message("Nothing here");
+		delete[] log;
+		return message;
 	}
 }
 
-void ShaderProgram::printShaderLog(GLuint shader)
+std::string ShaderProgram::getShaderLog(GLuint shader)
 {
-	if (glIsShader(shader)){
+	int len;
+	int lenLog;
 
-		int len;
-		int lenLog;
+	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &len);
 
-		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &len);
+	char* log = new char[len];
 
-		char* log = new char[len];
+	glGetShaderInfoLog(shader, len, &lenLog, log);
 
-		glGetShaderInfoLog(shader, len, &lenLog, log);
-		if (lenLog > 0){
-			sglReportError(std::string(log));
-		}
+	std::string message(log);
+	delete[] log;
 
-		delete[] log;
-
-	}
-	else{
-		sglReportError("Invalid program id");
-	}
+	return message;
 }
 
-bool ShaderProgram::freeProgram()
+void ShaderProgram::destroy()
 {
 	if (_vertexShader != 0)
 	{
@@ -283,14 +273,11 @@ bool ShaderProgram::freeProgram()
 	{
 		glDeleteProgram(_programID);
 	}
-	
-	return true;
 }
 
 
 ShaderProgram::~ShaderProgram(void)
 {
-	freeProgram();
-
+	destroy();
 	delete _attributes;
 }

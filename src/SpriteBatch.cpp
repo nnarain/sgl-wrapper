@@ -1,6 +1,6 @@
 
 #include "SGL/SpriteBatch.h"
-#include "SGL/SGLException.h"
+#include "SGL/Exception.h"
 
 #include <algorithm>
 #include <cassert>
@@ -32,20 +32,17 @@ SpriteBatch::Glyph::Glyph(Quad& quad, Texture::TextureRegion& region, Texture* t
 
 /* SpriteBatch */
 
-SpriteBatch::SpriteBatch()
+SpriteBatch::SpriteBatch() :
+	_mesh(Mesh::Type::TRIANGLES, 0, Buffer::Usage::STREAM_DRAW),
+	_shader(NULL),
+	_glyphs(new std::vector<Glyph>),
+	_glyphPointers(new std::vector<Glyph*>)
 {
-	_mesh = new Mesh(GL_TRIANGLES, 0, GL_STREAM_DRAW);
-
 	// bind position and texture coordinate attributes
-	_mesh->addAttribute(VertexAttribute(0, 2));
-	_mesh->addAttribute(VertexAttribute(1, 2));
+	_mesh.addAttribute(VertexAttribute(0, 2));
+	_mesh.addAttribute(VertexAttribute(1, 2));
 
-	//
-	_shader = NULL;
-
-	//
-	_glyphs = new std::vector<Glyph>();
-	_glyphPointers = new std::vector<Glyph*>();
+	_mesh.create(sizeof(Vertex));
 }
 
 void SpriteBatch::begin(ShaderProgram* shader)
@@ -146,13 +143,14 @@ void SpriteBatch::render(Texture* texture, std::vector<Vertex> *batch)
 	int size = batch->size();
 
 	// update the mesh data and draw count
-	_mesh->create(&(*batch)[0], size * sizeof(Vertex), sizeof(Vertex));
-	_mesh->setDrawCount(size);
+	_mesh.getVBO().setData(&(*batch)[0], size * sizeof(Vertex));
+
+	_mesh.setDrawCount(size);
 
 	// bind the batched mesh and draw the vertices
-	_mesh->bind();
-	_mesh->draw();
-	_mesh->unbind();
+	_mesh.bind();
+	_mesh.draw();
+	_mesh.unbind();
 
 	// clear the batch so its ready for the next
 	batch->clear();
@@ -226,5 +224,4 @@ SpriteBatch::~SpriteBatch()
 {
 	delete _glyphs;
 	delete _glyphPointers;
-	delete _mesh;
 }

@@ -8,6 +8,8 @@
 
 #include "SGLExport.h"
 #include "VertexAttribute.h"
+#include "Buffer.h"
+#include "VertexArray.h"
 
 #include <vector>
 
@@ -21,6 +23,21 @@ namespace sgl{
 
 	public:
 
+		enum class Type
+		{
+			POINTS                   = GL_POINTS,
+			LINE_STRIP               = GL_LINE_STRIP,
+			LINE_LOOP                = GL_LINE_LOOP,
+			LINES                    = GL_LINES,
+			LINE_STRIP_ADJACENCY     = GL_LINE_STRIP_ADJACENCY,
+			LINES_ADJACENCY          = GL_LINES_ADJACENCY,
+			TRIANGLES_STRIP          = GL_TRIANGLE_STRIP,
+			TRIANGLE_FAN             = GL_TRIANGLE_FAN,
+			TRIANGLES                = GL_TRIANGLES,
+			TRIANGLE_STRIP_ADJACENCY = GL_TRIANGLE_STRIP_ADJACENCY,
+			TRIANGLES_ADJACENCY      = GL_TRIANGLES_ADJACENCY
+		};
+
 		/**
 			@param drawType
 				Primitives to draw
@@ -31,8 +48,11 @@ namespace sgl{
 			@param usage
 				Draw usage
 		*/
-		Mesh(GLenum drawType, int drawCount, GLenum usage);
+		Mesh(Type type, int drawCount, Buffer::Usage usage);
 		Mesh(void);
+		Mesh(const Mesh&);
+		Mesh& operator=(const Mesh&);
+
 		~Mesh(void);
 
 		/* Public Functions */
@@ -49,7 +69,7 @@ namespace sgl{
 			@param stride
 				stride between consecutive vertices
 		*/
-		void create(void *data, int size, int stride);
+		void create(int stride);
 
 		/**
 			Bind the vertex data
@@ -73,32 +93,35 @@ namespace sgl{
 
 		/**
 		*/
-		void setDrawType(GLenum);
+		void setDrawType(Type);
 
 		/**
 		*/
 		void setDrawCount(GLint count);
 
 		/**
-			@return handle to underlying VBO
 		*/
-		GLuint handle() const;
+		Buffer &getVBO();
+
+		/**
+		*/
+		const std::vector<VertexAttribute> &getVertexAttributes() const;
 
 	private:
 		//! Handle to Vertex Array Object to save model state
-		GLuint _vao;
+		VertexArray _vao;
 
 		//! Vertex Buffer Object
-		GLuint _vbo;
+		Buffer _vbo;
 
 		//! Type of primitive that the mesh is composed of
-		GLenum _drawType;
+		Type _drawType;
 		//! start of data in the buffer
 		GLint _drawStart;
 		//! number of indices to draw
 		GLint _drawCount;
 		//! Draw usage
-		GLenum _usage;
+		Buffer::Usage _usage;
 
 		//! is bound flag
 		bool _isBound;

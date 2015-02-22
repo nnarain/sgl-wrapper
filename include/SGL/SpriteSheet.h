@@ -25,6 +25,11 @@ namespace sgl
 		SpriteSheet(float x, float y, float w, float h, int rows, int cols, Texture* texture);
 		~SpriteSheet();
 
+		SpriteSheet(const SpriteSheet&);
+		SpriteSheet& operator=(SpriteSheet);
+
+		friend void swap(SpriteSheet&, SpriteSheet&);
+
 		/**
 			Initialize the sprite sheet and set the width and height
 		*/
