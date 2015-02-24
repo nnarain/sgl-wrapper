@@ -30,16 +30,18 @@ Mesh::Mesh(const Mesh& that) : Mesh::Mesh(that._drawType, that._drawCount, that.
 
 void Mesh::create(int stride)
 {
+	unsigned int offset = 0;
+
 	// start saving the state
 	bind();
 
 	// set the vertex buffer data
 	_vbo.bind();
-	//_vbo.setData(data, size);
 
 	// iterate over the mesh attributes and set offsets in the buffer
 	unsigned int i;
-	for (i = 0; i < _attribs->size(); ++i){
+	for (i = 0; i < _attribs->size(); ++i)
+	{
 		
 		VertexAttribute attrib = (*_attribs)[i];
 		glEnableVertexAttribArray(attrib.loc);
@@ -49,9 +51,11 @@ void Mesh::create(int stride)
 			GL_FLOAT,
 			GL_FALSE,
 			stride,
-			(const GLvoid*)offset(i)
+			//(const GLvoid*)offset(i)
+			(const GLvoid *)offset
 		);
 
+		offset += (*_attribs)[i].numComponents * sizeof(float);
 	}
 
 	//
@@ -93,19 +97,6 @@ void Mesh::setDrawType(Type type)
 void Mesh::setDrawCount(GLint count)
 {
 	_drawCount = count;
-}
-
-int Mesh::offset(int idx)
-{
-	int i;
-	int off = 0;
-
-	// calculate the offset in the vertex buffer for the current index
-	for (i = 0; i < idx; i++){
-		off += (*_attribs)[i].numComponents;
-	}
-
-	return off * sizeof(float);
 }
 
 Buffer& Mesh::getVBO()

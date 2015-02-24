@@ -6,7 +6,7 @@
 
 using namespace sgl;
 
-Texture::Texture(int width, int height, GLint internalFormat, GLenum format) :
+Texture::Texture(Target target, int width, int height, GLint internalFormat, GLenum format) :
 	_width(width),
 	_height(height),
 	_internalFormat(internalFormat),
@@ -14,6 +14,7 @@ Texture::Texture(int width, int height, GLint internalFormat, GLenum format) :
 	_isBound(false)
 {
 	create();
+	setTarget(target);
 }
 
 void Texture::create()
@@ -21,22 +22,9 @@ void Texture::create()
 	glGenTextures(1, &_id);
 }
 
-Texture::Texture(const Texture& that) : Texture(that._width, that._height, that._internalFormat, that._format)
-{
-	char *pixels = new char[_width * _height];
-
-	// get the texture data
-	glBindTexture(GL_TEXTURE_2D, _id);
-	glGetTexImage(GL_TEXTURE_2D, 0, _format, GL_UNSIGNED_BYTE, pixels);
-
-	// set into new texture
-	data(pixels);
-}
-
-
 void Texture::data(char* pixels)
 {
-	data(GL_TEXTURE_2D, pixels);
+	data(_target, pixels);
 }
 
 void Texture::data(GLuint target, char* pixels)
@@ -49,30 +37,32 @@ void Texture::data(GLuint target, char* pixels)
 void Texture::bind(GLuint target)
 {
 	glActiveTexture(target);
-	glBindTexture(GL_TEXTURE_2D, _id);
+	glBindTexture(_target, _id);
 
 	_isBound = true;
 }
 
 void Texture::unbind()
 {
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(_target, 0);
 	_isBound = false;
 }
 
-void Texture::parameter(GLenum name, GLint param)
+void Texture::parameter(Texture::ParamName name, Texture::Param param)
 {
 	assert(_isBound && "Texture is not bound");
 
-	glTexParameteri(GL_TEXTURE_2D, name, param);
+	glTexParameteri(_target, static_cast<GLenum>(name), static_cast<GLint>(param));
 }
 
+/*
 void Texture::parameter(GLenum name, GLfloat param)
 {
 	assert(_isBound && "Texture is not bound");
 
-	glTexParameterf(GL_TEXTURE_2D, name, param);
+	glTexParameterf(_target, name, param);
 }
+*/
 
 Texture::TextureRegion Texture::region(float x, float y, float w, float h)
 {
@@ -111,6 +101,11 @@ Texture::TextureRegion Texture::region(float x, float y, float w, float h)
 	return region;
 }
 
+void Texture::setTarget(Texture::Target target)
+{
+	_target = static_cast<GLenum>(target);
+}
+
 GLuint Texture::handle()
 {
 	return _id;
@@ -119,24 +114,6 @@ GLuint Texture::handle()
 bool Texture::isBound()
 {
 	return _isBound;
-}
-
-void sgl::swap(Texture& first, Texture& second)
-{
-	using std::swap;
-
-	swap(first._format, second._format);
-	swap(first._height, second._height);
-	swap(first._id, second._id);
-	swap(first._internalFormat, second._internalFormat);
-	swap(first._isBound, second._isBound);
-	swap(first._width, second._width);
-}
-
-Texture& Texture::operator=(Texture that)
-{
-	swap(*this, that);
-	return *this;
 }
 
 void Texture::destroy()
