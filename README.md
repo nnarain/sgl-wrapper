@@ -1,7 +1,7 @@
 SGL Wrapper
 ===========
 
-Simple OpenGL Wrapper. A, very light weight and simplistic, object oriented wrapper for OpenGL.
+Simple OpenGL Wrapper. A simple object oriented wrapper for OpenGL.
 
 
 Features
@@ -13,6 +13,7 @@ Features
 	* translation, rotation, scaling
 	* vertex attributes (position, normals, texutures, colors)
 * Textures
+* Frame buffers and Render buffers
 * Sprites, SpriteSheets and SpriteBatching
 
 
@@ -29,12 +30,6 @@ This command should do the trick:
 
 ```bash
 /> cmake -G "Visual Studio 12" C:\path\to\project
-```
-
-Also Note: Assertions are used in library code, disable with:
-
-```C++
-#define NDEBUG
 ```
 
 Examples

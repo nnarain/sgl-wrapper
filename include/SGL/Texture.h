@@ -18,6 +18,49 @@ namespace sgl{
 	{
 	public:
 		/* Types */
+		
+		//! valid texture targets
+		enum class Target
+		{
+			TEXTURE2D = GL_TEXTURE_2D,
+			CUBEMAP   = GL_TEXTURE_CUBE_MAP
+		};
+
+		//! Texture Format
+		enum class Format
+		{
+			RED  = GL_RED,
+			RG   = GL_RG,
+			RGB  = GL_RGB,
+			BGR  = GL_BGR,
+			RGBA = GL_RGBA,
+			BGRA = GL_BGRA
+		};
+
+		//! Internal Texture format
+		enum class InternalFormat
+		{
+			RGB = GL_RGB
+		};
+
+		//! Texture Parameters
+		enum class ParamName
+		{
+			MAG_FILTER = GL_TEXTURE_MAG_FILTER,
+			MIN_FILTER = GL_TEXTURE_MIN_FILTER,
+			WRAP_S     = GL_TEXTURE_WRAP_S,
+			WRAP_T     = GL_TEXTURE_WRAP_T,
+			WRAP_R     = GL_TEXTURE_WRAP_R
+		};
+
+		//! Parameter value
+		enum class Param
+		{
+			NEAREST = GL_NEAREST,
+			LINEAR = GL_LINEAR,
+			CLAMP   = GL_CLAMP,
+			REPEAT  = GL_REPEAT
+		};
 
 		//! Holder for uv coordinates
 		struct TextureRegion
@@ -30,12 +73,8 @@ namespace sgl{
 
 		/* Constructors */
 
-		Texture(int width, int height, GLint internalFormat, GLenum format);
-		
-		Texture(const Texture &that);
-		Texture& operator=(Texture);
-		friend void swap(Texture&, Texture&);
-		~Texture(void);
+		Texture(Target target, int width, int height, GLint internalFormat, GLenum format);
+		~Texture();
 
 		void data(char* pixels);
 		void data(GLuint target, char* pixels);
@@ -53,12 +92,12 @@ namespace sgl{
 		/**
 			Set int parameter of texture
 		*/
-		void parameter(GLenum name, GLint param);
+		void parameter(Texture::ParamName name, Texture::Param param);
 
 		/**
 			Set float parameter of texture
 		*/
-		void parameter(GLenum name, GLfloat param);
+		//void parameter(GLenum name, GLfloat param);
 
 		/**
 			Create texture region
@@ -67,12 +106,16 @@ namespace sgl{
 
 		/*  */
 
+		void setTarget(Target target);
+
 		GLuint handle();
 
 		bool isBound();
 
 	private:
 		GLuint _id;
+
+		GLenum _target;
 
 		//! width of texture
 		int _width;
