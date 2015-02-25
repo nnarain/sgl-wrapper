@@ -7,6 +7,7 @@
 #include "SGLExport.h"
 
 #include "ShaderProgram.h"
+#include "Mesh.h"
 #include "Camera.h"
 #include "Sprite.h"
 
