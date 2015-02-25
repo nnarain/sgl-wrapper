@@ -48,8 +48,14 @@ namespace sgl
 			DYANMIC_COPY = GL_DYNAMIC_COPY
 		};
 
+		/**
+			Create a static array buffer
+		*/
 		Buffer();
-		Buffer(Target, Usage);
+
+		/**
+		*/
+		Buffer(Target target, Usage usage);
 		~Buffer();
 
 		void bind();
