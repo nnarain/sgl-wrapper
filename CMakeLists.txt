@@ -31,7 +31,7 @@ include_directories(${GLM_INCLUDE_DIR})
 
 # find header & source
 file(GLOB_RECURSE HEADER "${INCL}*.h")
-file(GLOB SOURCE "src/*.cpp")
+file(GLOB_RECURSE SOURCE "src/*.cpp")
 
 # compiler flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
