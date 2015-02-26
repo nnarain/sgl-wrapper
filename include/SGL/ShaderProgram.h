@@ -10,10 +10,10 @@
 #include <GL/glew.h>
 
 #include "SGLExport.h"
-
 #include "VertexAttribute.h"
-#include "Mesh.h"
+#include "Uniform.h"
 #include "Exception.h"
+
 
 #include <glm/glm.hpp>
 
@@ -86,17 +86,13 @@ namespace sgl{
 
 		void attribute(const std::string &name, glm::vec3 value);
 
-		/* Passes the value to the corresponding uniform in the shader */
+		/**
+			@return the uniform specified by the name
 
-		void uniform(const std::string &name, glm::mat3 value);
-		void uniform(const std::string &name, glm::mat4 value);
-
-		void uniform(const std::string &name, glm::vec3 value);
-		void uniform(const std::string &name, glm::vec4 value);
-
-		void uniform(const std::string &name, int value);
-
-		void uniform(const std::string &name, float value);
+			@param name
+				Name of Uniform
+		*/
+		Uniform uniform(const std::string &name);
 
 		/**
 			Get the specified vertex attribute location
@@ -105,7 +101,7 @@ namespace sgl{
 		/**
 			Get the specified uniform location from the shader
 		*/
-		GLuint getUniformLocation(const std::string &name);
+		GLint getUniformLocation(const std::string &name);
 
 		/**
 			@return vector containing vertex attributes

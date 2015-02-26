@@ -170,7 +170,7 @@ void SpriteBatch::end()
 
 	// begin the render process
 	{
-		_shader->uniform("texture", 0);
+		_shader->uniform("texture").set(0);
 		renderBatch();
 	}
 	_shader->end();

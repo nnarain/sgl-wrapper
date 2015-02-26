@@ -163,34 +163,9 @@ void ShaderProgram::attribute(const std::string &name, glm::vec3 v)
 	glUniform3f(getAttributeLocation(name), v.x, v.y, v.z);
 }
 
-void ShaderProgram::uniform(const std::string &name, glm::mat3 m)
+Uniform ShaderProgram::uniform(const std::string &name)
 {
-	glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &m[0][0]);
-}
-
-void ShaderProgram::uniform(const std::string &name, glm::mat4 m)
-{
-	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &m[0][0]);
-}
-
-void ShaderProgram::uniform(const std::string &name, glm::vec3 v)
-{
-	glUniform3f(getUniformLocation(name), v.x, v.y, v.z);
-}
-
-void ShaderProgram::uniform(const std::string &name, glm::vec4 v)
-{
-	glUniform4f(getUniformLocation(name), v.x, v.y, v.z, v.w);
-}
-
-void ShaderProgram::uniform(const std::string &name, int value)
-{
-	glUniform1i(getUniformLocation(name), value);
-}
-
-void ShaderProgram::uniform(const std::string &name, float value)
-{
-	glUniform1f(getUniformLocation(name), value);
+	return Uniform(getUniformLocation(name));
 }
 
 GLuint ShaderProgram::getAttributeLocation(const std::string &name)
@@ -198,7 +173,7 @@ GLuint ShaderProgram::getAttributeLocation(const std::string &name)
 	return glGetAttribLocation(_programID, name.c_str());
 }
 
-GLuint ShaderProgram::getUniformLocation(const std::string &name)
+GLint ShaderProgram::getUniformLocation(const std::string &name)
 {
 	return glGetUniformLocation(_programID, name.c_str());
 }
