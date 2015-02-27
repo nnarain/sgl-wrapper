@@ -37,6 +37,8 @@ namespace sgl
 
 		void addAttachment(GLenum attachment);
 
+		GLuint getId() const;
+
 	private:
 		GLuint _id;
 		GLuint _target;

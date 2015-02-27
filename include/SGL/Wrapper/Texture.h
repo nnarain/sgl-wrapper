@@ -108,7 +108,7 @@ namespace sgl{
 
 		void setTarget(Target target);
 
-		GLuint handle();
+		GLuint getId() const;
 
 		bool isBound();
 

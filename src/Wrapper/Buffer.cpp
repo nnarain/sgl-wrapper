@@ -51,7 +51,7 @@ void Buffer::setUsage(Usage usage)
 	_usage = static_cast<GLenum>(usage);
 }
 
-GLuint Buffer::getID() const
+GLuint Buffer::getId() const
 {
 	return _id;
 }

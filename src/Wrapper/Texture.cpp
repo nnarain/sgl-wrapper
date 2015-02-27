@@ -106,7 +106,7 @@ void Texture::setTarget(Texture::Target target)
 	_target = static_cast<GLenum>(target);
 }
 
-GLuint Texture::handle()
+GLuint Texture::getId() const
 {
 	return _id;
 }

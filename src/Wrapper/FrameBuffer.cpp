@@ -23,12 +23,12 @@ void FrameBuffer::unbind()
 
 void FrameBuffer::setTexture(Texture& texture, GLuint attachment)
 {
-	glFramebufferTexture(GL_FRAMEBUFFER, attachment, texture.handle(), 0);
+	glFramebufferTexture(_target, attachment, texture.getId(), 0);
 }
 
 void FrameBuffer::setRenderBuffer(RenderBuffer& renderBuffer, GLuint attachment)
 {
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachment, GL_RENDERBUFFER, renderBuffer.handle());
+	glFramebufferRenderbuffer(_target, attachment, GL_RENDERBUFFER, renderBuffer.handle());
 }
 
 void FrameBuffer::setDrawBuffer()
@@ -44,6 +44,11 @@ void FrameBuffer::addAttachment(GLenum attachment)
 bool FrameBuffer::error()
 {
 	return glCheckFramebufferStatus(_target) != GL_FRAMEBUFFER_COMPLETE;
+}
+
+GLuint FrameBuffer::getId() const
+{
+	return _id;
 }
 
 FrameBuffer::~FrameBuffer()

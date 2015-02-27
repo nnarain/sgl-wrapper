@@ -68,6 +68,8 @@ namespace sgl
 		void setTarget(Target);
 		void setUsage(Usage);
 
+		GLuint getId() const;
+
 	private:
 		GLuint _id;
 
@@ -78,8 +80,6 @@ namespace sgl
 
 		void create();
 		void destroy();
-
-		GLuint getID() const;
 	};
 };
 

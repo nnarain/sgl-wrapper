@@ -217,7 +217,7 @@ void SpriteBatch::flip(Texture::TextureRegion& region, bool horizontal, bool ver
 
 bool SpriteBatch::sortGlyphs(SpriteBatch::Glyph* glyph1, SpriteBatch::Glyph* glyph2)
 {
-	return glyph1->texture->handle() < glyph2->texture->handle();
+	return glyph1->texture->getId() < glyph2->texture->getId();
 }
 
 SpriteBatch::~SpriteBatch()
