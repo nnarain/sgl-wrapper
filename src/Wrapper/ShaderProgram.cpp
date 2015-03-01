@@ -77,9 +77,8 @@ void ShaderProgram::addAttribute(const std::string &name, int numComponents)
 {
 	glBindAttribLocation(_programID, _attributeLocation, name.c_str());
 
-	_attributeLocation++;
-
-	_attributes->emplace_back(_attributeLocation, numComponents);
+	_attributes->emplace_back(_attributeLocation++, numComponents);
+	//_attributeLocation++;
 }
 
 void ShaderProgram::addAttribute(const std::string &name, int numComponents, int numComponentsPerLocations)

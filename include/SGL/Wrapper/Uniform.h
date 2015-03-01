@@ -30,8 +30,11 @@ namespace sgl
 		void set(float, float, float);
 		void set(float, float, float, float);
 
-		void set(glm::mat3, bool transpose);
-		void set(glm::mat4, bool transpose);
+		void set(const glm::vec3 &);
+		void set(const glm::vec4 &);
+
+		void set(const glm::mat3 &, bool transpose);
+		void set(const glm::mat4 &, bool transpose);
 
 		/* Getters */
 		int getLocation() const;

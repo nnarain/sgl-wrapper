@@ -24,7 +24,8 @@ Camera::Camera(float fov, float viewportWidth, float viewportHeight) :
 	_target(new glm::vec3),
 	_up(new glm::vec3(0,1,0)),
 	_right(new glm::vec3),
-	_look(new glm::vec3)
+	_look(new glm::vec3),
+	_pos(new glm::vec3)
 {
 	float aspectRatio = _viewportWidth / _viewportHeight;
 	*_proj = glm::perspective(fov, aspectRatio, _nearClipping, _farClipping);
