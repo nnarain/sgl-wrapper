@@ -4,8 +4,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "SGLExport.h"
-#include "Geometry.h"
+#include "SGL/Util/SGLExport.h"
+#include "SGL/Type/Geometry.h"
 
 #include <glm/glm.hpp>
 

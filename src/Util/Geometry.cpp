@@ -1,5 +1,5 @@
 
-#include "SGL/Util/Geometry.h"
+#include "SGL/Type/Geometry.h"
 #include "SGL/Util/SGLCoordinate.h"
 
 SGLVOIDFUNC sgl::util::makeQuad(sgl::Quad& quad, float pixelX, float pixelY, float pixelW, float pixelH)

@@ -4,7 +4,7 @@
 #ifndef GEOMETRY_H
 #define GEOMETRY_H
 
-#include "SGLExport.h"
+#include "SGL/Util/SGLExport.h"
 
 #include <glm/glm.hpp>
 
