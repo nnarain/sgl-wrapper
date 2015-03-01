@@ -28,6 +28,13 @@ void PropertyShader::setPointLight(const std::string &name, const PointLight &li
 	uniform(name + ".atten.e").set(light.atten.e);
 }
 
+void PropertyShader::setSpotLight(const std::string &name, const SpotLight &light)
+{
+	setPointLight(name, light);
+	uniform(name + ".direction").set(light.direction);
+	uniform(name + ".cutoff").set(light.cutoff);
+}
+
 void PropertyShader::setMaterial(const std::string &name, const Material &mat)
 {
 	uniform(name + ".ambientColor").set(mat.ambientColor);

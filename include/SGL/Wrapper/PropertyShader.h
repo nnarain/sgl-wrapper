@@ -19,6 +19,7 @@ namespace sgl
 		void setBaseLight(const std::string &name, const BaseLight & light);
 		void setDirectionLight(const std::string &name, const DirectionalLight &light);
 		void setPointLight(const std::string &name, const PointLight &light);
+		void setSpotLight(const std::string &name, const SpotLight &light);
 
 		void setMaterial(const std::string &name, const Material &mat);
 
