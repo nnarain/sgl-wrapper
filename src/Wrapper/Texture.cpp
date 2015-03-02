@@ -6,15 +6,16 @@
 
 using namespace sgl;
 
-Texture::Texture(Target target, int width, int height, GLint internalFormat, GLenum format) :
+Texture::Texture(Target target, int width, int height, Texture::InternalFormat internalFormat, Texture::Format format) :
 	_width(width),
 	_height(height),
-	_internalFormat(internalFormat),
-	_format(format),
 	_isBound(false)
 {
 	create();
 	setTarget(target);
+
+	_internalFormat = static_cast<GLint>(internalFormat);
+	_format         = static_cast<GLenum>(format);
 }
 
 void Texture::create()
@@ -27,24 +28,24 @@ void Texture::data(char* pixels)
 	data(_target, pixels);
 }
 
-void Texture::data(GLuint target, char* pixels)
+void Texture::data(Target target, char* pixels)
 {
 	assert(_isBound && "Texture has not been bound");
 
-	glTexImage2D(target, 0, _internalFormat, _width, _height, 0, _format, GL_UNSIGNED_BYTE, pixels);
+	glTexImage2D(static_cast<GLenum>(target), 0, _internalFormat, _width, _height, 0, _format, GL_UNSIGNED_BYTE, pixels);
 }
 
 void Texture::bind(GLuint target)
 {
 	glActiveTexture(target);
-	glBindTexture(_target, _id);
+	glBindTexture(static_cast<GLenum>(_target), _id);
 
 	_isBound = true;
 }
 
 void Texture::unbind()
 {
-	glBindTexture(_target, 0);
+	glBindTexture(static_cast<GLenum>(_target), 0);
 	_isBound = false;
 }
 
@@ -52,7 +53,7 @@ void Texture::parameter(Texture::ParamName name, Texture::Param param)
 {
 	assert(_isBound && "Texture is not bound");
 
-	glTexParameteri(_target, static_cast<GLenum>(name), static_cast<GLint>(param));
+	glTexParameteri(static_cast<GLenum>(_target), static_cast<GLenum>(name), static_cast<GLint>(param));
 }
 
 /*
@@ -103,7 +104,12 @@ Texture::TextureRegion Texture::region(float x, float y, float w, float h)
 
 void Texture::setTarget(Texture::Target target)
 {
-	_target = static_cast<GLenum>(target);
+	_target = target;
+}
+
+Texture::Target Texture::getTarget() const
+{
+	return _target;
 }
 
 GLuint Texture::getId() const

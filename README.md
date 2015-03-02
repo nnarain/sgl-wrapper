@@ -15,6 +15,7 @@ Features
 * Textures
 * Frame buffers and Render buffers
 * Sprites, SpriteSheets and SpriteBatching
+* Lights and Materials
 
 
 Build

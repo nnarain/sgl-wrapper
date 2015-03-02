@@ -16,36 +16,44 @@ namespace sgl
 	public:
 		/* Types */
 
-		enum class Mode
+		enum class Target
 		{
 			DEFAULT = GL_FRAMEBUFFER,
 			READ    = GL_READ_FRAMEBUFFER,
 			DRAW    = GL_DRAW_FRAMEBUFFER
 		};
 
+		enum class Attachment
+		{
+			COLOR   = GL_COLOR_ATTACHMENT0,
+			DEPTH   = GL_DEPTH_ATTACHMENT,
+			STENCIL = GL_STENCIL_ATTACHMENT
+		};
+
 		FrameBuffer();
 		~FrameBuffer();
 
-		void bind(Mode);
+		void bind(Target);
 		void bind();
 		void unbind();
 
-		void setTexture(Texture& texture, GLuint attachment);
+		void setTexture(Texture& texture, Attachment attachment);
+		void setTexture2D(const Texture &texture, Attachment attachment);
 		void setRenderBuffer(RenderBuffer& renderBuffer, GLuint attachment);
 
 		void setDrawBuffer();
 
 		void addAttachment(GLenum attachment);
 
+		bool error();
+
 		GLuint getId() const;
 
 	private:
 		GLuint _id;
-		GLuint _target;
+		Target _target;
 
 		std::vector<GLenum>* _attachments;
-
-		bool error();
 	};
 
 };

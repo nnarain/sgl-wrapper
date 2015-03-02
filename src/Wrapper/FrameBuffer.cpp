@@ -9,26 +9,37 @@ FrameBuffer::FrameBuffer() :
 	glGenFramebuffers(1, &_id);
 }
 
-void FrameBuffer::bind(Mode mode)
+void FrameBuffer::bind(Target target)
 {
-	_target = static_cast<GLuint>(mode);
-	glBindFramebuffer(_target, _id);
+	_target = target;
+	glBindFramebuffer(static_cast<GLuint>(_target), _id);
 }
 
 
 void FrameBuffer::unbind()
 {
-	glBindFramebuffer(_target, 0);
+	glBindFramebuffer(static_cast<GLuint>(_target), 0);
 }
 
-void FrameBuffer::setTexture(Texture& texture, GLuint attachment)
+void FrameBuffer::setTexture(Texture& texture, FrameBuffer::Attachment attachment)
 {
-	glFramebufferTexture(_target, attachment, texture.getId(), 0);
+	glFramebufferTexture(static_cast<GLuint>(_target), static_cast<GLuint>(attachment), texture.getId(), 0);
+}
+
+void FrameBuffer::setTexture2D(const Texture &texture, Attachment attachment)
+{
+	glFramebufferTexture2D(
+		static_cast<GLuint>(_target),
+		static_cast<GLenum>(attachment),
+		static_cast<GLenum>(texture.getTarget()),
+		texture.getId(),
+		0
+	);
 }
 
 void FrameBuffer::setRenderBuffer(RenderBuffer& renderBuffer, GLuint attachment)
 {
-	glFramebufferRenderbuffer(_target, attachment, GL_RENDERBUFFER, renderBuffer.handle());
+	glFramebufferRenderbuffer(static_cast<GLuint>(_target), attachment, GL_RENDERBUFFER, renderBuffer.handle());
 }
 
 void FrameBuffer::setDrawBuffer()
@@ -43,7 +54,7 @@ void FrameBuffer::addAttachment(GLenum attachment)
 
 bool FrameBuffer::error()
 {
-	return glCheckFramebufferStatus(_target) != GL_FRAMEBUFFER_COMPLETE;
+	return glCheckFramebufferStatus(static_cast<GLenum>(_target)) != GL_FRAMEBUFFER_COMPLETE;
 }
 
 GLuint FrameBuffer::getId() const
