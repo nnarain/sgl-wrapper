@@ -61,7 +61,7 @@ namespace sgl{
 		enum class Param
 		{
 			NEAREST = GL_NEAREST,
-			LINEAR = GL_LINEAR,
+			LINEAR  = GL_LINEAR,
 			CLAMP   = GL_CLAMP,
 			REPEAT  = GL_REPEAT
 		};
