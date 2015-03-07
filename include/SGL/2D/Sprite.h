@@ -52,6 +52,7 @@ namespace sgl
 		float getHeight();
 
 		Texture* getTexture();
+		void setTexture(Texture *);
 
 		void setTextureRegion(Texture::TextureRegion region);
 		void setTextureRegion(float x, float y, float w, float h);

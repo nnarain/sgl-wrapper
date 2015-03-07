@@ -113,6 +113,10 @@ namespace sgl{
 		*/
 		GLuint handle() const;
 
+
+		/* operators */
+		Uniform operator[](const std::string &);
+
 	private:
 		//! program handle
 		GLuint _programID;

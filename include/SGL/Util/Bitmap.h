@@ -14,7 +14,7 @@ namespace sgl
 		Bitmap(std::string name);
 		~Bitmap();
 
-		bool load();
+		void load();
 
 		char *data() const;
 		uint32_t width() const;

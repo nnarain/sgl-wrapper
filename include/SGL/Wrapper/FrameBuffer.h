@@ -25,9 +25,9 @@ namespace sgl
 
 		enum class Attachment
 		{
-			COLOR   = GL_COLOR_ATTACHMENT0,
-			DEPTH   = GL_DEPTH_ATTACHMENT,
-			STENCIL = GL_STENCIL_ATTACHMENT
+			COLOR0   = GL_COLOR_ATTACHMENT0,
+			DEPTH    = GL_DEPTH_ATTACHMENT,
+			STENCIL  = GL_STENCIL_ATTACHMENT
 		};
 
 		FrameBuffer();

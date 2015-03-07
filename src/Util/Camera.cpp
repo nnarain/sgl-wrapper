@@ -156,6 +156,11 @@ glm::vec3 Camera::getRightDirection() const
 	return *_right;
 }
 
+glm::vec3 Camera::getTarget() const
+{
+	return (*_target);
+}
+
 void sgl::swap(Camera& first, Camera& second)
 {
 	using std::swap;

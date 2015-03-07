@@ -249,6 +249,10 @@ void ShaderProgram::destroy()
 	}
 }
 
+Uniform ShaderProgram::operator[](const std::string &name)
+{
+	return uniform(name);
+}
 
 ShaderProgram::~ShaderProgram(void)
 {

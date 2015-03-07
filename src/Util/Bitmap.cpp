@@ -1,25 +1,31 @@
 #include "SGL/Util/Bitmap.h"
+#include "SGL/Util/Exception.h"
 
 using namespace sgl;
 
-Bitmap::Bitmap(std::string name)
+Bitmap::Bitmap(std::string name) :
+	_dataPos(0),
+	_imageSize(0),
+	_width(0),
+	_height(0),
+	_imageData(NULL)
 {
 	_name = name;
 }
 
-bool Bitmap::load()
+void Bitmap::load()
 {
-	std::ifstream file;
-	file.open(_name, std::ios::binary);
+	std::ifstream file(_name, std::ifstream::binary);
 
-	if (file.is_open()){
+	if (file.good()){
 		file.read(_header, 54);
 
+		// verify signature
 		if (_header[0] == 'B' || _header[1] == 'M'){
-			_dataPos = *(int*)&(_header[0x0A]);
+			_dataPos   = *(int*)&(_header[0x0A]);
 			_imageSize = *(int*)&(_header[0x22]);
-			_width = *(int*)&(_header[0x12]);
-			_height = *(int*)&(_header[0x16]);
+			_width     = *(int*)&(_header[0x12]);
+			_height    = *(int*)&(_header[0x16]);
 
 			if (_imageSize == 0) _imageSize = _width * _height * 3;
 			if (_dataPos == 0) _dataPos = 54;
@@ -28,17 +34,25 @@ bool Bitmap::load()
 
 			file.read(_imageData, _imageSize);
 
-			file.close();
+			// check if the read was unsuccessful
+			if (file.fail())
+			{
+				throw Exception("Failed to read data from " + _name + ", unexcepted data read");
+			}
+
+			if (file.bad())
+			{
+				throw Exception("Failed to read from " + _name + ", bad stream");
+			}
 		}
 		else{
-			return false;
+			throw Exception("invalid bitmap signature: " + _name);
 		}
 	}
 	else{
-		return false;
+		throw Exception("Could not open file " + _name);
 	}
 
-	return true;
 }
 
 char* Bitmap::data() const

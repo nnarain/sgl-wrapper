@@ -138,12 +138,15 @@ void SpriteBatch::render(Texture* texture, std::vector<Vertex> *batch)
 {
 	if (texture == NULL) return;
 
-	texture->bind(GL_TEXTURE0);
+	texture->bind(sgl::Texture::Unit::T0);
 
 	int size = batch->size();
 
 	// update the mesh data and draw count
-	_mesh.getVBO().setData(&(*batch)[0], size * sizeof(Vertex));
+	sgl::Buffer &vbo = _mesh.getVBO();
+	vbo.bind();
+	vbo.setData(&(*batch)[0], size * sizeof(Vertex));
+	vbo.unbind();
 
 	_mesh.setDrawCount(size);
 

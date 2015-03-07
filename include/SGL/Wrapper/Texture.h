@@ -98,9 +98,14 @@ namespace sgl{
 		void data(Target target, char* pixels);
 
 		/**
-			Bind texture to a target
+			Bind texture to a texture unit
 		*/
-		void bind(GLuint target);
+		void bind(Unit unit);
+
+		/**
+			Bind the texture
+		*/
+		void bind();
 
 		/**
 			Unbind to texture
@@ -126,6 +131,12 @@ namespace sgl{
 
 		void setTarget(Target target);
 		Texture::Target getTarget() const;
+
+		void setWidth(int w);
+		int getWidth() const;
+
+		void setHeight(int h);
+		int getHeight() const;
 
 		GLuint getId() const;
 

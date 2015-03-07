@@ -92,8 +92,9 @@ namespace sgl{
 		Sets world position of camera, (x,y,z)
 		*/
 		void setPosition(float, float, float);
-
 		glm::vec3 getPosition() const;
+
+		glm::vec3 getTarget() const;
 
 		glm::vec3 getUpVector() const;
 		void setUpVector(glm::vec3 up);

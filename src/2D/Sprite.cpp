@@ -80,6 +80,11 @@ Texture* Sprite::getTexture()
 	return _texture;
 }
 
+void Sprite::setTexture(Texture *t)
+{
+	_texture = t;
+}
+
 void Sprite::setTextureRegion(Texture::TextureRegion region)
 {
 	_region = region;
