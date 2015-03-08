@@ -1,5 +1,5 @@
 
-#include "SGL/Wrapper/Texture.h"
+#include "SGL/GL/Texture.h"
 
 #include <memory>
 #include <algorithm>

@@ -7,9 +7,9 @@
 #include <GL/glew.h>
 
 #include "SGL/Util/SGLExport.h"
-#include "SGL/Wrapper/VertexAttribute.h"
-#include "SGL/Wrapper/Buffer.h"
-#include "SGL/Wrapper/VertexArray.h"
+#include "SGL/GL/VertexAttribute.h"
+#include "SGL/GL/Buffer.h"
+#include "SGL/GL/VertexArray.h"
 
 #include <vector>
 

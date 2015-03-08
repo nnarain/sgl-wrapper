@@ -1,5 +1,5 @@
 
-#include "SGL/Wrapper/VertexArray.h"
+#include "SGL/GL/VertexArray.h"
 
 using namespace sgl;
 

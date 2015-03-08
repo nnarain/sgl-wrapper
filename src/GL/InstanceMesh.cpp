@@ -1,6 +1,6 @@
 
-#include "SGL/Wrapper/InstanceMesh.h"
-#include "SGL/Wrapper/VertexAttribute.h"
+#include "SGL/GL/InstanceMesh.h"
+#include "SGL/GL/VertexAttribute.h"
 
 #include "SGL/Util/Exception.h"
 

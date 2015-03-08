@@ -6,7 +6,7 @@
 
 #include "SGL/Util/SGLExport.h"
 
-#include "SGL/Wrapper/Texture.h"
+#include "SGL/GL/Texture.h"
 #include "SGL/Type/Geometry.h"
 
 // math

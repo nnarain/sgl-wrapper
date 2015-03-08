@@ -1,5 +1,5 @@
 
-#include <SGL/Wrapper/Uniform.h>
+#include <SGL/GL/Uniform.h>
 #include <SGL/Util/Exception.h>
 
 using namespace sgl;

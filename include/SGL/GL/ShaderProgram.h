@@ -10,8 +10,8 @@
 #include <GL/glew.h>
 
 #include "SGL/Util/SGLExport.h"
-#include "SGL/Wrapper/VertexAttribute.h"
-#include "SGL/Wrapper/Uniform.h"
+#include "SGL/GL/VertexAttribute.h"
+#include "SGL/GL/Uniform.h"
 #include "SGL/Util/Exception.h"
 
 

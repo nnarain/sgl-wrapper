@@ -1,5 +1,5 @@
 
-#include "SGL/Wrapper/PropertyShader.h"
+#include "SGL/GL/PropertyShader.h"
 
 using namespace sgl;
 
