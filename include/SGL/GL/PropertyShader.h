@@ -4,7 +4,7 @@
 
 #include <SGL/Util/SGLExport.h>
 
-#include <SGL/Wrapper/ShaderProgram.h>
+#include <SGL/GL/ShaderProgram.h>
 #include <SGL/Type/Light.h>
 #include <SGL/Type/Material.h>
 

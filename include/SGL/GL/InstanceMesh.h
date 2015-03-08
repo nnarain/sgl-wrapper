@@ -5,7 +5,7 @@
 #define INSTANCEMESH_H
 
 #include "SGL/Util/SGLExport.h"
-#include "SGL/Wrapper/VertexAttribute.h"
+#include "SGL/GL/VertexAttribute.h"
 
 #include <vector>
 

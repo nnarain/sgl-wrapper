@@ -6,8 +6,8 @@
 #include <GL/glew.h>
 #include <vector>
 
-#include "SGL/Wrapper/Texture.h"
-#include "SGL/Wrapper/RenderBuffer.h"
+#include "SGL/GL/Texture.h"
+#include "SGL/GL/RenderBuffer.h"
 
 namespace sgl
 {

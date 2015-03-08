@@ -6,8 +6,8 @@
 
 #include "SGL/Util/SGLExport.h"
 
-#include "SGL/Wrapper/ShaderProgram.h"
-#include "SGL/Wrapper/Mesh.h"
+#include "SGL/GL/ShaderProgram.h"
+#include "SGL/GL/Mesh.h"
 #include "SGL/Util/Camera.h"
 #include "SGL/2D/Sprite.h"
 

@@ -36,8 +36,8 @@ file(GLOB_RECURSE SOURCE "src/*.cpp")
 
 # Get sub folder headers
 
-file(GLOB_RECURSE WrapperHeaders ${INCL}/SGL/Wrapper/*.h)
-file(GLOB_RECURSE WrapperSources ${SRC}/Wrapper/*.cpp)
+file(GLOB_RECURSE GLHeaders ${INCL}/SGL/GL/*.h)
+file(GLOB_RECURSE GLSources ${SRC}/GL/*.cpp)
 
 file(GLOB_RECURSE UtilHeaders ${INCL}/SGL/Util/*.h)
 file(GLOB_RECURSE UtilSources ${SRC}/Util/*.cpp)
@@ -63,13 +63,13 @@ add_library(
 )
 
 # include groups
-source_group("Header Files/Wrapper" FILES ${WrapperHeaders})
+source_group("Header Files/GL" FILES ${GLHeaders})
 source_group("Header Files/Util"    FILES ${UtilHeaders})
 source_group("Header Files/2D"      FILES ${2DHeaders})
 source_group("Header Files/Type"    FILES ${TypeHeaders})
 
 # source file groups
-source_group("Source Files/Wrapper" FILES ${WrapperSources})
+source_group("Source Files/GL" FILES ${GLSources})
 source_group("Source Files/Util"    FILES ${UtilSources})
 source_group("Source Files/2D"      FILES ${2DSources})
 

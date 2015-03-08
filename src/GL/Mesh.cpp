@@ -1,5 +1,5 @@
 
-#include "SGL/Wrapper/Mesh.h"
+#include "SGL/GL/Mesh.h"
 #include "SGL/Util/Exception.h"
 
 #include <cassert>

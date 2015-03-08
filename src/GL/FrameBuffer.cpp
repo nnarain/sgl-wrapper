@@ -1,4 +1,4 @@
-#include "SGL/Wrapper/FrameBuffer.h"
+#include "SGL/GL/FrameBuffer.h"
 #include "SGL/Util/Exception.h"
 
 using namespace sgl;

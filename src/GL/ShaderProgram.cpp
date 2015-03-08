@@ -1,4 +1,4 @@
-#include "SGL/Wrapper/ShaderProgram.h"
+#include "SGL/GL/ShaderProgram.h"
 
 #include "SGL/Util/Exception.h"
 

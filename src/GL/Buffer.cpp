@@ -1,5 +1,5 @@
 
-#include "SGL/Wrapper/Buffer.h"
+#include "SGL/GL/Buffer.h"
 
 using namespace sgl;
 
