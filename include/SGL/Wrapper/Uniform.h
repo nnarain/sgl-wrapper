@@ -33,7 +33,10 @@ namespace sgl
 		void set(const glm::vec3 &);
 		void set(const glm::vec4 &);
 
+		void set(const glm::mat3 &);
 		void set(const glm::mat3 &, bool transpose);
+
+		void set(const glm::mat4 &);
 		void set(const glm::mat4 &, bool transpose);
 
 		/* Getters */

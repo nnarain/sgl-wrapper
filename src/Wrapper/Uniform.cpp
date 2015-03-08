@@ -67,12 +67,22 @@ void Uniform::set(const glm::vec4 &v)
 }
 
 /* Matrix 3x3 set */
+void Uniform::set(const glm::mat3 &v)
+{
+	set(v, false);
+}
+
 void Uniform::set(const glm::mat3 &v, bool transpose)
 {
 	glUniformMatrix3fv(_location, 1, transpose, &v[0][0]);
 }
 
 /* Matrix 4x4 set */
+void Uniform::set(const glm::mat4 &v)
+{
+	set(v, false);
+}
+
 void Uniform::set(const glm::mat4 &v, bool transpose)
 {
 	glUniformMatrix4fv(_location, 1, transpose, &v[0][0]);
