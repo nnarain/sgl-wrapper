@@ -16,16 +16,17 @@ Bitmap::Bitmap(std::string name) :
 void Bitmap::load()
 {
 	std::ifstream file(_name, std::ifstream::binary);
+	char header[54];
 
 	if (file.good()){
-		file.read(_header, 54);
+		file.read(header, 54);
 
 		// verify signature
-		if (_header[0] == 'B' || _header[1] == 'M'){
-			_dataPos   = *(int*)&(_header[0x0A]);
-			_imageSize = *(int*)&(_header[0x22]);
-			_width     = *(int*)&(_header[0x12]);
-			_height    = *(int*)&(_header[0x16]);
+		if (header[0] == 'B' && header[1] == 'M'){
+			_dataPos   = *(int*)&(header[0x0A]);
+			_imageSize = *(int*)&(header[0x22]);
+			_width     = *(int*)&(header[0x12]);
+			_height    = *(int*)&(header[0x16]);
 
 			if (_imageSize == 0) _imageSize = _width * _height * 3;
 			if (_dataPos == 0) _dataPos = 54;
