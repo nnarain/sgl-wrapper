@@ -80,8 +80,6 @@ void Image::loadTGA()
 	// check if the file is valid
 	if (file.good())
 	{
-		std::cout << sizeof(Image::TGAHeader) << std::endl;
-
 		// read the header
 		file.read((char *)&header, sizeof(Image::TGAHeader));
 
