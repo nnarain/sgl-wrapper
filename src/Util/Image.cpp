@@ -50,9 +50,9 @@ void Image::loadBMP()
 				_size = _width * _height * 3; //pixel width * pixel height * RGB
 
 			// get the image data
-			_data = new char[header.imageDataSize];
+			_data = new char[_size];
 
-			file.read(_data, header.imageDataSize);
+			file.read(_data, _size);
 
 			// check if the read failed
 			if (file.fail())
@@ -74,7 +74,38 @@ void Image::loadBMP()
 
 void Image::loadTGA()
 {
-	throw Exception("TGA not supported");
+	std::ifstream file(_filename, std::ifstream::binary);
+	Image::TGAHeader header;
+
+	// check if the file is valid
+	if (file.good())
+	{
+		std::cout << sizeof(Image::TGAHeader) << std::endl;
+
+		// read the header
+		file.read((char *)&header, sizeof(Image::TGAHeader));
+
+		// set the general image data
+		_width = header.width;
+		_height = header.height;
+
+		_size = _width * _height * 3;
+
+		// get the image data
+		_data = new char[_size];
+
+		file.read(_data, _size);
+
+		if (file.fail())
+		{
+			throw Exception("Failed to read file: " + _filename);
+		}
+
+	}
+	else
+	{
+		throw Exception("Failed to open file: " + _filename);
+	}
 }
 
 Image::Format Image::getFormat()
