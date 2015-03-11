@@ -132,6 +132,8 @@ Image::Format Image::findFormat(const std::string &ext)
 		return Image::Format::TGA;
 	else if (ext == "bmp")
 		return Image::Format::BMP;
+
+	throw Exception("unsupported format: " + ext);
 }
 
 Image::Format Image::getFormat()
