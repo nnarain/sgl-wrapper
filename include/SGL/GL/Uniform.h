@@ -4,6 +4,7 @@
 #define UNIFORM_H
 
 #include <SGL/Util/SGLExport.h>
+#include <SGL/GL/Texture.h>
 #include <glm/glm.hpp>
 
 namespace sgl
@@ -38,6 +39,8 @@ namespace sgl
 
 		void set(const glm::mat4 &);
 		void set(const glm::mat4 &, bool transpose);
+
+		void set(const Texture &);
 
 		/* Getters */
 		int getLocation() const;

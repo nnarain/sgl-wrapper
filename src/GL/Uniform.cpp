@@ -88,6 +88,12 @@ void Uniform::set(const glm::mat4 &v, bool transpose)
 	glUniformMatrix4fv(_location, 1, transpose, &v[0][0]);
 }
 
+/* Texture */
+void Uniform::set(const Texture &texture)
+{
+	set(texture.getIndex());
+}
+
 /* Getters */
 
 int Uniform::getLocation() const

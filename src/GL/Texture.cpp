@@ -9,7 +9,8 @@ using namespace sgl;
 Texture::Texture(Target target, int width, int height, Texture::InternalFormat internalFormat, Texture::Format format) :
 	_width(width),
 	_height(height),
-	_isBound(false)
+	_isBound(false),
+	_currentUnit(Texture::Unit::NONE)
 {
 	create();
 	setTarget(target);
@@ -43,6 +44,10 @@ void Texture::bind()
 
 void Texture::bind(Unit unit)
 {
+	assert(unit != Texture::Unit::NONE && "Texture unit cannot be NONE");
+
+	_currentUnit = unit;
+
 	glActiveTexture(static_cast<GLuint>(unit));
 	glBindTexture(static_cast<GLenum>(_target), _id);
 
@@ -51,7 +56,14 @@ void Texture::bind(Unit unit)
 
 void Texture::unbind()
 {
+	if (_currentUnit != Texture::Unit::NONE)
+	{
+		glActiveTexture(static_cast<GLuint>(_currentUnit));
+	}
+
 	glBindTexture(static_cast<GLenum>(_target), 0);
+
+	_currentUnit = Texture::Unit::NONE;
 	_isBound = false;
 }
 
@@ -61,15 +73,6 @@ void Texture::parameter(Texture::ParamName name, Texture::Param param)
 
 	glTexParameteri(static_cast<GLenum>(_target), static_cast<GLenum>(name), static_cast<GLint>(param));
 }
-
-/*
-void Texture::parameter(GLenum name, GLfloat param)
-{
-	assert(_isBound && "Texture is not bound");
-
-	glTexParameterf(_target, name, param);
-}
-*/
 
 Texture::TextureRegion Texture::region(float x, float y, float w, float h)
 {
@@ -146,6 +149,16 @@ void Texture::setHeight(int h)
 int Texture::getHeight() const
 {
 	return _height;
+}
+
+int Texture::getIndex() const
+{
+	if (_currentUnit == Texture::Unit::NONE)
+	{
+		return -1;
+	}
+
+	return (int)(static_cast<GLuint>(_currentUnit)-static_cast<GLuint>(Texture::Unit::T0));
 }
 
 void Texture::destroy()

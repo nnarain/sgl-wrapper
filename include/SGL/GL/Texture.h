@@ -23,7 +23,14 @@ namespace sgl{
 		enum class Target
 		{
 			TEXTURE2D = GL_TEXTURE_2D,
-			CUBEMAP   = GL_TEXTURE_CUBE_MAP
+			CUBEMAP   = GL_TEXTURE_CUBE_MAP,
+
+			CUBE_MAP_POS_Y = GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+			CUBE_MAP_NEG_Y = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+			CUBE_MAP_POS_X = GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+			CUBE_MAP_NEG_X = GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+			CUBE_MAP_POS_Z = GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+			CUBE_MAP_NEG_Z = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
 		};
 
 		//! Texture Format
@@ -60,12 +67,14 @@ namespace sgl{
 		//! Parameter value
 		enum class Param
 		{
-			NEAREST = GL_NEAREST,
-			LINEAR  = GL_LINEAR,
-			CLAMP   = GL_CLAMP,
-			REPEAT  = GL_REPEAT
+			NEAREST    = GL_NEAREST,
+			LINEAR     = GL_LINEAR,
+			CLAMP      = GL_CLAMP,
+			CLAMP_EDGE = GL_CLAMP_TO_EDGE,
+			REPEAT     = GL_REPEAT
 		};
 
+		//! Active Texture Unit
 		enum class Unit
 		{
 			T0 = GL_TEXTURE0,
@@ -77,7 +86,9 @@ namespace sgl{
 			T6 = GL_TEXTURE6,
 			T7 = GL_TEXTURE7,
 			T8 = GL_TEXTURE8,
-			T9 = GL_TEXTURE9
+			T9 = GL_TEXTURE9,
+
+			NONE
 		};
 
 		//! Holder for uv coordinates
@@ -120,7 +131,6 @@ namespace sgl{
 		/**
 			Set float parameter of texture
 		*/
-		//void parameter(GLenum name, GLfloat param);
 
 		/**
 			Create texture region
@@ -138,6 +148,8 @@ namespace sgl{
 		void setHeight(int h);
 		int getHeight() const;
 
+		int getIndex() const;
+
 		GLuint getId() const;
 
 		bool isBound();
@@ -145,7 +157,11 @@ namespace sgl{
 	private:
 		GLuint _id;
 
+		//! Texture target to bind to
 		Target _target;
+
+		//! Current active texture
+		Unit _currentUnit;
 
 		//! width of texture
 		int _width;
