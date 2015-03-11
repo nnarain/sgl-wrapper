@@ -51,7 +51,7 @@ void Image::loadBMP()
 
 			_size = header.imageDataSize;
 			if (_size == 0)
-				_size = _width * _height * 3; //pixel width * pixel height * RGB
+				_size = _width * _height * 3; // pixel width * pixel height * RGB
 
 			// get the image data
 			_data = new char[_size];
@@ -128,12 +128,16 @@ std::string Image::getFileExtension(const std::string &filename)
 
 Image::Format Image::findFormat(const std::string &ext)
 {
-	if (ext == "tga")
-		return Image::Format::TGA;
-	else if (ext == "bmp")
-		return Image::Format::BMP;
+	Image::Format format;
 
-	throw Exception("unsupported format: " + ext);
+	if (ext == "tga")
+		format = Image::Format::TGA;
+	else if (ext == "bmp")
+		format = Image::Format::BMP;
+	else
+		throw Exception("unsupported format: " + ext);
+
+	return format;
 }
 
 Image::Format Image::getFormat()
