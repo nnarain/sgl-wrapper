@@ -12,6 +12,8 @@ namespace sgl
 {
 	SGLCLASS RenderBuffer
 	{
+		NO_COPY(RenderBuffer);
+
 	public:
 		RenderBuffer();
 		~RenderBuffer();

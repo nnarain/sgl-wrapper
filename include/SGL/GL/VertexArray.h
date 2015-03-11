@@ -10,6 +10,8 @@ namespace sgl
 {
 	SGLCLASS VertexArray
 	{
+		NO_COPY(VertexArray);
+
 	public:
 		VertexArray();
 		~VertexArray();

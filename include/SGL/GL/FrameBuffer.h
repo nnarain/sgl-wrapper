@@ -13,6 +13,8 @@ namespace sgl
 {
 	SGLCLASS FrameBuffer
 	{
+		NO_COPY(FrameBuffer);
+
 	public:
 		/* Types */
 

@@ -16,6 +16,8 @@ namespace sgl{
 	*/
 	SGLCLASS Texture
 	{
+		NO_COPY(Texture);
+
 	public:
 		/* Types */
 		

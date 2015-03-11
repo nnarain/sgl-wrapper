@@ -14,6 +14,8 @@ namespace sgl
 	*/
 	SGLCLASS Buffer
 	{
+		NO_COPY(Buffer);
+
 	public:
 		//! Valid Target
 		enum class Target
@@ -57,6 +59,8 @@ namespace sgl
 		*/
 		Buffer(Target target, Usage usage);
 		~Buffer();
+
+	public:
 
 		void bind();
 		void unbind();

@@ -27,13 +27,11 @@ namespace sgl{
 	*/
 	SGLCLASS ShaderProgram
 	{
+		NO_COPY(ShaderProgram);
+
 	public:
 		ShaderProgram(void);
 		virtual ~ShaderProgram(void);
-
-	private:
-		ShaderProgram(const ShaderProgram&);
-		ShaderProgram& operator=(const ShaderProgram&);
 
 	public:
 

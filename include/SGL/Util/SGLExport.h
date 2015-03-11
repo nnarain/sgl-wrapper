@@ -24,4 +24,9 @@
 #	define SGLFLOATFUNC float
 #endif
 
+#define NO_COPY(classname) \
+	private: \
+		classname(const classname&); \
+		classname& operator=(classname);
+
 #endif
