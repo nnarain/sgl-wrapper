@@ -70,6 +70,7 @@ namespace sgl
 		/* Constructors */
 
 		Image(const std::string &filename, Format format);
+		Image(const std::string &filename);
 		~Image(void);
 
 		/* Public Functions */
@@ -101,8 +102,25 @@ namespace sgl
 
 		/* Private Functions */
 
+		/**
+			Load an uncompressed Bitmap file
+		*/
 		void loadBMP();
+
+		/**
+			Load an uncompressed TGA file
+		*/
 		void loadTGA();
+
+		/**
+			@return the file extension of the given file name
+		*/
+		std::string getFileExtension(const std::string &filename);
+
+		/**
+			@return the Image::Format corresponding to the given extension string
+		*/
+		Image::Format findFormat(const std::string &ext);
 
 	};
 }

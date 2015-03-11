@@ -14,6 +14,10 @@ Image::Image(const std::string &filename, Format format) :
 {
 }
 
+Image::Image(const std::string &filename) : Image(filename, findFormat(getFileExtension(filename)))
+{
+}
+
 void Image::load()
 {
 	switch (_format)
@@ -104,6 +108,30 @@ void Image::loadTGA()
 	{
 		throw Exception("Failed to open file: " + _filename);
 	}
+}
+
+std::string Image::getFileExtension(const std::string &filename)
+{
+	int len = filename.length();
+	int i;
+
+	for (i = len-1; i >= 0; i--)
+	{
+		if (filename[i] == '.')
+		{
+			return std::string(&filename[i] + 1);
+		}
+	}
+
+	return std::string("");
+}
+
+Image::Format Image::findFormat(const std::string &ext)
+{
+	if (ext == "tga")
+		return Image::Format::TGA;
+	else if (ext == "bmp")
+		return Image::Format::BMP;
 }
 
 Image::Format Image::getFormat()
