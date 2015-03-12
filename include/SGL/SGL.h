@@ -12,24 +12,7 @@
 
 #include <GL/glew.h>
 
-#include "Camera.h"
-#include "ShaderProgram.h"
-#include "Entity.h"
-
-#include "SpriteBatch.h"
-#include "Sprite.h"
-#include "SpriteSheet.h"
-
-#include "Mesh.h"
-#include "InstanceMesh.h"
-
-#include "Texture.h"
-
-#include "SGLException.h"
-
-#include "SGLCoordinate.h"
-
-#include "SGLExport.h"
+#include <SGL/Util/SGLExport.h>
 
 namespace sgl
 {
