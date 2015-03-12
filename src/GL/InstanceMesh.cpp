@@ -20,15 +20,6 @@ InstanceMesh::InstanceMesh(GLuint drawType, GLuint drawCount, GLenum usage) :
 	glGenBuffers(2, _vbo);
 }
 
-InstanceMesh::InstanceMesh(const InstanceMesh& that) : InstanceMesh::InstanceMesh(that._drawType, that._drawCount, that._usage)
-{
-	// copy attributes
-	_meshAttributes = that._meshAttributes;
-	_instanceAttributes = that._instanceAttributes;
-
-	// TODO: copy buffers
-}
-
 void InstanceMesh::bind()
 {
 	glBindVertexArray(_vao);
@@ -180,18 +171,6 @@ const std::vector<VertexAttribute> &InstanceMesh::getMeshAttributes() const
 const std::vector<VertexAttribute> &InstanceMesh::getInstanceAttributes() const
 {
 	return *(_instanceAttributes);
-}
-
-InstanceMesh& InstanceMesh::operator=(const InstanceMesh& that)
-{
-	// copy attributes
-	_meshAttributes = that._meshAttributes;
-	_instanceAttributes = that._instanceAttributes;
-
-	// TODO: copy buffers
-
-
-	return *this;
 }
 
 InstanceMesh::~InstanceMesh()

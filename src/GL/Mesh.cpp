@@ -23,11 +23,6 @@ Mesh::Mesh() : Mesh::Mesh(Type::TRIANGLES, 0, Buffer::Usage::STATIC_DRAW)
 {
 }
 
-Mesh::Mesh(const Mesh& that) : Mesh::Mesh(that._drawType, that._drawCount, that._usage)
-{
-
-}
-
 void Mesh::create(int stride)
 {
 	unsigned int offset = 0;
@@ -109,20 +104,6 @@ const std::vector<VertexAttribute> &Mesh::getVertexAttributes() const
 	return *(_attribs);
 }
 
-Mesh& Mesh::operator=(const Mesh& that)
-{
-	_drawType  = that._drawType;
-	_drawCount = that._drawCount;
-	_drawStart = that._drawStart;
-	_usage     = that._usage;
-
-	// copy attributes
-	_attribs = that._attribs;
-
-	// TODO : copy buffer data
-
-	return *this;
-}
 
 Mesh::~Mesh(void)
 {

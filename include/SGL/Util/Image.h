@@ -16,6 +16,8 @@ namespace sgl
 	*/
 	SGLCLASS Image
 	{
+		NO_COPY(Image);
+
 	public:
 
 		/* Types */

@@ -2,15 +2,18 @@
 #include "SGL/Util/Image.h"
 #include "SGL/Util/Exception.h"
 
-#include <iostream>
 #include <fstream>
+#include <algorithm>
 
 using namespace sgl;
 
 Image::Image(const std::string &filename, Format format) :
 	_format(format),
 	_filename(filename),
-	_data(NULL)
+	_data(NULL),
+	_width(0),
+	_height(0),
+	_size(0)
 {
 }
 

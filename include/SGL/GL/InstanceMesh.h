@@ -16,14 +16,14 @@ namespace sgl
 	*/
 	SGLCLASS InstanceMesh
 	{
+		NO_COPY(InstanceMesh);
+
 	public:
 
 		/**
 			
 		*/
 		InstanceMesh(GLuint drawType, GLuint drawCount, GLenum usage);
-		InstanceMesh(const InstanceMesh&);
-		InstanceMesh& operator=(const InstanceMesh&);
 
 		~InstanceMesh();
 

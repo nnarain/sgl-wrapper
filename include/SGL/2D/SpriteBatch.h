@@ -30,6 +30,8 @@ namespace sgl
 	*/
 	SGLCLASS SpriteBatch
 	{
+		NO_COPY(SpriteBatch);
+
 	public:
 
 		/* Types */
@@ -61,11 +63,6 @@ namespace sgl
 
 		SpriteBatch(void);
 		~SpriteBatch(void);
-
-	private:
-		/* SpriteBatch Private Copy Constructor and Assignment Operator */
-		SpriteBatch(const SpriteBatch&);
-		SpriteBatch& operator=(SpriteBatch);
 
 	public:
 		/* Public Functions */

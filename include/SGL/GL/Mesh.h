@@ -20,6 +20,7 @@ namespace sgl{
 	*/
 	SGLCLASS Mesh
 	{
+		NO_COPY(Mesh);
 
 	public:
 
@@ -50,8 +51,6 @@ namespace sgl{
 		*/
 		Mesh(Type type, int drawCount, Buffer::Usage usage);
 		Mesh(void);
-		Mesh(const Mesh&);
-		Mesh& operator=(const Mesh&);
 
 		~Mesh(void);
 
