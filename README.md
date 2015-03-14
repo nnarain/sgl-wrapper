@@ -1,22 +1,24 @@
 SGL Wrapper
 ===========
 
-Simple OpenGL Wrapper. A simple object oriented wrapper for OpenGL.
+Simple OpenGL Wrapper. A simple object oriented interface to OpenGL.
 
 
-Features
---------
+**The OpenGL Interface includes**
 
 * Camera
-* ShaderProgram
-* Basic representation of 3D models
-	* translation, rotation, scaling
-	* vertex attributes (position, normals, texutures, colors)
+* Shaders
 * Textures
-* Frame buffers and Render buffers
-* Sprites, SpriteSheets and SpriteBatching
-* Lights and Materials
+* Framebuffers
+* Uniforms
+* Mesh
+	* bind and draw vertex data
 
+**Utilities**
+
+* Auto Image loading
+	* Bitmap, TGA
+* Wavefront Object Loader
 
 Build
 -----
@@ -25,7 +27,7 @@ Dependencies: GLEW, GLM
 
 Builds with CMake
 
-Note: This library compiles with Visual C++, GNU compiler **will not** work (yet).
+Note: This library must be compiled with C++11
 
 This command should do the trick:
 
@@ -38,5 +40,6 @@ Examples
 
 TODO
 ----
+* Wavefront Object format support?
 * Test with Qt and on Linux
 * Make examples
