@@ -138,7 +138,7 @@ void SpriteBatch::render(Texture* texture, std::vector<Vertex> *batch)
 {
 	if (texture == NULL) return;
 
-	texture->bind(sgl::Texture::Unit::T0);
+	texture->bind(Texture::Unit::T0);
 
 	int size = batch->size();
 
@@ -173,7 +173,7 @@ void SpriteBatch::end()
 
 	// begin the render process
 	{
-		_shader->uniform("texture").set(0);
+		(*_shader)["sampler"].set(0);
 		renderBatch();
 	}
 	_shader->end();

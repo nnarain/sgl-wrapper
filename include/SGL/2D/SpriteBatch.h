@@ -26,7 +26,7 @@ namespace sgl
 			The SpriteBatch provides and 2D position and 2D texture coordinate vertex attributes.	
 			- Bind the position to input 0
 			- Bind the texture coordinate to input 1
-			- Provide uniform sampler2D called texture
+			- Provide uniform sampler2D called sampler
 	*/
 	SGLCLASS SpriteBatch
 	{
