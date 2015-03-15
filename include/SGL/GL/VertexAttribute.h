@@ -6,6 +6,8 @@
 
 #include <GL/glew.h>
 
+#include "SGL/Type/GLTypes.h"
+
 namespace sgl
 {
 	//! Represent a vertex attribute in a shader and model data
@@ -13,32 +15,27 @@ namespace sgl
 	{
 		//! Shader location of attribute
 		GLuint loc;
+
 		//! number of components inthe attributes
 		int numComponents;
 
-		VertexAttribute()
+		//! Attribute Data Type
+		GLType type;
+
+		//
+		VertexAttribute(GLuint l, int n, GLType t) :
+			loc(l),
+			numComponents(n),
+			type(t)
 		{
 		}
 
-		VertexAttribute(GLuint l, int n)
+		VertexAttribute(GLuint l, int n) : VertexAttribute(l, n, GLType::FLOAT)
 		{
-			loc = l;
-			numComponents = n;
 		}
 	};
 
-	//!
-	struct InstancedVertexAttriute
-	{
-		GLuint loc;
-		int size;
 
-		InstancedVertexAttriute(GLuint l, int s)
-		{
-			loc = l;
-			size = s;
-		}
-	};
 };
 
 #endif

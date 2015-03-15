@@ -24,6 +24,7 @@ namespace sgl{
 
 	public:
 
+		//! Draw Types
 		enum class Type
 		{
 			POINTS                   = GL_POINTS,
@@ -127,6 +128,14 @@ namespace sgl{
 
 		//! List of vertex attributes
 		std::vector<VertexAttribute>* _attribs;
+
+
+		/**/
+
+		/**
+			@return the size in bytes of the given data type constant
+		*/
+		unsigned int dataTypeSize(GLType);
 	};
 
 };
