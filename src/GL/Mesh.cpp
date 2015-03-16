@@ -8,6 +8,10 @@
 
 using namespace sgl;
 
+Mesh::Mesh(Type type, Buffer::Usage usage) : Mesh(type, 0, usage)
+{
+}
+
 Mesh::Mesh(Type drawtype, int drawCount, Buffer::Usage usage) :
 	_vao(),
 	_vbo(Buffer::Target::ARRAY, usage),

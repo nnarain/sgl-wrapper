@@ -50,6 +50,7 @@ namespace sgl{
 			@param usage
 				Draw usage
 		*/
+		Mesh(Type type, Buffer::Usage usage);
 		Mesh(Type type, int drawCount, Buffer::Usage usage);
 		Mesh(void);
 
