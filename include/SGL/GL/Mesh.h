@@ -102,6 +102,10 @@ namespace sgl{
 
 		/**
 		*/
+		void setDrawStart(GLint start);
+
+		/**
+		*/
 		Buffer &getVBO();
 
 		/**

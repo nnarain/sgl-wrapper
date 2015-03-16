@@ -121,6 +121,11 @@ void Mesh::setDrawCount(GLint count)
 	_drawCount = count;
 }
 
+void Mesh::setDrawStart(GLint start)
+{
+	_drawStart = start;
+}
+
 Buffer& Mesh::getVBO()
 {
 	return _vbo;
