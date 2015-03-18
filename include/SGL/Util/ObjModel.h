@@ -24,6 +24,12 @@ namespace sgl
 		ObjModel();
 		~ObjModel();
 
+		void bind();
+		void draw();
+		void unbind();
+
+		void addMeshData(const std::string &name, int offset, int vertexCount);
+
 		void setMeshData(const std::string &name);
 		void setMeshData(int idx);
 
@@ -32,6 +38,9 @@ namespace sgl
 	private:
 		//! mesh containing render data for the obj model
 		Mesh _mesh;
+
+		//! number of vertices in mesh
+		int _vertexCount;
 
 		//! 
 		std::map<std::string, MeshData> * _meshData;
