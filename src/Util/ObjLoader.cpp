@@ -11,21 +11,23 @@ ObjLoader::ObjLoader() :
 	_positions(new std::vector<glm::vec3>),
 	_normals(new std::vector<glm::vec3>),
 	_texCoords(new std::vector<glm::vec2>),
-	_faces(new std::vector<Face>)
+	_meshes(new std::map<std::string, MeshData>)
 {
 }
 
 void ObjLoader::load(ObjModel &model, const std::string &filename)
 {
-	parse(model, filename);
-	bindToMesh(model.getMesh());
+	parse(filename);
+	bindToMesh(model);
 }
 
-void ObjLoader::bindToMesh(Mesh &mesh)
+void ObjLoader::bindToMesh(ObjModel &model)
 {
 	const int vertSize = _positions->size();
 	const int normSize = _normals->size();
 	const int uvSize   = _texCoords->size();
+
+	Mesh &mesh = model.getMesh();
 
 	// calculate the vertex data stride
 	int stride = 0;
@@ -46,43 +48,60 @@ void ObjLoader::bindToMesh(Mesh &mesh)
 	}
 
 	std::vector<float> buffer;
+	int offset = 0;
 
-	std::vector<Face>::iterator iter;
-	for (iter = _faces->begin(); iter != _faces->end(); ++iter)
+	std::map<std::string, MeshData>::iterator meshIter;
+
+	for (meshIter = _meshes->begin(); meshIter != _meshes->end(); ++meshIter)
 	{
-		Face face = (*iter);
+		const std::string &meshName = (*meshIter).first;
+		MeshData &mesh = (*meshIter).second;
+		std::vector<Face> &faces = mesh.faces;
 
-		int i;
-		for (i = 0; i < 3; ++i)
+		// set mesh data
+		int drawCount = faces.size() * 3;
+
+		model.addMeshData(meshName, offset, drawCount);
+		
+		offset += drawCount;
+
+		std::vector<Face>::iterator iter;
+		for (iter = faces.begin(); iter != faces.end(); ++iter)
 		{
-			int vIdx = face.vertices[i] - 1;
-			int nIdx = face.normal[i] - 1;
-			int tIdx = face.texCoord[i] - 1;
+			Face face = (*iter);
 
-			if (vertSize > 0)
+			int i;
+			for (i = 0; i < 3; ++i)
 			{
-				buffer.push_back(_positions->at(vIdx).x);
-				buffer.push_back(_positions->at(vIdx).y);
-				buffer.push_back(_positions->at(vIdx).z);
-			}
+				int vIdx = face.vertices[i] - 1;
+				int nIdx = face.normal[i] - 1;
+				int tIdx = face.texCoord[i] - 1;
 
-			if (normSize > 0)
-			{
-				buffer.push_back(_normals->at(nIdx).x);
-				buffer.push_back(_normals->at(nIdx).y);
-				buffer.push_back(_normals->at(nIdx).z);
-			}
+				if (vertSize > 0)
+				{
+					buffer.push_back(_positions->at(vIdx).x);
+					buffer.push_back(_positions->at(vIdx).y);
+					buffer.push_back(_positions->at(vIdx).z);
+				}
 
-			if (uvSize > 0)
-			{
-				buffer.push_back(_texCoords->at(tIdx).x);
-				buffer.push_back(_texCoords->at(tIdx).y);
+				if (normSize > 0)
+				{
+					buffer.push_back(_normals->at(nIdx).x);
+					buffer.push_back(_normals->at(nIdx).y);
+					buffer.push_back(_normals->at(nIdx).z);
+				}
+
+				if (uvSize > 0)
+				{
+					buffer.push_back(_texCoords->at(tIdx).x);
+					buffer.push_back(_texCoords->at(tIdx).y);
+				}
 			}
 		}
 	}
 	
 	// faces times 3 vertices per triangle
-	int drawCount = _faces->size() * 3;
+	int drawCount = offset;
 
 	// bind vertex data to mesh
 	Buffer& vbo = mesh.getVBO();
@@ -95,7 +114,7 @@ void ObjLoader::bindToMesh(Mesh &mesh)
 	mesh.create(stride * sizeof(float));
 }
 
-void ObjLoader::parse(ObjModel &model, const std::string &filename)
+void ObjLoader::parse(const std::string &filename)
 {
 	std::ifstream file(filename);
 
@@ -103,9 +122,11 @@ void ObjLoader::parse(ObjModel &model, const std::string &filename)
 		throw Exception("could not open file: " + filename);
 
 	//
-	std::string currentMesh;
+	std::string currentMesh = "";
 	int offset = 0;
 	int vertexPerMesh = 0;
+	int numFaces = 0;
+	bool newMesh = false;
 
 	// read the file line by line
 	std::string line;
@@ -127,20 +148,8 @@ void ObjLoader::parse(ObjModel &model, const std::string &filename)
 		// new mesh
 		if (head == "o")
 		{
-			// switching to a new mesh so add the current one to the model
-			if (vertexPerMesh != 0)
-			{
-				// add the current mesh data into the model
-				model.addMeshData(currentMesh, offset, vertexPerMesh);
-
-				// increment the offset
-				offset += vertexPerMesh;
-				// reset vertex count
-				vertexPerMesh = 0;
-			}
-
-			// set to the new mesh
 			currentMesh = tokens[1];
+			(*_meshes)[currentMesh] = MeshData();
 		}
 		// new vertex
 		else if (head == "v")
@@ -149,7 +158,6 @@ void ObjLoader::parse(ObjModel &model, const std::string &filename)
 			createVertexFromTokens(v, tokens);
 
 			_positions->push_back(v);
-			vertexPerMesh++;
 		}
 		// new normal
 		else if (head == "vn")
@@ -173,7 +181,7 @@ void ObjLoader::parse(ObjModel &model, const std::string &filename)
 			Face f;
 			createFaceFromTokens(f, tokens);
 
-			_faces->push_back(f);
+			(*_meshes)[currentMesh].faces.push_back(f);
 		}
 	}
 }
@@ -230,5 +238,5 @@ ObjLoader::~ObjLoader()
 	delete _positions;
 	delete _normals;
 	delete _texCoords;
-	delete _faces;
+	delete _meshes;
 }

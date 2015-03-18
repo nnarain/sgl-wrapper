@@ -16,13 +16,6 @@ namespace sgl
 	SGLCLASS ObjLoader
 	{
 	public:
-		//!
-		struct Face
-		{
-			int vertices[3];
-			int normal[3];
-			int texCoord[3];
-		};
 
 		ObjLoader();
 		~ObjLoader();
@@ -31,14 +24,27 @@ namespace sgl
 
 	private:
 
+		//!
+		struct Face
+		{
+			int vertices[3];
+			int normal[3];
+			int texCoord[3];
+		};
+
+		struct MeshData
+		{
+			std::vector<Face> faces;
+		};
+
 		std::vector<glm::vec3> * _positions;
 		std::vector<glm::vec3> * _normals;
 		std::vector<glm::vec2> * _texCoords;
 
-		std::vector<Face> * _faces;
+		std::map<std::string, MeshData> * _meshes;
 
-		void parse(ObjModel &model, const std::string &filename);
-		void bindToMesh(Mesh &mesh);
+		void parse(const std::string &filename);
+		void bindToMesh(ObjModel &model);
 
 		void createVertexFromTokens(glm::vec3 &v, std::vector<std::string> &tokens);
 		void createUVFromTokens(glm::vec2 &uv, std::vector<std::string> &tokens);
