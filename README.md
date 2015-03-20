@@ -40,6 +40,5 @@ Examples
 
 TODO
 ----
-* Wavefront Object format support?
 * Test with Qt and on Linux
 * Make examples
