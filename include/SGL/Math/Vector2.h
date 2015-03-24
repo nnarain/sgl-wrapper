@@ -19,6 +19,14 @@ namespace sgl
 
 		~Vector2();
 
+		/*  */
+
+		float length() const;
+		Vector2& normalize();
+
+		float dot(const Vector2 &v);
+		float cross(const Vector2& v);
+
 		/* Operators */
 		Vector2 operator+(const Vector2& v);
 		Vector2 operator-(const Vector2& v);
