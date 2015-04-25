@@ -183,3 +183,21 @@ const float * Matrix4::get() const
 {
 	return _mat;
 }
+
+std::ostream& operator<<(std::ostream& os, const Matrix4& m)
+{
+	int i, j;
+	for (i = 0; i < 4; ++i)
+	{
+		os << "[ ";
+
+		for (j = 0; j < 4; ++j)
+		{
+			os << m[i][j] << " ";
+		}
+
+		os << "]\n";
+	}
+
+	return os;
+}

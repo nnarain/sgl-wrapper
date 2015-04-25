@@ -6,6 +6,8 @@
 #include <SGL/Math/Vector3.h>
 #include <SGL/Math/Vector4.h>
 
+#include <iostream>
+
 namespace sgl
 {
 	SGLCLASS Matrix4
@@ -40,6 +42,9 @@ namespace sgl
 
 		float* operator[](unsigned int idx);
 		const float* operator[](unsigned int idx) const;
+
+		// stream
+		friend std::ostream& operator<<(std::ostream&, const Matrix4&);
 
 		/* Getters and Setters */
 
