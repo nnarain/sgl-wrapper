@@ -8,6 +8,10 @@
 
 using namespace sgl;
 
+Mesh::Mesh(Type type, Buffer::Usage usage) : Mesh(type, 0, usage)
+{
+}
+
 Mesh::Mesh(Type drawtype, int drawCount, Buffer::Usage usage) :
 	_vao(),
 	_vbo(Buffer::Target::ARRAY, usage),
@@ -37,25 +41,48 @@ void Mesh::create(int stride)
 	unsigned int i;
 	for (i = 0; i < _attribs->size(); ++i)
 	{
-		
 		VertexAttribute attrib = (*_attribs)[i];
 		glEnableVertexAttribArray(attrib.loc);
 		glVertexAttribPointer(
 			attrib.loc,
 			attrib.numComponents,
-			GL_FLOAT,
+			static_cast<GLenum>(attrib.type),
 			GL_FALSE,
 			stride,
-			//(const GLvoid*)offset(i)
 			(const GLvoid *)offset
 		);
 
-		offset += (*_attribs)[i].numComponents * sizeof(float);
+		offset += (*_attribs)[i].numComponents * dataTypeSize(attrib.type);
 	}
 
 	//
 	unbind();
 	_vbo.unbind();
+}
+
+unsigned int Mesh::dataTypeSize(GLType t)
+{
+	switch (t)
+	{
+	case GLType::UBYTE:
+	case GLType::BYTE:
+		return sizeof(char);
+		break;
+
+	case GLType::UINT:
+	case GLType::INT:
+		return sizeof(int);
+		break;
+
+	case GLType::USHORT:
+	case GLType::SHORT:
+		return sizeof(short);
+		break;
+
+	case GLType::FLOAT:
+		return sizeof(float);
+		break;
+	}
 }
 
 void Mesh::bind()
@@ -92,6 +119,11 @@ void Mesh::setDrawType(Type type)
 void Mesh::setDrawCount(GLint count)
 {
 	_drawCount = count;
+}
+
+void Mesh::setDrawStart(GLint start)
+{
+	_drawStart = start;
 }
 
 Buffer& Mesh::getVBO()

@@ -24,6 +24,7 @@ namespace sgl{
 
 	public:
 
+		//! Draw Types
 		enum class Type
 		{
 			POINTS                   = GL_POINTS,
@@ -49,6 +50,7 @@ namespace sgl{
 			@param usage
 				Draw usage
 		*/
+		Mesh(Type type, Buffer::Usage usage);
 		Mesh(Type type, int drawCount, Buffer::Usage usage);
 		Mesh(void);
 
@@ -100,6 +102,10 @@ namespace sgl{
 
 		/**
 		*/
+		void setDrawStart(GLint start);
+
+		/**
+		*/
 		Buffer &getVBO();
 
 		/**
@@ -127,6 +133,14 @@ namespace sgl{
 
 		//! List of vertex attributes
 		std::vector<VertexAttribute>* _attribs;
+
+
+		/**/
+
+		/**
+			@return the size in bytes of the given data type constant
+		*/
+		unsigned int dataTypeSize(GLType);
 	};
 
 };
