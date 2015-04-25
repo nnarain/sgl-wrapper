@@ -4,6 +4,8 @@
 
 #include <SGL/Util/SGLExport.h>
 
+#include <SGL/Math/Vector3.h>
+
 namespace sgl
 {
 	SGLCLASS Vector4
@@ -17,6 +19,7 @@ namespace sgl
 
 		/* Constructors */
 		Vector4();
+		Vector4(const Vector3 &v, float w);
 		Vector4(float x, float y, float z, float w);
 
 		~Vector4();

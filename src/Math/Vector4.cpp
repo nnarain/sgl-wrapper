@@ -5,13 +5,21 @@
 
 using namespace sgl;
 
+/* Constructors */
+
 Vector4::Vector4() : Vector4(0, 0, 0, 0)
+{
+}
+
+Vector4::Vector4(const Vector3 &v, float w) : Vector4(v.x, v.y, v.z, w)
 {
 }
 
 Vector4::Vector4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w)
 {
 }
+
+/* Public Functions */
 
 float Vector4::length() const
 {

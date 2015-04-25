@@ -10,8 +10,10 @@ namespace sgl
 	{
 	public:
 		/* Vector Components */
+
 		float x;
 		float y;
+
 
 		/* Constructors */
 		Vector2();

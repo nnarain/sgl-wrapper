@@ -20,6 +20,11 @@ Simple OpenGL Wrapper. A simple object oriented interface to OpenGL.
 	* Bitmap, TGA
 * Wavefront Object Loader
 
+**Math**
+
+* 2, 3, 4 dimensional vectors
+* Matrices
+
 Build
 -----
 
@@ -27,13 +32,7 @@ Dependencies: GLEW, GLM
 
 Builds with CMake
 
-Note: This library must be compiled with C++11
-
-This command should do the trick:
-
-```bash
-/> cmake -G "Visual Studio 12" C:\path\to\project
-```
+Note: This library uses C++11 features.
 
 Examples
 --------

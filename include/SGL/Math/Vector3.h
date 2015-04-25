@@ -28,6 +28,9 @@ namespace sgl
 		float dot(const Vector3 &v);
 		Vector3& cross(const Vector3& v);
 
+		void set(const Vector3 & v);
+		void set(float x, float y, float z);
+
 		/* Operators */
 		Vector3 operator+(const Vector3& v);
 		Vector3 operator-(const Vector3& v);
