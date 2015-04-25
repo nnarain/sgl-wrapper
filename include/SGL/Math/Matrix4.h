@@ -3,6 +3,8 @@
 
 #include <SGL/Util/SGLExport.h>
 
+#include <SGL/Math/Matrix3.h>
+
 #include <SGL/Math/Vector3.h>
 #include <SGL/Math/Vector4.h>
 
@@ -24,13 +26,11 @@ namespace sgl
 		void toScale(const Vector3 &v);
 		void toScale(float x, float y, float z);
 
-		void toRotation(const Vector3 &v);
-		void toRotation(float x, float y, float z);
+		void toRotation(const Vector3 &v, float angle);
 
 		/* General Matrix */
 
-		void toIdentity();
-
+		void toIdentity(void);
 		void clear(void);
 
 		/* Operators */
@@ -48,7 +48,10 @@ namespace sgl
 
 		/* Getters and Setters */
 
-		const float * get() const;
+		void set(const Matrix3& m);
+		void set(float * m);
+		
+		const float * get(void) const;
 
 	private:
 		float _mat[4 * 4];

@@ -1,5 +1,6 @@
 
 #include "SGL/Math/Matrix4.h"
+
 #include <cassert>
 
 using namespace sgl;
@@ -32,6 +33,9 @@ using namespace sgl;
 #define MSY M11
 #define MSZ M22
 
+#define PI              3.14159f
+#define DEG_TO_RAD(deg) ((deg) * (PI/180.0f))
+
 Matrix4::Matrix4()
 {
 	// init the matrix to zero
@@ -40,11 +44,7 @@ Matrix4::Matrix4()
 
 Matrix4::Matrix4(float *m)
 {
-	int i;
-	for (i = 0; i < 16; ++i)
-	{
-		_mat[i] = m[i];
-	}
+	set(m);
 }
 
 void Matrix4::toTranslation(const Vector3 &v)
@@ -82,16 +82,35 @@ void Matrix4::toScale(float x, float y, float z)
 	_mat[M33] = 1;
 }
 
-void Matrix4::toRotation(const Vector3 &v)
+/**
+	Rodrigues Rotation Matrix Implemenation
+*/
+void Matrix4::toRotation(const Vector3 &v, float a)
 {
-	toRotation(v.x, v.y, v.z);
-}
+	// copy and normalize the rotation vector
+	Vector3 axis(v);
+	axis.normalize();
 
-void Matrix4::toRotation(float a, float b, float g)
-{
-	clear();
+	// convert parameter to radians
+	a = DEG_TO_RAD(a);
 
+	// create required matrices
 
+	// identity matrix
+	Matrix3 I;
+	I.toIdentity();
+
+	// unit vector cross product matrix
+	Matrix3 K;
+	K.toCrossProduct(axis);
+
+	// resultant matrix
+	Matrix3 R;
+
+	// R = I + sin(x) * K + (1 - cos(x)) * K^2
+	R = I + (K * sin(a)) + ((K * K) * (1.0f - cos(a)));
+
+	set(R);
 }
 
 void Matrix4::toIdentity()
@@ -177,6 +196,30 @@ const float* Matrix4::operator[](unsigned int idx) const
 {
 	assert(idx < 4 && "Matrix subscript out of range");
 	return _mat + (idx * 4);
+}
+
+void Matrix4::set(const Matrix3& m)
+{
+	int i, j;
+
+	clear();
+
+	for (i = 0; i < 3; ++i)
+	{
+		for (j = 0; j < 3; ++j)
+		{
+			(*this)[i][j] = m[i][j];
+		}
+	}
+}
+
+void Matrix4::set(float * m)
+{
+	int i;
+	for (i = 0; i < 16; ++i)
+	{
+		_mat[i] = m[i];
+	}
 }
 
 const float * Matrix4::get() const
