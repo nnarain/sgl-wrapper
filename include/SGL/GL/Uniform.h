@@ -5,7 +5,7 @@
 
 #include <SGL/Util/SGLExport.h>
 #include <SGL/GL/Texture.h>
-#include <glm/glm.hpp>
+#include <SGL/Math/Math.h>
 
 namespace sgl
 {
@@ -31,14 +31,14 @@ namespace sgl
 		void set(float, float, float);
 		void set(float, float, float, float);
 
-		void set(const glm::vec3 &);
-		void set(const glm::vec4 &);
+		void set(const Vector3 &);
+		void set(const Vector4 &);
 
-		void set(const glm::mat3 &);
-		void set(const glm::mat3 &, bool transpose);
+		void set(const Matrix3 &);
+		void set(const Matrix3 &, bool transpose);
 
-		void set(const glm::mat4 &);
-		void set(const glm::mat4 &, bool transpose);
+		void set(const Matrix4 &);
+		void set(const Matrix4 &, bool transpose);
 
 		void set(const Texture &);
 
