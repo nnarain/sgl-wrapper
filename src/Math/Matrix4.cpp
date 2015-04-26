@@ -6,23 +6,23 @@
 using namespace sgl;
 
 #define M00 0
-#define M01 4
-#define M02 8
-#define M03 12
+#define M01 1
+#define M02 2
+#define M03 3
 
-#define M10 1
+#define M10 4
 #define M11 5
-#define M12 9
-#define M13 13
+#define M12 6
+#define M13 7
 
-#define M20 2
-#define M21 6
+#define M20 8
+#define M21 9
 #define M22 10
-#define M23 14
+#define M23 11
 
-#define M30 3
-#define M31 7
-#define M32 11
+#define M30 12
+#define M31 13
+#define M32 14
 #define M33 15
 
 #define MTX M30
@@ -207,25 +207,25 @@ Matrix4 Matrix4::operator*(const Matrix4 &m)
 {
 	float newMat[4 * 4];
 
-	newMat[M00] = (_mat[M00] * m[0][0]) + (_mat[M10] * m[1][0]) + (_mat[M20] * m[2][0]) + (_mat[M30] * m[3][0]);
-	newMat[M10] = (_mat[M00] * m[0][1]) + (_mat[M10] * m[1][1]) + (_mat[M20] * m[2][1]) + (_mat[M30] * m[3][1]);
-	newMat[M20] = (_mat[M00] * m[0][2]) + (_mat[M10] * m[1][2]) + (_mat[M20] * m[2][2]) + (_mat[M30] * m[3][2]);
-	newMat[M30] = (_mat[M00] * m[0][3]) + (_mat[M10] * m[1][3]) + (_mat[M20] * m[2][3]) + (_mat[M30] * m[3][3]);
+	newMat[M00] = (_mat[M00] * m[0][0]) + (_mat[M10] * m[0][1]) + (_mat[M20] * m[0][2]) + (_mat[M30] * m[0][3]);
+	newMat[M10] = (_mat[M00] * m[1][0]) + (_mat[M10] * m[1][1]) + (_mat[M20] * m[1][2]) + (_mat[M30] * m[1][3]);
+	newMat[M20] = (_mat[M00] * m[2][0]) + (_mat[M10] * m[2][1]) + (_mat[M20] * m[2][2]) + (_mat[M30] * m[2][3]);
+	newMat[M30] = (_mat[M00] * m[3][0]) + (_mat[M10] * m[3][1]) + (_mat[M20] * m[3][2]) + (_mat[M30] * m[3][3]);
 
-	newMat[M01] = (_mat[M01] * m[0][0]) + (_mat[M11] * m[1][0]) + (_mat[M21] * m[2][0]) + (_mat[M31] * m[3][0]);
-	newMat[M11] = (_mat[M01] * m[0][1]) + (_mat[M11] * m[1][1]) + (_mat[M21] * m[2][1]) + (_mat[M31] * m[3][1]);
-	newMat[M21] = (_mat[M01] * m[0][2]) + (_mat[M11] * m[1][2]) + (_mat[M21] * m[2][2]) + (_mat[M31] * m[3][2]);
-	newMat[M31] = (_mat[M01] * m[0][3]) + (_mat[M11] * m[1][3]) + (_mat[M21] * m[2][3]) + (_mat[M31] * m[3][3]);
+	newMat[M01] = (_mat[M01] * m[0][0]) + (_mat[M11] * m[0][1]) + (_mat[M21] * m[0][2]) + (_mat[M31] * m[0][3]);
+	newMat[M11] = (_mat[M01] * m[1][0]) + (_mat[M11] * m[1][1]) + (_mat[M21] * m[1][2]) + (_mat[M31] * m[1][3]);
+	newMat[M21] = (_mat[M01] * m[2][0]) + (_mat[M11] * m[2][1]) + (_mat[M21] * m[2][2]) + (_mat[M31] * m[2][3]);
+	newMat[M31] = (_mat[M01] * m[3][0]) + (_mat[M11] * m[3][1]) + (_mat[M21] * m[3][2]) + (_mat[M31] * m[3][3]);
 
-	newMat[M02] = (_mat[M02] * m[0][0]) + (_mat[M12] * m[1][0]) + (_mat[M22] * m[2][0]) + (_mat[M32] * m[3][0]);
-	newMat[M12] = (_mat[M02] * m[0][1]) + (_mat[M12] * m[1][1]) + (_mat[M22] * m[2][1]) + (_mat[M32] * m[3][1]);
-	newMat[M22] = (_mat[M02] * m[0][2]) + (_mat[M12] * m[1][2]) + (_mat[M22] * m[2][2]) + (_mat[M32] * m[3][2]);
-	newMat[M32] = (_mat[M02] * m[0][3]) + (_mat[M12] * m[1][3]) + (_mat[M22] * m[2][3]) + (_mat[M32] * m[3][3]);
+	newMat[M02] = (_mat[M02] * m[0][0]) + (_mat[M12] * m[0][1]) + (_mat[M22] * m[0][2]) + (_mat[M32] * m[0][3]);
+	newMat[M12] = (_mat[M02] * m[1][0]) + (_mat[M12] * m[1][1]) + (_mat[M22] * m[1][2]) + (_mat[M32] * m[1][3]);
+	newMat[M22] = (_mat[M02] * m[2][0]) + (_mat[M12] * m[2][1]) + (_mat[M22] * m[2][2]) + (_mat[M32] * m[2][3]);
+	newMat[M32] = (_mat[M02] * m[3][0]) + (_mat[M12] * m[3][1]) + (_mat[M22] * m[3][2]) + (_mat[M32] * m[3][3]);
 
-	newMat[M03] = (_mat[M03] * m[0][0]) + (_mat[M13] * m[1][0]) + (_mat[M23] * m[2][0]) + (_mat[M33] * m[3][0]);
-	newMat[M13] = (_mat[M03] * m[0][1]) + (_mat[M13] * m[1][1]) + (_mat[M23] * m[2][1]) + (_mat[M33] * m[3][1]);
-	newMat[M23] = (_mat[M03] * m[0][2]) + (_mat[M13] * m[1][2]) + (_mat[M23] * m[2][2]) + (_mat[M33] * m[3][2]);
-	newMat[M33] = (_mat[M03] * m[0][3]) + (_mat[M13] * m[1][3]) + (_mat[M23] * m[2][3]) + (_mat[M33] * m[3][3]);
+	newMat[M03] = (_mat[M03] * m[0][0]) + (_mat[M13] * m[0][1]) + (_mat[M23] * m[0][2]) + (_mat[M33] * m[0][3]);
+	newMat[M13] = (_mat[M03] * m[1][0]) + (_mat[M13] * m[1][1]) + (_mat[M23] * m[1][2]) + (_mat[M33] * m[1][3]);
+	newMat[M23] = (_mat[M03] * m[2][0]) + (_mat[M13] * m[2][1]) + (_mat[M23] * m[2][2]) + (_mat[M33] * m[2][3]);
+	newMat[M33] = (_mat[M03] * m[3][0]) + (_mat[M13] * m[3][1]) + (_mat[M23] * m[3][2]) + (_mat[M33] * m[3][3]);
 
 	return Matrix4(newMat);
 }

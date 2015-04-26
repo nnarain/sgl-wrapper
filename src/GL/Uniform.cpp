@@ -85,7 +85,7 @@ void Uniform::set(const Matrix4 &v)
 
 void Uniform::set(const Matrix4 &v, bool transpose)
 {
-	glUniformMatrix4fv(_location, 1, transpose, &v[0][0]);
+	glUniformMatrix4fv(_location, 1, transpose, v.get());
 }
 
 /* Texture */
