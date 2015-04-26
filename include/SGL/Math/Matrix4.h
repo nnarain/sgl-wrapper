@@ -43,6 +43,9 @@ namespace sgl
 		/* General Matrix */
 
 		void toIdentity(void);
+		
+		void inverse(void);
+		
 		void clear(void);
 
 		/* Operators */

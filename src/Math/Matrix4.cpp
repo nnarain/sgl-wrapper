@@ -190,6 +190,11 @@ void Matrix4::toIdentity()
 	_mat[M33] = 1;
 }
 
+void Matrix4::inverse(void)
+{
+
+}
+
 void Matrix4::clear(void)
 {
 	int i;
