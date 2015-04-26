@@ -6,15 +6,15 @@
 using namespace sgl;
 
 #define M00 0
-#define M01 3
-#define M02 6
+#define M01 1
+#define M02 2
 
-#define M10 1
+#define M10 3
 #define M11 4
-#define M12 7
+#define M12 5
 
-#define M20 2
-#define M21 5
+#define M20 6
+#define M21 7
 #define M22 8
 
 
@@ -67,17 +67,17 @@ Matrix3 Matrix3::operator*(const Matrix3 &m)
 {
 	float newMat[3 * 3];
 
-	newMat[M00] = (_mat[M00] * m[0][0]) + (_mat[M10] * m[1][0]) + (_mat[M20] * m[2][0]);
-	newMat[M10] = (_mat[M00] * m[0][1]) + (_mat[M10] * m[1][1]) + (_mat[M20] * m[2][1]);
-	newMat[M20] = (_mat[M00] * m[0][2]) + (_mat[M10] * m[1][2]) + (_mat[M20] * m[2][2]);
+	newMat[M00] = (_mat[M00] * m[0][0]) + (_mat[M10] * m[0][1]) + (_mat[M20] * m[0][2]);
+	newMat[M10] = (_mat[M00] * m[1][0]) + (_mat[M10] * m[1][1]) + (_mat[M20] * m[1][2]);
+	newMat[M20] = (_mat[M00] * m[2][0]) + (_mat[M10] * m[2][1]) + (_mat[M20] * m[2][2]);
 
-	newMat[M01] = (_mat[M01] * m[0][0]) + (_mat[M11] * m[1][0]) + (_mat[M21] * m[2][0]);
-	newMat[M11] = (_mat[M01] * m[0][1]) + (_mat[M11] * m[1][1]) + (_mat[M21] * m[2][1]);
-	newMat[M21] = (_mat[M01] * m[0][2]) + (_mat[M11] * m[1][2]) + (_mat[M21] * m[2][2]);
+	newMat[M01] = (_mat[M01] * m[0][0]) + (_mat[M11] * m[0][1]) + (_mat[M21] * m[0][2]);
+	newMat[M11] = (_mat[M01] * m[1][0]) + (_mat[M11] * m[1][1]) + (_mat[M21] * m[1][2]);
+	newMat[M21] = (_mat[M01] * m[2][0]) + (_mat[M11] * m[2][1]) + (_mat[M21] * m[2][2]);
 
-	newMat[M02] = (_mat[M02] * m[0][0]) + (_mat[M12] * m[1][0]) + (_mat[M22] * m[2][0]);
-	newMat[M12] = (_mat[M02] * m[0][1]) + (_mat[M12] * m[1][1]) + (_mat[M22] * m[2][1]);
-	newMat[M22] = (_mat[M02] * m[0][2]) + (_mat[M12] * m[1][2]) + (_mat[M22] * m[2][2]);
+	newMat[M02] = (_mat[M02] * m[0][0]) + (_mat[M12] * m[0][1]) + (_mat[M22] * m[0][2]);
+	newMat[M12] = (_mat[M02] * m[1][0]) + (_mat[M12] * m[1][1]) + (_mat[M22] * m[1][2]);
+	newMat[M22] = (_mat[M02] * m[2][0]) + (_mat[M12] * m[2][1]) + (_mat[M22] * m[2][2]);
 
 	return Matrix3(newMat);
 }
