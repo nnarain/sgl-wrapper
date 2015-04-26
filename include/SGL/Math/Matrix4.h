@@ -48,6 +48,8 @@ namespace sgl
 		
 		void clear(void);
 
+		float det(void);
+
 		/* Operators */
 
 		Vector4 operator*(const Vector4 &v);

@@ -195,6 +195,47 @@ void Matrix4::inverse(void)
 
 }
 
+float Matrix4::det(void)
+{
+	Matrix3 mats[4];
+
+	// create 2x2 matrices for determinant
+	int i;
+	int col, row;
+	int mCol, mRow;
+
+	for (i = 0; i < 4; ++i)
+	{
+		// the current matrix to populate
+		Matrix3& m = mats[i];
+
+		mCol = 0;
+
+		for (col = 0; col < 4; ++col)
+		{
+			mRow = 0;
+
+			// if is the same column
+			if (col == i) continue;
+
+			for (row = 0; row < 4; ++row)
+			{
+				// if in the same row
+				if (row == 0) continue;
+
+				m[mCol][mRow] = (*this)[col][row];
+
+				mRow++;
+			}
+
+			mCol++;
+		}
+	}
+
+	// calculate the 4x4 determinant
+	return ((*this)[0][0] * mats[0].det()) - ((*this)[1][0] * mats[1].det()) + ((*this)[2][0] * mats[2].det()) - ((*this)[3][0] * mats[3].det());
+}
+
 void Matrix4::clear(void)
 {
 	int i;

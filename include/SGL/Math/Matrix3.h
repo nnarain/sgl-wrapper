@@ -1,6 +1,6 @@
 
 #ifndef MATRIX3_H
-#define MATRIX_H
+#define MATRIX3_H
 
 #include "SGL/Util/SGLExport.h"
 
@@ -18,6 +18,8 @@ namespace sgl
 
 		void clear(void);
 		void toIdentity(void);
+
+		float det(void);
 
 		void set(float * m);
 

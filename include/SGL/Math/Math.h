@@ -5,6 +5,8 @@
 #include <SGL/Math/Vector3.h>
 #include <SGL/Math/Vector4.h>
 
+#include <SGL/Math/Matrix2.h>
+#include <SGL/Math/Matrix3.h>
 #include <SGL/Math/Matrix4.h>
 
 #endif

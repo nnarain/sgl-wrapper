@@ -1,5 +1,6 @@
 
 #include <SGL/Math/Matrix3.h>
+#include <SGL/Math/Matrix2.h>
 
 #include <cassert>
 
@@ -50,6 +51,47 @@ void Matrix3::clear(void)
 	{
 		_mat[i] = 0;
 	}
+}
+
+float Matrix3::det(void)
+{
+	Matrix2 mats[3];
+
+	// create 2x2 matrices for determinant
+	int i;
+	int col, row;
+	int mCol, mRow;
+
+	for (i = 0; i < 3; ++i)
+	{
+		// the current matrix to populate
+		Matrix2& m = mats[i];
+
+		mCol = 0;
+
+		for (col = 0; col < 3; ++col)
+		{
+			mRow = 0;
+
+			// if is the same column
+			if (col == i) continue;
+
+			for (row = 0; row < 3; ++row)
+			{
+				// if in the same row
+				if (row == 0) continue;
+
+				m[mCol][mRow] = (*this)[col][row];
+
+				mRow++;
+			}
+
+			mCol++;
+		}
+	}
+
+	// calculate the 3x3 matrix determinant
+	return ((*this)[0][0] * mats[0].det()) - ((*this)[1][0] * mats[1].det()) + ((*this)[2][0] * mats[2].det());
 }
 
 void Matrix3::set(float * m)

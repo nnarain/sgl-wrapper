@@ -23,11 +23,11 @@ float Matrix2::det(void)
 float* Matrix2::operator[](unsigned int idx)
 {
 	assert(idx < 2 && "Matrix subscript out of range");
-	return _mat + (idx * 3);
+	return _mat + (idx * 2);
 }
 
 const float* Matrix2::operator[](unsigned int idx) const
 {
 	assert(idx < 2 && "Matrix subscript out of range");
-	return _mat + (idx * 3);
+	return _mat + (idx * 2);
 }
