@@ -111,6 +111,45 @@ void Matrix4::toRotation(const Vector3 &v, float a)
 	R = I + (K * sin(a)) + ((K * K) * (1.0f - cos(a)));
 
 	set(R);
+
+	_mat[M33] = 1;
+}
+
+/* Transforms */
+
+void Matrix4::translate(const Vector3& v)
+{
+	translate(v.x, v.y, v.z);
+}
+
+void Matrix4::translate(float x, float y, float z)
+{
+	Matrix4 T;
+	T.toTranslation(x, y, z);
+
+	Matrix4 R;
+
+	R = *this * T;
+
+	set(R);
+}
+
+void Matrix4::rotate(const Vector3& v)
+{
+	rotate(v.x, v.y, v.z);
+}
+
+void Matrix4::rotate(float x, float y, float z)
+{
+	Matrix4 Rx, Ry, Rz;
+
+	Rx.toRotation(Vector3(1, 0, 0), x);
+	Ry.toRotation(Vector3(0, 1, 0), y);
+	Rz.toRotation(Vector3(0, 0, 1), z);
+
+	Matrix4 R = (*this) * Rx * Ry * Rz;
+
+	set(R);
 }
 
 void Matrix4::toIdentity()
@@ -210,6 +249,16 @@ void Matrix4::set(const Matrix3& m)
 		{
 			(*this)[i][j] = m[i][j];
 		}
+	}
+}
+
+void Matrix4::set(const Matrix4& m)
+{
+	const float *ptr = m.get();
+	int i;
+	for (i = 0; i < 16; ++i)
+	{
+		_mat[i] = ptr[i];
 	}
 }
 

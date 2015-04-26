@@ -28,6 +28,14 @@ namespace sgl
 
 		void toRotation(const Vector3 &v, float angle);
 
+		/* Transforms */
+
+		void translate(const Vector3& v);
+		void translate(float, float, float);
+
+		void rotate(const Vector3& v);
+		void rotate(float, float, float);
+
 		/* General Matrix */
 
 		void toIdentity(void);
@@ -49,6 +57,7 @@ namespace sgl
 		/* Getters and Setters */
 
 		void set(const Matrix3& m);
+		void set(const Matrix4& m);
 		void set(float * m);
 		
 		const float * get(void) const;
