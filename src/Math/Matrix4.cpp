@@ -83,7 +83,22 @@ void Matrix4::toScale(float x, float y, float z)
 }
 
 /**
-	Rodrigues Rotation Matrix Implemenation
+	Rodrigues Rotation Matrix
+
+	Formula: 
+	R = I + sin(x) * K + (1 - cos(x)) * K^2
+
+	Identity Matrix
+
+	    [ 1 0 0 ]
+	I = [ 0 1 0 ]
+		[ 0 0 1 ]
+
+	Cross Product Matrix
+
+		[   0 -k3   k2 ]
+	K =	[  k3   0  -k1 ]
+		[ -k2  k1    0 ]
 */
 void Matrix4::toRotation(const Vector3 &v, float a)
 {
