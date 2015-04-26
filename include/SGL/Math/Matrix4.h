@@ -33,6 +33,10 @@ namespace sgl
 		void translate(const Vector3& v);
 		void translate(float, float, float);
 
+		void scale(const Vector3& v);
+		void scale(float);
+		void scale(float, float, float);
+
 		void rotate(const Vector3& v);
 		void rotate(float, float, float);
 

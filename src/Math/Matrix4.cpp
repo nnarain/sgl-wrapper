@@ -139,14 +139,27 @@ void Matrix4::translate(const Vector3& v)
 
 void Matrix4::translate(float x, float y, float z)
 {
-	Matrix4 T;
-	T.toTranslation(x, y, z);
+	_mat[MTX] += x;
+	_mat[MTY] += y;
+	_mat[MTZ] += z;
+}
 
-	Matrix4 R;
+void Matrix4::scale(const Vector3& v)
+{
+	scale(v.x, v.y, v.z);
+}
 
-	R = *this * T;
+void Matrix4::scale(float t)
+{
+	scale(t, t, t);
+}
 
-	set(R);
+void Matrix4::scale(float x, float y, float z)
+{
+	_mat[MSX] *= x;
+	_mat[MSY] *= y;
+	_mat[MSZ] *= z;
+	_mat[M33] = 1;
 }
 
 void Matrix4::rotate(const Vector3& v)
