@@ -5,6 +5,8 @@
 
 using namespace sgl;
 
+/* Matrix Position Names */
+
 #define M00 0
 #define M01 1
 #define M02 2
@@ -17,9 +19,29 @@ using namespace sgl;
 #define M21 7
 #define M22 8
 
+/*
+	Alternate Names
+
+	| a b c |
+	| d e f |
+	| g h i |
+*/
+
+#define MA M00
+#define MB M10
+#define MC M20
+
+#define MD M01
+#define ME M11
+#define MF M21
+
+#define MG M02
+#define MH M12
+#define MI M22
 
 Matrix3::Matrix3(void)
 {
+	clear();
 }
 
 Matrix3::Matrix3(float * m)
@@ -50,6 +72,18 @@ void Matrix3::clear(void)
 	{
 		_mat[i] = 0;
 	}
+}
+
+float Matrix3::det(void)
+{
+	float det;
+
+	det =
+		  _mat[MA] * (_mat[ME] * _mat[MI] - _mat[MF] * _mat[MH])
+		- _mat[MB] * (_mat[MD] * _mat[MI] - _mat[MF] * _mat[MG])
+		+ _mat[MC] * (_mat[MD] * _mat[MH] - _mat[ME] * _mat[MG]);
+
+	return det;
 }
 
 void Matrix3::set(float * m)

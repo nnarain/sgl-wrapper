@@ -43,7 +43,12 @@ namespace sgl
 		/* General Matrix */
 
 		void toIdentity(void);
+		
+		void invert(void);
+		
 		void clear(void);
+
+		float det(void);
 
 		/* Operators */
 
@@ -67,6 +72,7 @@ namespace sgl
 		const float * get(void) const;
 
 	private:
+		// matrix values
 		float _mat[4 * 4];
 	};
 }
