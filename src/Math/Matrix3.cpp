@@ -1,10 +1,11 @@
 
 #include <SGL/Math/Matrix3.h>
-#include <SGL/Math/Matrix2.h>
 
 #include <cassert>
 
 using namespace sgl;
+
+/* Matrix Position Names */
 
 #define M00 0
 #define M01 1
@@ -18,9 +19,29 @@ using namespace sgl;
 #define M21 7
 #define M22 8
 
+/*
+	Alternate Names
+
+	| a b c |
+	| d e f |
+	| g h i |
+*/
+
+#define MA M00
+#define MB M10
+#define MC M20
+
+#define MD M01
+#define ME M11
+#define MF M21
+
+#define MG M02
+#define MH M12
+#define MI M22
 
 Matrix3::Matrix3(void)
 {
+	clear();
 }
 
 Matrix3::Matrix3(float * m)
@@ -55,43 +76,14 @@ void Matrix3::clear(void)
 
 float Matrix3::det(void)
 {
-	Matrix2 mats[3];
+	float det;
 
-	// create 2x2 matrices for determinant
-	int i;
-	int col, row;
-	int mCol, mRow;
+	det =
+		  _mat[MA] * (_mat[ME] * _mat[MI] - _mat[MF] * _mat[MH])
+		- _mat[MB] * (_mat[MD] * _mat[MI] - _mat[MF] * _mat[MG])
+		+ _mat[MC] * (_mat[MD] * _mat[MH] - _mat[ME] * _mat[MG]);
 
-	for (i = 0; i < 3; ++i)
-	{
-		// the current matrix to populate
-		Matrix2& m = mats[i];
-
-		mCol = 0;
-
-		for (col = 0; col < 3; ++col)
-		{
-			mRow = 0;
-
-			// if is the same column
-			if (col == i) continue;
-
-			for (row = 0; row < 3; ++row)
-			{
-				// if in the same row
-				if (row == 0) continue;
-
-				m[mCol][mRow] = (*this)[col][row];
-
-				mRow++;
-			}
-
-			mCol++;
-		}
-	}
-
-	// calculate the 3x3 matrix determinant
-	return ((*this)[0][0] * mats[0].det()) - ((*this)[1][0] * mats[1].det()) + ((*this)[2][0] * mats[2].det());
+	return det;
 }
 
 void Matrix3::set(float * m)

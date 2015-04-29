@@ -5,6 +5,8 @@
 
 using namespace sgl;
 
+/* Matrix positions */
+
 #define M00 0
 #define M01 1
 #define M02 2
@@ -25,6 +27,8 @@ using namespace sgl;
 #define M32 14
 #define M33 15
 
+/* Special Matrix Positions */
+
 #define MTX M30
 #define MTY M31
 #define MTZ M32
@@ -33,8 +37,42 @@ using namespace sgl;
 #define MSY M11
 #define MSZ M22
 
+/* 
+	Alternate Position Names
+
+	| a b c d |
+	| e f g h |
+	| i j k l |
+	| m n o p |
+
+*/
+
+#define MA M00
+#define MB M10
+#define MC M20
+#define MD M30
+
+#define ME M01
+#define MF M11
+#define MG M21
+#define MH M31
+
+#define MI M02
+#define MJ M12
+#define MK M22
+#define ML M32
+
+#define MM M03
+#define MN M13
+#define MO M23
+#define MP M33
+
+/* Mathy Stuff */
+
 #define PI              3.14159f
 #define DEG_TO_RAD(deg) ((deg) * (PI/180.0f))
+
+/* Constructors */
 
 Matrix4::Matrix4()
 {
@@ -190,50 +228,118 @@ void Matrix4::toIdentity()
 	_mat[M33] = 1;
 }
 
-void Matrix4::inverse(void)
+void Matrix4::invert(void)
 {
+	// new matrix values
+	float newMat[16];
 
+	// the inverse determinant
+	float invDet = 1.0f / det();
+
+	//
+	newMat[MA] =
+		  _mat[MF] * _mat[MK] * _mat[MP] + _mat[MG] * _mat[ML] * _mat[MN] + _mat[MH] * _mat[MJ] * _mat[MO]
+		- _mat[MF] * _mat[ML] * _mat[MO] - _mat[MG] * _mat[MJ] * _mat[MP] - _mat[MH] * _mat[MK] * _mat[MN];
+
+	newMat[MB] =
+		  _mat[MB] * _mat[ML] * _mat[MO] + _mat[MC] * _mat[MJ] * _mat[MP] + _mat[MD] * _mat[MK] * _mat[MP]
+		- _mat[MB] * _mat[MK] * _mat[MP] - _mat[MC] * _mat[ML] * _mat[MN] - _mat[MD] * _mat[MJ] * _mat[MO];
+
+	newMat[MC] =
+		  _mat[MB] * _mat[MG] * _mat[MP] + _mat[MC] * _mat[MH] * _mat[MN] + _mat[MD] * _mat[MF] * _mat[MO]
+		- _mat[MB] * _mat[MH] * _mat[MO] - _mat[MC] * _mat[MF] * _mat[MP] - _mat[MD] * _mat[MG] * _mat[MN];
+
+	newMat[MD] =
+		  _mat[MB] * _mat[MH] * _mat[MK] + _mat[MC] * _mat[MF] * _mat[ML] + _mat[MD] * _mat[MF] * _mat[MJ]
+		- _mat[MB] * _mat[MG] * _mat[ML] - _mat[MC] * _mat[MH] * _mat[MJ] - _mat[MD] * _mat[MF] * _mat[MK];
+
+	newMat[ME] =
+		  _mat[ME] * _mat[ML] * _mat[MO] + _mat[MG] * _mat[MI] * _mat[MP] + _mat[MH] * _mat[MK] * _mat[MM]
+		- _mat[ME] * _mat[MK] * _mat[MP] - _mat[MG] * _mat[ML] * _mat[MM] - _mat[MH] * _mat[MI] * _mat[MO];
+
+	newMat[MF] =
+		  _mat[MA] * _mat[MK] * _mat[MP] + _mat[MC] * _mat[ML] * _mat[MM] + _mat[MD] * _mat[MI] * _mat[MO]
+		- _mat[MA] * _mat[ML] * _mat[MO] - _mat[MC] * _mat[MI] * _mat[MP] - _mat[MD] * _mat[MK] * _mat[MM];
+
+	newMat[MG] =
+		  _mat[MA] * _mat[MH] * _mat[MO] + _mat[MC] * _mat[ME] * _mat[MP] + _mat[MD] * _mat[MG] * _mat[MM]
+		- _mat[MA] * _mat[MG] * _mat[MP] - _mat[MC] * _mat[MH] * _mat[MM] - _mat[MD] * _mat[ME] * _mat[MO];
+
+	newMat[MH] =
+		  _mat[MA] * _mat[MG] * _mat[ML] + _mat[MC] * _mat[MH] * _mat[MI] + _mat[MD] * _mat[ME] * _mat[MK]
+		- _mat[MA] * _mat[MH] * _mat[MK] - _mat[MC] * _mat[ME] * _mat[ML] - _mat[MD] * _mat[MG] * _mat[MI];
+
+	newMat[MI] =
+		  _mat[ME] * _mat[MJ] * _mat[MP] + _mat[MF] * _mat[ML] * _mat[MM] + _mat[MH] * _mat[MI] * _mat[MN]
+		- _mat[ME] * _mat[ML] * _mat[MN] - _mat[MF] * _mat[MI] * _mat[MP] - _mat[MH] * _mat[MJ] * _mat[MM];
+
+	newMat[MJ] =
+		  _mat[MA] * _mat[ML] * _mat[MN] + _mat[MB] * _mat[MI] * _mat[MP] + _mat[MD] * _mat[MJ] * _mat[MM]
+		- _mat[MA] * _mat[MJ] * _mat[MP] - _mat[MB] * _mat[ML] * _mat[MM] - _mat[MD] * _mat[MI] * _mat[MN];
+
+	newMat[MK] =
+		  _mat[MA] * _mat[MF] * _mat[MP] + _mat[MB] * _mat[MH] * _mat[MM] + _mat[MD] * _mat[ME] * _mat[MN]
+		- _mat[MA] * _mat[MH] * _mat[MN] - _mat[MB] * _mat[ME] * _mat[MP] - _mat[MD] * _mat[MF] * _mat[MM];
+
+	newMat[ML] =
+		  _mat[MA] * _mat[MH] * _mat[MJ] + _mat[MB] * _mat[ME] * _mat[ML] + _mat[MD] * _mat[MF] * _mat[MI]
+		- _mat[MA] * _mat[MF] * _mat[ML] - _mat[MB] * _mat[MH] * _mat[MI] - _mat[MD] * _mat[ME] * _mat[MJ];
+
+	newMat[MM] =
+		  _mat[ME] * _mat[MK] * _mat[MN] + _mat[MF] * _mat[MI] * _mat[MO] + _mat[MG] * _mat[MJ] * _mat[MM]
+		- _mat[ME] * _mat[MJ] * _mat[MO] - _mat[MF] * _mat[MK] * _mat[MM] - _mat[MG] * _mat[MI] * _mat[MN];
+
+	newMat[MN] =
+		  _mat[MA] * _mat[MJ] * _mat[MO] + _mat[MB] * _mat[MK] * _mat[MM] + _mat[MC] * _mat[MI] * _mat[MN]
+		- _mat[MA] * _mat[MK] * _mat[MN] - _mat[MB] * _mat[MI] * _mat[MO] - _mat[MC] * _mat[MJ] * _mat[MM];
+
+	newMat[MO] =
+		  _mat[MA] * _mat[MG] * _mat[MN] + _mat[MB] * _mat[ME] * _mat[MO] + _mat[MC] * _mat[MF] * _mat[MM]
+		- _mat[MA] * _mat[MF] * _mat[MO] - _mat[MB] * _mat[MG] * _mat[MM] - _mat[MC] * _mat[ME] * _mat[MN];
+
+	newMat[MP] =
+		  _mat[MA] * _mat[MF] * _mat[MK] + _mat[MB] * _mat[MG] * _mat[MI] + _mat[MC] * _mat[ME] * _mat[MJ]
+		- _mat[MA] * _mat[MG] * _mat[MI] - _mat[MB] * _mat[ME] * _mat[MK] - _mat[MC] * _mat[MF] * _mat[MI];
+
+	int i;
+	for (i = 0; i < 16; ++i)
+	{
+		newMat[i] *= invDet;
+	}
+
+	set(newMat);
 }
 
 float Matrix4::det(void)
 {
-	Matrix3 mats[4];
+	float det;
 
-	// create 2x2 matrices for determinant
-	int i;
-	int col, row;
-	int mCol, mRow;
+	det = _mat[MA] *
+		(
+		  _mat[MF] * (_mat[MK] * _mat[MP] - _mat[MO] * _mat[ML])
+		- _mat[MG] * (_mat[MJ] * _mat[MP] - _mat[MN] * _mat[ML])
+		+ _mat[MH] * (_mat[MJ] * _mat[MO] - _mat[MK] * _mat[MN])
+		)
+		- _mat[MB] *
+		(
+		  _mat[ME] * (_mat[MK] * _mat[MP] - _mat[MO] * _mat[ML])
+		- _mat[MG] * (_mat[MI] * _mat[MP] - _mat[MM] * _mat[ML])
+		+ _mat[MH] * (_mat[MI] * _mat[MO] - _mat[MK] * _mat[MM])
+		)
+		+ _mat[MC] *
+		(
+		  _mat[ME] * (_mat[MJ] * _mat[MP] - _mat[MN] * _mat[ML])
+		- _mat[MF] * (_mat[MI] * _mat[MP] - _mat[MM] * _mat[ML])
+		+ _mat[MH] * (_mat[MI] * _mat[MN] - _mat[MJ] * _mat[MM])
+		)
+		- _mat[MD] *
+		(
+		  _mat[ME] * (_mat[MJ] * _mat[MO] - _mat[MN] * _mat[MK])
+		- _mat[MF] * (_mat[MI] * _mat[MO] - _mat[MM] * _mat[MK])
+		+ _mat[MG] * (_mat[MI] * _mat[MN] - _mat[MJ] * _mat[MM])
+		);
 
-	for (i = 0; i < 4; ++i)
-	{
-		// the current matrix to populate
-		Matrix3& m = mats[i];
-
-		mCol = 0;
-
-		for (col = 0; col < 4; ++col)
-		{
-			mRow = 0;
-
-			// if is the same column
-			if (col == i) continue;
-
-			for (row = 0; row < 4; ++row)
-			{
-				// if in the same row
-				if (row == 0) continue;
-
-				m[mCol][mRow] = (*this)[col][row];
-
-				mRow++;
-			}
-
-			mCol++;
-		}
-	}
-
-	// calculate the 4x4 determinant
-	return ((*this)[0][0] * mats[0].det()) - ((*this)[1][0] * mats[1].det()) + ((*this)[2][0] * mats[2].det()) - ((*this)[3][0] * mats[3].det());
+	return det;
 }
 
 void Matrix4::clear(void)

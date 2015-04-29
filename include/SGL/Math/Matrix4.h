@@ -44,7 +44,7 @@ namespace sgl
 
 		void toIdentity(void);
 		
-		void inverse(void);
+		void invert(void);
 		
 		void clear(void);
 
@@ -72,6 +72,7 @@ namespace sgl
 		const float * get(void) const;
 
 	private:
+		// matrix values
 		float _mat[4 * 4];
 	};
 }
