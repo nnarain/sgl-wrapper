@@ -9,6 +9,7 @@ Simple OpenGL Wrapper. A simple object oriented interface to OpenGL.
 * Camera
 * Shaders
 * Textures
+* Generic Buffers
 * Framebuffers
 * Uniforms
 * Mesh
@@ -23,12 +24,12 @@ Simple OpenGL Wrapper. A simple object oriented interface to OpenGL.
 **Math**
 
 * 2, 3, 4 dimensional vectors
-* Matrices
+* 3x3 and 4x4 Matrices
 
 Build
 -----
 
-Dependencies: GLEW, GLM
+Dependencies: GLEW
 
 Builds with CMake
 
