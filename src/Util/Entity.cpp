@@ -1,5 +1,4 @@
 #include "SGL/Util/Entity.h"
-#include <glm/gtx/transform.hpp>
 
 #include <algorithm>
 

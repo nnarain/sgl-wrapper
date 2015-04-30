@@ -19,7 +19,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${bin})
 # find packages
 find_package(OpenGL)
 find_package(GLEW)
-find_package(GLM)
 
 # set src and include directories
 set(INCL "include")
@@ -28,7 +27,6 @@ include_directories(${INCL})
 
 include_directories(${OPENGL_INCLUDE_DIR})
 include_directories(${GLEW_INCLUDE_DIR})
-include_directories(${GLM_INCLUDE_DIR})
 
 # find header & source
 file(GLOB_RECURSE HEADER "${INCL}/*.h")
