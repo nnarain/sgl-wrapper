@@ -3,6 +3,7 @@
 
 // Math
 #include "SGL/Math/MathUtil.h"
+#include "SGL/Math/Vector4.h"
 
 using namespace sgl;
 
@@ -19,8 +20,6 @@ Camera::Camera(float fov, float viewportWidth, float viewportHeight) :
 	_up(0,1,0),
 	_dirty(true)
 {
-	//float aspectRatio = _viewportWidth / _viewportHeight;
-	//*_proj = glm::perspective(fov, aspectRatio, _nearClipping, _farClipping);
 	calculateProjectionMatrix();
 }
 
@@ -110,39 +109,42 @@ void Camera::lookAt(float x, float y, float z)
 
 Ray Camera::pickRay(float viewportX, float viewportY)
 {
-/*
+
 	// normalized device coordinates
 	float x = ((viewportX / _viewportWidth) - 0.5f) * 2.0f;
 	float y = ((viewportY / _viewportHeight) - 0.5f) * 2.0f;
 
 	// near far vectors
-	glm::vec4 near = glm::vec4(x, y, -1.0f, 1.0f);
-	glm::vec4 far = glm::vec4(x, y, 0.0f, 1.0f);
+	Vector4 near(x, y, -1.0f, 1.0f);
+	Vector4 far(x, y, 0.0f, 1.0f);
 
-	// inverse matrices
-	glm::mat4 invProj = glm::inverse(*_proj);
-	glm::mat4 invView = glm::inverse(*_view);
+	// inverse projection
+	Matrix4 invProj(_proj);
+	invProj.invert();
+
+	// inverse view
+	Matrix4 invView(_view);
+	invView.invert();
 
 	// unproject and unview the coordinates to get world space
-	glm::vec4 csStart = invProj * near;
+	Vector4 csStart = invProj * near;
 	csStart /= csStart.w;
-	glm::vec4 wsStart = invView * csStart;
+	Vector4 wsStart = invView * csStart;
 	wsStart /= wsStart.w;
 
-	glm::vec4 csEnd = invProj * far;
+	Vector4 csEnd = invProj * far;
 	csEnd /= csEnd.w;
-	glm::vec4 wsEnd = invView * csEnd;
+	Vector4 wsEnd = invView * csEnd;
 	wsEnd /= wsEnd.w;
 
-	glm::vec3 direction = glm::normalize(glm::vec3(wsEnd - wsStart));
+	Vector4 tmp = (wsEnd - wsStart).normalize();
+	Vector3 direction = Vector3(tmp.x, tmp.y, tmp.z);
 
 	Ray ray;
-	ray.origin = glm::vec3(wsStart);
+	ray.origin = Vector3(wsStart.x, wsStart.y, wsStart.z);
 	ray.direction = direction;
 
 	return ray;
-*/
-	return Ray();
 }
 
 Matrix4 Camera::combined()
