@@ -1,5 +1,6 @@
 
 #include "SGL/Math/Matrix4.h"
+#include "SGL/Math/MathUtil.h"
 
 #include <cassert>
 
@@ -66,11 +67,6 @@ using namespace sgl;
 #define MN M13
 #define MO M23
 #define MP M33
-
-/* Mathy Stuff */
-
-#define PI              3.14159f
-#define DEG_TO_RAD(deg) ((deg) * (PI/180.0f))
 
 /* Constructors */
 

@@ -2,10 +2,7 @@
 #include "SGL/Util/Camera.h"
 
 // Math
-#include <glm/gtx/transform.hpp>
-#include <glm/gtx/rotate_vector.hpp>
-
-#include <algorithm>
+#include "SGL/Math/MathUtil.h"
 
 using namespace sgl;
 
@@ -22,62 +19,79 @@ Camera::Camera(float fov, float viewportWidth, float viewportHeight) :
 	_up(0,1,0),
 	_dirty(true)
 {
-	float aspectRatio = _viewportWidth / _viewportHeight;
+	//float aspectRatio = _viewportWidth / _viewportHeight;
 	//*_proj = glm::perspective(fov, aspectRatio, _nearClipping, _farClipping);
+	calculateProjectionMatrix();
 }
 
 void Camera::update()
 {
+	// calculate the new view matrix if required
+
 	if (_dirty)
 	{
-		// calculate the camera view matrix
-
-		// eye space z-axis
-		Vector3 z = (_target - _pos).normalize();
-
-		// eye space x-axis
-		Vector3 x = Vector3(z).cross(_up).normalize();
-
-		// eye space y-axis
-		Vector3 y = Vector3(x).cross(z);
-
-		// store results in the view matrix
-
-		/*
-			| right.x   up.x   forward.x   position.x |
-			| right.y   up.y   forward.y   position.x |
-			| right.z   up.z   forward.z   position.x |
-			|   0        0         0           1      |
-
-			Rows and columns are transposed
-		*/
-
-		// right
-		_view[0][0] = x.x;
-		_view[1][0] = x.y;
-		_view[2][0] = x.z;
-		_view[3][0] = x.dot(_pos) * -1;
-
-		// up
-		_view[0][1] = y.x;
-		_view[1][1] = y.y;
-		_view[2][1] = y.z;
-		_view[3][1] = y.dot(_pos) * -1;
-
-		// forward
-		_view[0][2] = -z.x;
-		_view[1][2] = -z.y;
-		_view[2][2] = -z.z;
-		_view[3][2] = z.dot(_pos);
-
-		// position
-		//_view[0][3] = x.dot(_pos) * -1;;
-		//_view[1][3] = y.dot(_pos) * -1;;
-		//_view[2][3] = z.dot(_pos);
-		_view[3][3] = 1;
+		calculateViewMatrix();
 
 		_dirty = false;
 	}
+}
+
+void Camera::calculateViewMatrix(void)
+{
+	// calculate eye space basis vectors
+
+	// eye space z-axis
+	Vector3 z = (_target - _pos).normalize();
+
+	// eye space x-axis
+	Vector3 x = Vector3(z).cross(_up).normalize();
+
+	// eye space y-axis
+	Vector3 y = Vector3(x).cross(z);
+
+	// store results in the view matrix
+
+	/*
+	| right.x   up.x   forward.x   position.x |
+	| right.y   up.y   forward.y   position.x |
+	| right.z   up.z   forward.z   position.x |
+	|   0        0         0           1      |
+
+	Rows and columns are transposed
+	*/
+
+	// right
+	_view[0][0] = x.x;
+	_view[1][0] = x.y;
+	_view[2][0] = x.z;
+	_view[3][0] = x.dot(_pos) * -1;
+
+	// up
+	_view[0][1] = y.x;
+	_view[1][1] = y.y;
+	_view[2][1] = y.z;
+	_view[3][1] = y.dot(_pos) * -1;
+
+	// forward
+	_view[0][2] = -z.x;
+	_view[1][2] = -z.y;
+	_view[2][2] = -z.z;
+	_view[3][2] = z.dot(_pos);
+
+	_view[3][3] = 1;
+}
+
+void Camera::calculateProjectionMatrix(void)
+{
+	float aspect = _viewportWidth / _viewportHeight;
+
+	float tanHalfFov = tan(DEG_TO_RAD(_fov) / 2.0f);
+
+	_proj[0][0] = 1.0f / (aspect * tanHalfFov);
+	_proj[1][1] = 1.0f / (tanHalfFov);
+	_proj[2][2] = - ((_farClipping + _nearClipping) / (_farClipping - _nearClipping));
+	_proj[2][3] = -1.0f;
+	_proj[3][2] = -(2.0f * _farClipping * _nearClipping) / (_farClipping - _nearClipping);
 }
 
 void Camera::lookAt(const Vector3& v)

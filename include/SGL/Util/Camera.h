@@ -103,6 +103,7 @@ namespace sgl{
 
 		//! camera projection
 		Matrix4 _proj;
+		
 		/* 
 			camera view matrix
 		
@@ -128,6 +129,11 @@ namespace sgl{
 
 		//! camera requires an update
 		bool _dirty;
+
+		/* Private member functions */
+
+		void calculateViewMatrix(void);
+		void calculateProjectionMatrix(void);
 
 	};
 };
