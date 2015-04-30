@@ -7,36 +7,36 @@
 
 using namespace sgl;
 
-Image::Image(const std::string &filename, Format format) :
+Image::Image(const char *filename, Format format) :
 	_format(format),
-	_filename(filename),
 	_data(NULL),
 	_width(0),
 	_height(0),
 	_size(0)
 {
+	load(filename);
 }
 
-Image::Image(const std::string &filename) : Image(filename, findFormat(getFileExtension(filename)))
+Image::Image(const char *filename) : Image(filename, findFormat(getFileExtension(filename)))
 {
 }
 
-void Image::load()
+void Image::load(const char *filename)
 {
 	switch (_format)
 	{
 	case Image::Format::BMP:
-		loadBMP();
+		loadBMP(filename);
 		break;
 	case Image::Format::TGA:
-		loadTGA();
+		loadTGA(filename);
 		break;
 	}
 }
 
-void Image::loadBMP()
+void Image::loadBMP(const char *filename)
 {
-	std::ifstream file(_filename, std::ifstream::binary);
+	std::ifstream file(filename, std::ifstream::binary);
 	Image::BitmapHeader header;
 
 	// check if file is valid
@@ -64,24 +64,24 @@ void Image::loadBMP()
 			// check if the read failed
 			if (file.fail())
 			{
-				throw Exception("Failed to read image data from file: " + _filename);
+				throw Exception("Failed to read image data from file");
 			}
 
 		}
 		else
 		{
-			throw Exception("Bad signature: " + _filename);
+			throw Exception("Bad signature: ");
 		}
 	}
 	else
 	{
-		throw Exception("could not open file: " + _filename);
+		throw Exception("could not open file");
 	}
 }
 
-void Image::loadTGA()
+void Image::loadTGA(const char *filename)
 {
-	std::ifstream file(_filename, std::ifstream::binary);
+	std::ifstream file(filename, std::ifstream::binary);
 	Image::TGAHeader header;
 
 	// check if the file is valid
@@ -103,13 +103,13 @@ void Image::loadTGA()
 
 		if (file.fail())
 		{
-			throw Exception("Failed to read file: " + _filename);
+			throw Exception("Failed to read file");
 		}
 
 	}
 	else
 	{
-		throw Exception("Failed to open file: " + _filename);
+		throw Exception("Failed to open file");
 	}
 }
 

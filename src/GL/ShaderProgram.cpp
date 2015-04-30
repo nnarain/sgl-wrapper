@@ -104,10 +104,7 @@ void ShaderProgram::loadFromFile(Type shaderType, const std::string & filename)
 
 	if (!file.good())
 	{
-		char *buff = new char[filename.length() + 40];
-		sprintf(buff, "SGL Error: File \"%s\" could not be found", filename.c_str());
-		std::string message(buff);
-		delete[]buff;
+		std::string message("Error: Could not open file: " + filename);
 		throw Exception(message);
 	}
 

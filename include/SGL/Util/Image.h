@@ -74,13 +74,13 @@ namespace sgl
 
 		/* Constructors */
 
-		Image(const std::string &filename, Format format);
-		Image(const std::string &filename);
+		Image(const char *filename, Format format);
+		Image(const char *filename);
 		~Image(void);
 
 		/* Public Functions */
 
-		void load();
+		void load(const char *filename);
 
 		/* Getters */
 
@@ -96,7 +96,6 @@ namespace sgl
 	private:
 
 		Format _format;
-		std::string _filename;
 
 		unsigned int _width;
 		unsigned int _height;
@@ -110,12 +109,12 @@ namespace sgl
 		/**
 			Load an uncompressed Bitmap file
 		*/
-		void loadBMP();
+		void loadBMP(const char *filename);
 
 		/**
 			Load an uncompressed TGA file
 		*/
-		void loadTGA();
+		void loadTGA(const char *filename);
 
 		/**
 			@return the file extension of the given file name

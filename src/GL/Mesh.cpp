@@ -83,6 +83,8 @@ unsigned int Mesh::dataTypeSize(GLType t)
 		return sizeof(float);
 		break;
 	}
+
+	return 0;
 }
 
 void Mesh::bind()
