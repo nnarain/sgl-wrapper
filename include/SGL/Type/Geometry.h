@@ -6,6 +6,9 @@
 
 #include "SGL/Util/SGLExport.h"
 
+#include "SGL/Math/Vector2.h"
+#include "SGL/Math/Vector3.h"
+
 #include <glm/glm.hpp>
 
 namespace sgl
@@ -21,8 +24,8 @@ namespace sgl
 	//! Ray
 	struct Ray
 	{
-		glm::vec3 origin;
-		glm::vec3 direction;
+		Vector3 origin;
+		Vector3 direction;
 	};
 
 	namespace util
