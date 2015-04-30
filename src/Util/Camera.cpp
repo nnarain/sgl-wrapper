@@ -163,12 +163,6 @@ const Matrix4& Camera::view() const
 	return _view;
 }
 
-
-const Matrix4& Camera::transform() const
-{
-	return Matrix4();
-}
-
 void Camera::setPosition(const Vector3& vec)
 {
 	setPosition(vec.x, vec.y, vec.z);
@@ -200,9 +194,9 @@ void Camera::setUpVector(const Vector3 &up)
 	_up.z = up.z;
 }
 
-Vector3& Camera::getTarget() const
+const Vector3& Camera::getTarget() const
 {
-	return Vector3();
+	return _target;
 }
 
 Camera::~Camera()

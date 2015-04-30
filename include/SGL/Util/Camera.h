@@ -68,11 +68,6 @@ namespace sgl{
 		*/
 		const Matrix4& view() const;
 
-		/**
-			@return the world space transform of the camera
-		*/
-		const Matrix4& transform() const;
-
 		/* Setters & Getters */
 		
 		/**
@@ -86,7 +81,7 @@ namespace sgl{
 		void setPosition(float, float, float);
 		const Vector3& getPosition() const;
 
-		Vector3& getTarget() const;
+		const Vector3& getTarget() const;
 
 		const Vector3& getUpVector() const;
 		void setUpVector(const Vector3& up);
