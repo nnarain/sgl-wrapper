@@ -154,11 +154,6 @@ void ShaderProgram::load(Type shaderType, const std::string & source)
 	glAttachShader(_programID, *shader);
 }
 
-void ShaderProgram::attribute(const std::string &name, glm::vec3 v)
-{
-	glUniform3f(getAttributeLocation(name), v.x, v.y, v.z);
-}
-
 Uniform ShaderProgram::uniform(const std::string &name)
 {
 	return Uniform(getUniformLocation(name));

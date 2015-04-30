@@ -9,8 +9,6 @@
 #include "SGL/Math/Vector2.h"
 #include "SGL/Math/Vector3.h"
 
-#include <glm/glm.hpp>
-
 namespace sgl
 {
 	struct Quad

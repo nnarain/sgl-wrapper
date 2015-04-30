@@ -14,9 +14,6 @@
 #include "SGL/GL/Uniform.h"
 #include "SGL/Util/Exception.h"
 
-
-#include <glm/glm.hpp>
-
 #include <string>
 #include <vector>
 
@@ -79,10 +76,6 @@ namespace sgl{
 		*/
 		void addAttribute(const std::string &name, int numComponents);
 		void addAttribute(const std::string &name, int numComponents, int numComponentsPerLocations);
-
-		/* Passes the value the corresponding attribute in the shader */
-
-		void attribute(const std::string &name, glm::vec3 value);
 
 		/**
 			@return the uniform specified by the name

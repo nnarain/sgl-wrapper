@@ -9,9 +9,6 @@
 #include "SGL/GL/Texture.h"
 #include "SGL/Type/Geometry.h"
 
-// math
-#include <glm/glm.hpp>
-
 namespace sgl
 {
 	/**

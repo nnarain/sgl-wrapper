@@ -8,9 +8,9 @@
 using namespace sgl;
 
 ObjLoader::ObjLoader() : 
-	_positions(new std::vector<glm::vec3>),
-	_normals(new std::vector<glm::vec3>),
-	_texCoords(new std::vector<glm::vec2>),
+	_positions(new std::vector<Vector3>),
+	_normals(new std::vector<Vector3>),
+	_texCoords(new std::vector<Vector2>),
 	_meshes(new std::map<std::string, MeshData>)
 {
 }
@@ -154,7 +154,7 @@ void ObjLoader::parse(const std::string &filename)
 		// new vertex
 		else if (head == "v")
 		{
-			glm::vec3 v;
+			Vector3 v;
 			createVertexFromTokens(v, tokens);
 
 			_positions->push_back(v);
@@ -162,7 +162,7 @@ void ObjLoader::parse(const std::string &filename)
 		// new normal
 		else if (head == "vn")
 		{
-			glm::vec3 n;
+			Vector3 n;
 			createVertexFromTokens(n, tokens);
 
 			_normals->push_back(n);
@@ -170,7 +170,7 @@ void ObjLoader::parse(const std::string &filename)
 		// new teexcoord
 		else if (head == "vt")
 		{
-			glm::vec2 uv;
+			Vector2 uv;
 			createUVFromTokens(uv, tokens);
 
 			_texCoords->push_back(uv);
@@ -186,17 +186,17 @@ void ObjLoader::parse(const std::string &filename)
 	}
 }
 
-void ObjLoader::createVertexFromTokens(glm::vec3 &v, std::vector<std::string> &tokens)
+void ObjLoader::createVertexFromTokens(Vector3 &v, std::vector<std::string> &tokens)
 {
 	v.x = (float)(atof(tokens[1].c_str()));
 	v.y = (float)(atof(tokens[2].c_str()));
 	v.z = (float)(atof(tokens[3].c_str()));
 }
 
-void ObjLoader::createUVFromTokens(glm::vec2 &uv, std::vector<std::string> &tokens)
+void ObjLoader::createUVFromTokens(Vector2 &uv, std::vector<std::string> &tokens)
 {
-	uv.s = (float)atof(tokens[1].c_str());
-	uv.t = (float)atof(tokens[2].c_str());
+	uv.x = (float)atof(tokens[1].c_str());
+	uv.y = (float)atof(tokens[2].c_str());
 }
 
 void ObjLoader::createFaceFromTokens(Face& f, std::vector<std::string> &tokens)
