@@ -28,8 +28,10 @@ namespace sgl
 			BMP, TGA
 		};
 
+		// packing headers
+		#pragma pack(push, 1)
+
 		//! Bitmap Header
-		#pragma pack(1)
 		struct BitmapHeader
 		{
 			char signature[2];             // should be 'BM'
@@ -51,7 +53,6 @@ namespace sgl
 		};
 
 		// TGA Header
-		#pragma pack(1)
 		struct TGAHeader
 		{
 			uint8_t  idLen;
@@ -67,6 +68,8 @@ namespace sgl
 			uint8_t  pixelDepth;
 			uint8_t  imageDescriptor;
 		};
+
+		#pragma pack(pop)
 
 
 		/* Constructors */
