@@ -15,10 +15,10 @@ namespace sgl
 {
 	struct Quad
 	{
-		glm::vec2 bottomLeft;
-		glm::vec2 topLeft;
-		glm::vec2 topRight;
-		glm::vec2 bottomRight;
+		Vector2 bottomLeft;
+		Vector2 topLeft;
+		Vector2 topRight;
+		Vector2 bottomRight;
 	};
 
 	//! Ray

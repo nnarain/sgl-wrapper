@@ -1,6 +1,7 @@
 
 #include "SGL/GL/Texture.h"
 
+#include <cassert>
 #include <memory>
 #include <algorithm>
 
@@ -96,17 +97,17 @@ Texture::TextureRegion Texture::region(float x, float y, float w, float h)
 
 	// calculate the corners of the region using points (x1, y1) & (x2, y2)
 
-	region.bottomLeft.s = x1;
-	region.bottomLeft.t = y1;
+	region.bottomLeft.x = x1;
+	region.bottomLeft.y = y1;
 
-	region.topLeft.s = x1;
-	region.topLeft.t = y2;
+	region.topLeft.x = x1;
+	region.topLeft.y = y2;
 
-	region.topRight.s = x2;
-	region.topRight.t = y2;
+	region.topRight.x = x2;
+	region.topRight.y = y2;
 
-	region.bottomRight.s = x2;
-	region.bottomRight.t = y1;
+	region.bottomRight.x = x2;
+	region.bottomRight.y = y1;
 
 	return region;
 }

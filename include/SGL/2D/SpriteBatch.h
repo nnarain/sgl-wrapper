@@ -39,8 +39,8 @@ namespace sgl
 		//! Vertex. Position and texture coordinates
 		struct Vertex
 		{
-			glm::vec2 pos;
-			glm::vec2 texCoord;
+			Vector2 pos;
+			Vector2 texCoord;
 		};
 
 		//! Intermediate structure to store vertex data before the batching stage

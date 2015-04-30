@@ -6,8 +6,9 @@
 
 #include "SGL/Util/SGLExport.h"
 
+#include "SGL/Math/Vector2.h"
+
 #include <GL/glew.h>
-#include <glm/glm.hpp>
 
 namespace sgl{
 
@@ -96,10 +97,10 @@ namespace sgl{
 		//! Holder for uv coordinates
 		struct TextureRegion
 		{
-			glm::vec2 bottomLeft;
-			glm::vec2 topLeft;
-			glm::vec2 topRight;
-			glm::vec2 bottomRight;
+			Vector2 bottomLeft;
+			Vector2 topLeft;
+			Vector2 topRight;
+			Vector2 bottomRight;
 		};
 
 		/* Constructors */
