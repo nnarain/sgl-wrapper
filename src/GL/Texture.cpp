@@ -7,6 +7,10 @@
 
 using namespace sgl;
 
+Texture::Texture(void)
+{
+}
+
 Texture::Texture(Target target, int width, int height, Texture::InternalFormat internalFormat, Texture::Format format) :
 	_width(width),
 	_height(height),
@@ -16,8 +20,8 @@ Texture::Texture(Target target, int width, int height, Texture::InternalFormat i
 	create();
 	setTarget(target);
 
-	_internalFormat = static_cast<GLint>(internalFormat);
-	_format         = static_cast<GLenum>(format);
+	_internalFormat = internalFormat;
+	_format         = format;
 }
 
 void Texture::create()
@@ -34,7 +38,17 @@ void Texture::data(Target target, char* pixels)
 {
 	assert(_isBound && "Texture has not been bound");
 
-	glTexImage2D(static_cast<GLenum>(target), 0, _internalFormat, _width, _height, 0, _format, GL_UNSIGNED_BYTE, pixels);
+	glTexImage2D(
+		static_cast<GLenum>(target),
+		0,
+		static_cast<GLint>(_internalFormat),
+		_width,
+		_height,
+		0,
+		static_cast<GLenum>(_format),
+		GL_UNSIGNED_BYTE,
+		pixels
+	);
 }
 
 void Texture::bind()
@@ -120,6 +134,26 @@ void Texture::setTarget(Texture::Target target)
 Texture::Target Texture::getTarget() const
 {
 	return _target;
+}
+
+void Texture::setInternalFormat(Texture::InternalFormat format)
+{
+	_internalFormat = format;
+}
+
+Texture::InternalFormat Texture::getInternalFormat() const
+{
+	return _internalFormat;
+}
+
+void Texture::setFormat(Texture::Format format)
+{
+	_format = format;
+}
+
+Texture::Format Texture::getFormat() const
+{
+	return _format;
 }
 
 GLuint Texture::getId() const

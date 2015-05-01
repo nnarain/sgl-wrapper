@@ -4,6 +4,8 @@
 
 #include <SGL/Util/SGLExport.h>
 
+#include <SGL/GL/Texture.h>
+
 #include <string>
 #include <cstdint>
 
@@ -16,7 +18,8 @@ namespace sgl
 	*/
 	SGLCLASS Image
 	{
-		NO_COPY(Image);
+	private:
+		Image(void);
 
 	public:
 
@@ -71,65 +74,38 @@ namespace sgl
 
 		#pragma pack(pop)
 
-
-		/* Constructors */
-
-		Image(const char *filename, Format format);
-		Image(const char *filename);
-		~Image(void);
-
 		/* Public Functions */
 
-		void load(const char *filename);
-
-		/* Getters */
-
-		Format getFormat();
-
-		unsigned int getWidth() const;
-		unsigned int getHeight() const;
-
-		char *getData() const;
-
-		unsigned int size() const;
+		static void load(Texture& texture, const char *filename);
 
 	private:
-
-		Format _format;
-
-		unsigned int _width;
-		unsigned int _height;
-
-		char*        _data;
-
-		unsigned int _size;
 
 		/* Private Functions */
 
 		/**
 			Load an uncompressed Bitmap file
 		*/
-		void loadBMP(const char *filename);
+		static void loadBMP(Texture& texture, const char *filename);
 
 		/**
 			Load an uncompressed TGA file
 		*/
-		void loadTGA(const char *filename);
+		static void loadTGA(Texture& texture, const char *filename);
 
 		/**
 			Load PNG file
 		*/
-		void loadPNG(const char * filename);
+		static void loadPNG(Texture& texture, const char * filename);
 
 		/**
 			@return the file extension of the given file name
 		*/
-		std::string getFileExtension(const std::string &filename);
+		static std::string getFileExtension(const std::string &filename);
 
 		/**
 			@return the Image::Format corresponding to the given extension string
 		*/
-		Image::Format findFormat(const std::string &ext);
+		static Image::Format findFormat(const std::string &ext);
 
 	};
 }
