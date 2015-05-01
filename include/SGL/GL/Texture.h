@@ -110,7 +110,7 @@ namespace sgl{
 
 		/* Constructors */
 
-		Texture(void);
+		Texture(Target);
 		Texture(Target target, int width, int height, InternalFormat internalFormat, Format format);
 		~Texture();
 

@@ -7,7 +7,8 @@
 
 using namespace sgl;
 
-Texture::Texture(void) :
+Texture::Texture(Target target) :
+	_target(target),
 	_width(0),
 	_height(0),
 	_isBound(false),
