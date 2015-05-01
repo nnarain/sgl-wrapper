@@ -106,6 +106,7 @@ namespace sgl{
 
 		/* Constructors */
 
+		Texture(void);
 		Texture(Target target, int width, int height, InternalFormat internalFormat, Format format);
 		~Texture();
 
@@ -146,6 +147,12 @@ namespace sgl{
 		void setTarget(Target target);
 		Texture::Target getTarget() const;
 
+		void setInternalFormat(Texture::InternalFormat);
+		InternalFormat getInternalFormat() const;
+
+		void setFormat(Texture::Format);
+		Format getFormat() const;
+
 		void setWidth(int w);
 		int getWidth() const;
 
@@ -173,9 +180,10 @@ namespace sgl{
 		int _height;
 
 		//! internal format of pixel data
-		GLint _internalFormat;
+		InternalFormat _internalFormat;
+
 		//! format of pixel data
-		GLenum _format;
+		Format _format;
 
 		//!
 		bool _isBound;
