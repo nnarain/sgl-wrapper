@@ -17,8 +17,10 @@ Simple OpenGL Wrapper. A simple object oriented interface to OpenGL.
 
 **Utilities**
 
-* Auto Image loading
-	* Bitmap, TGA
+* Image loading
+	* Bitmap
+	* TGA
+	* PNG with [picoPNG](http://lodev.org/lodepng/)
 * Wavefront Object Loader
 
 **Math**

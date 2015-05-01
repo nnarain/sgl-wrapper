@@ -53,6 +53,7 @@ namespace sgl{
 		enum class InternalFormat
 		{
 			RGB   = GL_RGB,
+			RGBA  = GL_RGBA,
 
 			DEPTH = GL_DEPTH_COMPONENT
 		};

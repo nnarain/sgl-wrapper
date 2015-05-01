@@ -4,8 +4,15 @@
 
 #include <fstream>
 #include <algorithm>
+#include <vector>
+#include <memory>
 
 using namespace sgl;
+
+/* picopng decode prototype*/
+extern int decodePNG(std::vector<unsigned char>& out_image, unsigned long& image_width, unsigned long& image_height, const unsigned char* in_png, size_t in_size, bool convert_to_rgba32 = true);
+
+/* Constructors */
 
 Image::Image(const char *filename, Format format) :
 	_format(format),
@@ -30,6 +37,9 @@ void Image::load(const char *filename)
 		break;
 	case Image::Format::TGA:
 		loadTGA(filename);
+		break;
+	case Image::Format::PNG:
+		loadPNG(filename);
 		break;
 	}
 }
@@ -113,6 +123,53 @@ void Image::loadTGA(const char *filename)
 	}
 }
 
+void Image::loadPNG(const char * filename)
+{
+	// raw pixel data
+	std::vector<unsigned char> pixels;
+	// png width
+	unsigned long width;
+	// png height
+	unsigned long height;
+
+	// load png file
+	std::ifstream file(filename, std::ios::in | std::ios::binary | std::ios::ate);
+
+	if (!file.good()) throw Exception("could not open file");
+
+	// file size
+	std::streamsize size = 0;
+	if (file.seekg(0, std::ios::end).good()) size = file.tellg();
+	if (file.seekg(0, std::ios::beg).good()) size -= file.tellg();
+
+	if (size <= 0) throw Exception("File is empty : Image::loadPNG()");
+
+	// png file buffer
+	unsigned char * pngBuff = new unsigned char[(unsigned int)size];
+
+	// populate buffer
+	file.read((char *)pngBuff, size);
+
+	// load png via picoPNG decode function
+	int error = decodePNG(pixels, width, height, pngBuff, (size_t)size);
+
+	// buffer no longer needed
+	delete[] pngBuff;
+
+	// check for loading errors
+	if (error)
+		throw Exception("Failed to load PNG");
+
+	// copy the pixel data into the data
+	_data = new char[pixels.size()];
+
+	memcpy(_data, &pixels[0], pixels.size() * sizeof(char));
+
+	// set width and height
+	_width  = (unsigned int)width;
+	_height = (unsigned int)height;
+}
+
 std::string Image::getFileExtension(const std::string &filename)
 {
 	int len = filename.length();
@@ -137,6 +194,8 @@ Image::Format Image::findFormat(const std::string &ext)
 		format = Image::Format::TGA;
 	else if (ext == "bmp")
 		format = Image::Format::BMP;
+	else if (ext == "png")
+		format = Image::Format::PNG;
 	else
 		throw Exception("unsupported format: " + ext);
 
