@@ -7,7 +7,11 @@
 
 using namespace sgl;
 
-Texture::Texture(void)
+Texture::Texture(void) :
+	_width(0),
+	_height(0),
+	_isBound(false),
+	_currentUnit(Texture::Unit::NONE)
 {
 }
 
@@ -29,12 +33,12 @@ void Texture::create()
 	glGenTextures(1, &_id);
 }
 
-void Texture::data(char* pixels)
+void Texture::setData(char* pixels)
 {
-	data(_target, pixels);
+	setData(_target, pixels);
 }
 
-void Texture::data(Target target, char* pixels)
+void Texture::setData(Target target, char* pixels)
 {
 	assert(_isBound && "Texture has not been bound");
 
@@ -49,6 +53,34 @@ void Texture::data(Target target, char* pixels)
 		GL_UNSIGNED_BYTE,
 		pixels
 	);
+}
+
+void Texture::setCompressedData(char * pixels, unsigned int levels, unsigned int blockSize)
+{
+	unsigned int level;
+	unsigned int offset = 0;
+	unsigned int width  = _width;
+	unsigned int height = _height;
+
+	for (level = 0; level < levels && (width || height); ++level)
+	{
+		unsigned int size = ((width + 3) / 4) * ((height + 3) / 4) * blockSize;
+
+		glCompressedTexImage2D(
+			static_cast<GLuint>(_target),
+			level, 
+			static_cast<GLenum>(_format),
+			width,
+			height,
+			0,
+			size,
+			pixels + offset
+		);
+
+		offset += size;
+		width /= 2;
+		height /= 2;
+	}
 }
 
 void Texture::bind()

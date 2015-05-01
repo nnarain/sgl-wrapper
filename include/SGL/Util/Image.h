@@ -28,7 +28,7 @@ namespace sgl
 		//! Format
 		enum class Format
 		{
-			BMP, TGA, PNG
+			BMP, TGA, PNG, DDS
 		};
 
 		// packing headers
@@ -72,6 +72,37 @@ namespace sgl
 			uint8_t  imageDescriptor;
 		};
 
+		struct DDSPixelFormat
+		{
+			uint32_t size;
+			uint32_t flags;
+			char     fourCC[4];
+			uint32_t rgbBitCount;
+			uint32_t rBitMask;
+			uint32_t gBitMask;
+			uint32_t bBitMask;
+			uint32_t aBitMask;
+		};
+
+		struct DDSHeader
+		{
+			char           signature[4];
+			uint32_t       size;
+			uint32_t       flags;
+			uint32_t       height;
+			uint32_t       width;
+			uint32_t       linearSize;
+			uint32_t       depth;
+			uint32_t       mipMapCount;
+			uint32_t       reserved1[11];
+			DDSPixelFormat ddspf;
+			uint32_t       caps;
+			uint32_t       caps2;
+			uint32_t       caps3;
+			uint32_t       caps4;
+			uint32_t       reserved2;
+		};
+
 		#pragma pack(pop)
 
 		/* Public Functions */
@@ -95,7 +126,12 @@ namespace sgl
 		/**
 			Load PNG file
 		*/
-		static void loadPNG(Texture& texture, const char * filename);
+		static void loadPNG(Texture& texture, const char *filename);
+
+		/**
+			Load DDS file
+		*/
+		static void loadDDS(Texture& texture, const char *filename);
 
 		/**
 			@return the file extension of the given file name
