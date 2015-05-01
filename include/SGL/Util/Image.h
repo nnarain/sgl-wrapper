@@ -25,7 +25,7 @@ namespace sgl
 		//! Format
 		enum class Format
 		{
-			BMP, TGA
+			BMP, TGA, PNG
 		};
 
 		// packing headers
@@ -115,6 +115,11 @@ namespace sgl
 			Load an uncompressed TGA file
 		*/
 		void loadTGA(const char *filename);
+
+		/**
+			Load PNG file
+		*/
+		void loadPNG(const char * filename);
 
 		/**
 			@return the file extension of the given file name
