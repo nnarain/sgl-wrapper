@@ -7,6 +7,8 @@
 #include <vector>
 #include <memory>
 
+#include <iostream>
+
 using namespace sgl;
 
 /* picopng decode prototype*/
@@ -27,6 +29,9 @@ void Image::load(Texture& texture, const char *filename)
 		break;
 	case Image::Format::PNG:
 		loadPNG(texture, filename);
+		break;
+	case Image::Format::DDS:
+		loadDDS(texture, filename);
 		break;
 	}
 }
@@ -65,7 +70,7 @@ void Image::loadBMP(Texture& texture, const char *filename)
 
 			texture.setWidth(header.width);
 			texture.setHeight(header.height);
-			texture.data(data);
+			texture.setData(data);
 
 			// free
 			delete[] data;
@@ -107,7 +112,7 @@ void Image::loadTGA(Texture& texture, const char *filename)
 
 		texture.setWidth(header.width);
 		texture.setHeight(header.height);
-		texture.data(data);
+		texture.setData(data);
 
 		// release data
 		delete[] data;
@@ -165,10 +170,51 @@ void Image::loadPNG(Texture& texture, const char * filename)
 
 	texture.setWidth((unsigned int)width);
 	texture.setHeight((unsigned int)height);
-	texture.data(data);
+	texture.setData(data);
 
 	// release the pixel data
 	delete[] data;
+}
+
+void Image::loadDDS(Texture& texture, const char *filename)
+{
+	// open the image file
+	std::ifstream file(filename, std::ios::binary);
+	if (!file.good()) throw Exception("Could not open file: " + std::string(filename));
+
+	// read the DDS file header
+	Image::DDSHeader header;
+	file.read((char *)&header, sizeof(Image::DDSHeader));
+
+	if (strncmp(header.signature, "DDS ", 4) != 0) throw Exception("Invalid DDS file: " + std::string(filename));
+
+	// read in the rest of the data
+	unsigned size = (header.mipMapCount > 1) ? header.linearSize * 2 : header.linearSize;
+
+	char *data = new char[size];
+
+	file.read(data, size);
+
+	// Set the texture format
+
+	std::string szFourCC(header.ddspf.fourCC);
+
+	if (szFourCC == "DXT1")
+		texture.setFormat(Texture::Format::RGBA_DXT1);
+	else if (szFourCC == "DXT3")
+		texture.setFormat(Texture::Format::RGBA_DXT3);
+	else if (szFourCC == "DXT5")
+		texture.setFormat(Texture::Format::RGBA_DXT5);
+
+	texture.setInternalFormat(Texture::InternalFormat::RGBA);
+
+	//
+	unsigned int blockSize = (texture.getFormat() == Texture::Format::RGBA_DXT1) ? 8 : 16;
+	
+	texture.setWidth(header.width);
+	texture.setHeight(header.height);
+
+	texture.setCompressedData(data, header.mipMapCount, blockSize);
 }
 
 std::string Image::getFileExtension(const std::string &filename)
@@ -195,8 +241,10 @@ Image::Format Image::findFormat(const std::string &ext)
 		format = Image::Format::TGA;
 	else if (ext == "bmp")
 		format = Image::Format::BMP;
-	else if (ext == "png")
+	else if (ext == "png" || ext == "PNG")
 		format = Image::Format::PNG;
+	else if (ext == "DDS" || ext == "dds")
+		format = Image::Format::DDS;
 	else
 		throw Exception("unsupported format: " + ext);
 

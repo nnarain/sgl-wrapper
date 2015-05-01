@@ -39,14 +39,18 @@ namespace sgl{
 		//! Texture Format
 		enum class Format
 		{
-			RED   = GL_RED,
-			RG    = GL_RG,
-			RGB   = GL_RGB,
-			BGR   = GL_BGR,
-			RGBA  = GL_RGBA,
-			BGRA  = GL_BGRA,
+			RED       = GL_RED,
+			RG        = GL_RG,
+			RGB       = GL_RGB,
+			BGR       = GL_BGR,
+			RGBA      = GL_RGBA,
+			BGRA      = GL_BGRA,
 
-			DEPTH = GL_DEPTH_COMPONENT
+			RGBA_DXT1 = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT,
+			RGBA_DXT3 = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT,
+			RGBA_DXT5 = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT,
+
+			DEPTH     = GL_DEPTH_COMPONENT
 		};
 
 		//! Internal Texture format
@@ -110,8 +114,10 @@ namespace sgl{
 		Texture(Target target, int width, int height, InternalFormat internalFormat, Format format);
 		~Texture();
 
-		void data(char* pixels);
-		void data(Target target, char* pixels);
+		void setData(char* pixels);
+		void setData(Target target, char* pixels);
+
+		void setCompressedData(char * pixels, unsigned int levels, unsigned int blockSize);
 
 		/**
 			Bind texture to a texture unit
