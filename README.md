@@ -12,15 +12,22 @@ Simple OpenGL Wrapper. A simple object oriented interface to OpenGL.
 * Generic Buffers
 * Framebuffers
 * Uniforms
-* Mesh
+* Meshes
 	* bind and draw vertex data
 
+**2D API**
+
+* Sprites
+* Sprite batching
+* 2D font rendering
+	
 **Utilities**
 
 * Image loading
 	* Bitmap
 	* TGA
 	* PNG with [picoPNG](http://lodev.org/lodepng/)
+	* DDS
 * Wavefront Object Loader
 
 **Math**

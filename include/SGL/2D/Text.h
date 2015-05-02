@@ -1,4 +1,8 @@
 
+/**
+	@author Natesh Narain
+*/
+
 #ifndef TEXT_H
 #define TEXT_H
 
@@ -16,6 +20,9 @@
 
 namespace sgl
 {
+	/**
+		2D Text
+	*/
 	SGLCLASS Text
 	{
 	public: 
@@ -25,6 +32,9 @@ namespace sgl
 		void draw(SpriteBatch& batch);
 		void draw(SpriteBatch& batch, bool flipH, bool flipV);
 
+		/**
+			Create the text
+		*/
 		void puts(const char *str);
 
 		void setFont(BitmapFont*);

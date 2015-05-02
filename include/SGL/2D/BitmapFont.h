@@ -1,4 +1,8 @@
 
+/**
+	@author Natesh Narain
+*/
+
 #ifndef BITMAPFONT_H
 #define BITMAPFONT_H
 
@@ -15,7 +19,7 @@
 namespace sgl
 {
 	/**
-		Render 2D Font
+		2D Font
 	*/
 	SGLCLASS BitmapFont
 	{
@@ -23,10 +27,31 @@ namespace sgl
 		BitmapFont(void);
 		~BitmapFont(void);
 
+		/**
+			Initialize the font
+
+			@param filename
+				bitmap font file
+
+			@param cols
+				Number of columns
+
+			@param rows
+				Number of rows
+
+			@param flip
+				Load the regions flipped
+		*/
 		void init(const char *filename, unsigned int cols, unsigned int rows, bool flip);
 
+		/**
+			@return the region corresponding to the character
+		*/
 		Texture::TextureRegion& getCharRegion(char c);
 
+		/**
+			@return the texture of this font
+		*/
 		Texture* getTexture(void);
 
 	private:
@@ -42,7 +67,7 @@ namespace sgl
 		// number of rows in the font
 		unsigned int _rows;
 
-		//
+		// list of regions
 		std::vector<Texture::TextureRegion> * _regions;
 
 		void initTexture(const char *filename);
