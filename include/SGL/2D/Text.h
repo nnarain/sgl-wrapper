@@ -35,7 +35,9 @@ namespace sgl
 		/**
 			Create the text
 		*/
-		void puts(const char *str);
+		void append(const char *str);
+
+		void clear(void);
 
 		void setFont(BitmapFont*);
 		BitmapFont *getFont(void) const;
@@ -64,6 +66,8 @@ namespace sgl
 		BitmapFont* _font;
 
 		Vector2 _position;
+		Vector2 _offset;
+
 		Vector2 _dimension;
 
 		std::vector<Cell>* _cells;

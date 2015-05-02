@@ -5,6 +5,7 @@ using namespace sgl;
 
 Text::Text(void) :
 	_position(0,0),
+	_offset(0,0),
 	_dimension(40,40),
 	_cells(new std::vector<Cell>())
 {
@@ -24,26 +25,24 @@ void Text::draw(SpriteBatch& batch)
 	draw(batch, false, false);
 }
 
-void Text::puts(const char *str)
+void Text::append(const char *str)
 {
-	// clear any existing cells
-	_cells->clear();
-
-	//
-	float x = _position.x;
-	float y = _position.y;
-
 	while (*str)
 	{
 		char c = *str++;
 
 		Quad quad;
-		util::makeQuad(quad, x, y, _dimension.x, _dimension.y);
+		util::makeQuad(quad, _offset.x, _offset.y, _dimension.x, _dimension.y);
 
-		x += _dimension.x;
+		_offset.x += _dimension.x;
 
 		_cells->emplace_back(quad, _font->getCharRegion(c));
 	}
+}
+
+void Text::clear(void)
+{
+	_cells->clear();
 }
 
 void Text::setFont(BitmapFont* font)
@@ -65,6 +64,8 @@ void Text::setPosition(float x, float y)
 {
 	_position.x = x;
 	_position.y = y;
+	_offset.x = x;
+	_offset.y = y;
 }
 
 Vector2& Text::getPosition(void)
