@@ -14,6 +14,7 @@ Texture::Texture(Target target) :
 	_isBound(false),
 	_currentUnit(Texture::Unit::NONE)
 {
+	create();
 }
 
 Texture::Texture(Target target, int width, int height, Texture::InternalFormat internalFormat, Texture::Format format) :
@@ -58,6 +59,8 @@ void Texture::setData(Target target, char* pixels)
 
 void Texture::setCompressedData(char * pixels, unsigned int levels, unsigned int blockSize)
 {
+	assert(_isBound && "Texture has not been bound");
+
 	unsigned int level;
 	unsigned int offset = 0;
 	unsigned int width  = _width;
