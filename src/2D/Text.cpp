@@ -99,6 +99,22 @@ Vector2& Text::getPosition(void)
 	return _position;
 }
 
+void Text::setDimensions(const Vector2& dim)
+{
+	setDimensions(dim.x, dim.y);
+}
+
+void Text::setDimensions(float w, float h)
+{
+	_dimension.x = w;
+	_dimension.y = h;
+}
+
+Vector2& Text::getDimensions(void)
+{
+	return _dimension;
+}
+
 Text::~Text(void)
 {
 	delete _cells;

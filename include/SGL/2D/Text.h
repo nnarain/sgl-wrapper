@@ -55,6 +55,11 @@ namespace sgl
 
 		Vector2& getPosition(void);
 
+		void setDimensions(const Vector2&);
+		void setDimensions(float w, float h);
+
+		Vector2& getDimensions(void);
+
 		/* Stream Operator */
 
 		template<typename T>
