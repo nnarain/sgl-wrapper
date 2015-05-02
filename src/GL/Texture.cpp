@@ -14,6 +14,7 @@ Texture::Texture(Target target) :
 	_isBound(false),
 	_currentUnit(Texture::Unit::NONE)
 {
+	create();
 }
 
 Texture::Texture(Target target, int width, int height, Texture::InternalFormat internalFormat, Texture::Format format) :

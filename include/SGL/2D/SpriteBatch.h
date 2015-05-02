@@ -90,11 +90,14 @@ namespace sgl
 		void draw(Sprite& sprite, bool flipH, bool flipV);
 
 		/**
+			
+		*/
+		void draw(Quad& quad, Texture::TextureRegion& region, Texture* texture, bool flipH, bool flipV);
+
+		/**
 			Base draw
 		*/
 		void draw(Quad& quad, Texture::TextureRegion& region, Texture* texture);
-
-
 
 		/**
 			render the batches and tidy up

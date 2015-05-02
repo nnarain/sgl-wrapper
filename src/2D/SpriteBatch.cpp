@@ -78,6 +78,14 @@ void SpriteBatch::draw(Sprite& sprite, bool flipH, bool flipV)
 	draw(quad, region, texture);
 }
 
+void SpriteBatch::draw(Quad& quad, Texture::TextureRegion& region, Texture* texture, bool flipH, bool flipV)
+{
+	Texture::TextureRegion r(region);
+	flip(r, flipH, flipV);
+
+	draw(quad, r, texture);
+}
+
 void SpriteBatch::draw(Quad& quad, Texture::TextureRegion& region, Texture* texture)
 {
 	_glyphs->emplace_back(quad, region, texture);
