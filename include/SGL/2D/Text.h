@@ -17,6 +17,7 @@
 #include "SGL/Math/Vector2.h"
 
 #include <vector>
+#include <sstream>
 
 namespace sgl
 {
@@ -46,6 +47,19 @@ namespace sgl
 		void setPosition(float x, float y);
 
 		Vector2& getPosition(void);
+
+		/* Stream Operator */
+
+		template<typename T>
+		Text& operator<<(T t)
+		{
+			std::ostringstream os;
+			os << t;
+
+			append(os.str().c_str());
+
+			return *this;
+		}
 
 	private:
 		/* Types */

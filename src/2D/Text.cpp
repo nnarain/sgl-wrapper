@@ -31,12 +31,23 @@ void Text::append(const char *str)
 	{
 		char c = *str++;
 
-		Quad quad;
-		util::makeQuad(quad, _offset.x, _offset.y, _dimension.x, _dimension.y);
+		if (c == '\n')
+		{
+			_offset.x = _position.x;
+			_offset.y -= _dimension.y;
+		}
+		else if (c == '\r')
+		{
+		}
+		else
+		{
+			Quad quad;
+			util::makeQuad(quad, _offset.x, _offset.y, _dimension.x, _dimension.y);
 
-		_offset.x += _dimension.x;
+			_offset.x += _dimension.x;
 
-		_cells->emplace_back(quad, _font->getCharRegion(c));
+			_cells->emplace_back(quad, _font->getCharRegion(c));
+		}
 	}
 }
 
