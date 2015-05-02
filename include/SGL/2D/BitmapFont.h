@@ -21,40 +21,19 @@ namespace sgl
 	{
 	public:
 		BitmapFont(void);
-		BitmapFont(Texture*);
 		~BitmapFont(void);
 
-		void draw(SpriteBatch&, bool flipH, bool flipV);
-		void draw(SpriteBatch&);
+		void init(const char *filename, unsigned int cols, unsigned int rows, bool flip);
 
-		void puts(const char *str);
+		Texture::TextureRegion& getCharRegion(char c);
 
-		void setTexture(Texture*, unsigned int cols, unsigned int rows, bool flip);
-
-		void setPosition(Vector2& pos);
-		void setPosition(float x, float y);
+		Texture* getTexture(void);
 
 	private:
-		/* Types */
-
-		//! Font Cell
-		struct Cell
-		{
-			Quad quad;
-			Texture::TextureRegion region;
-
-			Cell(Quad& q, Texture::TextureRegion& r)
-			{
-				quad   = q;
-				region = r;
-			}
-		};
 
 		// the font texture
-		Texture* _texture;
+		Texture _texture;
 
-		// text position (pixels)
-		Vector2 _position;
 		// cell dimension (pixels)
 		Vector2 _dimension;
 
@@ -64,10 +43,9 @@ namespace sgl
 		unsigned int _rows;
 
 		//
-		std::vector<Cell> * _cells;
-
-		//
 		std::vector<Texture::TextureRegion> * _regions;
+
+		void initTexture(const char *filename);
 	};
 }
 
