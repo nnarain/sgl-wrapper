@@ -1,6 +1,8 @@
 
 #include "SGL/2D/Text.h"
 
+#include <cstdarg>
+
 using namespace sgl;
 
 Text::Text(void) :
@@ -51,9 +53,22 @@ void Text::append(const char *str)
 	}
 }
 
+void Text::format(const char *fmt, ...)
+{
+	va_list args;
+	char buff[50];
+
+	va_start(args, fmt);
+	vsnprintf_s(buff, 50, fmt, args);
+	va_end(args);
+
+	append(buff);
+}
+
 void Text::clear(void)
 {
 	_cells->clear();
+	setPosition(_position);
 }
 
 void Text::setFont(BitmapFont* font)

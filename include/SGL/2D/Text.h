@@ -34,10 +34,17 @@ namespace sgl
 		void draw(SpriteBatch& batch, bool flipH, bool flipV);
 
 		/**
-			Create the text
+			Append string to the current text
 		*/
 		void append(const char *str);
 
+		/**
+		*/
+		void format(const char *fmt, ...);
+
+		/**
+			Remove any text
+		*/
 		void clear(void);
 
 		void setFont(BitmapFont*);
