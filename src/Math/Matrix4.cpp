@@ -3,6 +3,7 @@
 #include "SGL/Math/MathUtil.h"
 
 #include <cassert>
+#include <algorithm>
 
 using namespace sgl;
 
@@ -45,7 +46,6 @@ using namespace sgl;
 	| e f g h |
 	| i j k l |
 	| m n o p |
-
 */
 
 #define MA M00
@@ -338,6 +338,23 @@ float Matrix4::det(void)
 	return det;
 }
 
+void Matrix4::transpose(void)
+{
+	using std::swap;
+
+	Matrix4 m(*this);
+
+	int i, j;
+
+	for (i = 0; i < 3; ++i)
+	{
+		for (j = 0; j < 3; ++j)
+		{
+			(*this)[j][i] = m[i][j];
+		}
+	}
+}
+
 void Matrix4::clear(void)
 {
 	int i;
@@ -345,6 +362,22 @@ void Matrix4::clear(void)
 	{
 		_mat[i] = 0;
 	}
+}
+
+Matrix3 Matrix4::toMatrix3(void) const
+{
+	Matrix3 newMat;
+	int i, j;
+
+	for (i = 0; i < 3; ++i)
+	{
+		for (j = 0; j < 3; ++j)
+		{
+			newMat[j][i] = (*this)[j][i];
+		}
+	}
+
+	return newMat;
 }
 
 /* Operators */

@@ -50,6 +50,11 @@ namespace sgl
 
 		float det(void);
 
+		void transpose(void);
+
+		/*  */
+		Matrix3 toMatrix3(void) const;
+
 		/* Operators */
 
 		Vector4 operator*(const Vector4 &v);
