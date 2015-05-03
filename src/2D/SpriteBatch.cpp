@@ -78,6 +78,14 @@ void SpriteBatch::draw(Sprite& sprite, bool flipH, bool flipV)
 	draw(quad, region, texture);
 }
 
+void SpriteBatch::draw(Quad& quad, Texture::TextureRegion& region, Texture* texture, bool flipH, bool flipV)
+{
+	Texture::TextureRegion r(region);
+	flip(r, flipH, flipV);
+
+	draw(quad, r, texture);
+}
+
 void SpriteBatch::draw(Quad& quad, Texture::TextureRegion& region, Texture* texture)
 {
 	_glyphs->emplace_back(quad, region, texture);
@@ -138,7 +146,7 @@ void SpriteBatch::render(Texture* texture, std::vector<Vertex> *batch)
 {
 	if (texture == NULL) return;
 
-	texture->bind(sgl::Texture::Unit::T0);
+	texture->bind(Texture::Unit::T0);
 
 	int size = batch->size();
 
@@ -173,7 +181,7 @@ void SpriteBatch::end()
 
 	// begin the render process
 	{
-		_shader->uniform("texture").set(0);
+		(*_shader)["sampler"].set(0);
 		renderBatch();
 	}
 	_shader->end();
@@ -188,16 +196,8 @@ void SpriteBatch::flip(Texture::TextureRegion& region, bool horizontal, bool ver
 	{
 		// swap top left with top right, and bottom left with bottom right
 		// to vertically flip the region on the quad
-
-		// tmp vars
-		glm::vec2 tl = region.topLeft;
-		glm::vec2 bl = region.bottomLeft;
-
-		// swap
-		region.topLeft = region.topRight;
-		region.bottomLeft = region.bottomRight;
-		region.topRight = tl;
-		region.bottomRight = bl;
+		std::swap(region.topLeft, region.topRight);
+		std::swap(region.bottomLeft, region.bottomRight);
 	}
 
 	// flip on the horizontal axis
@@ -205,16 +205,8 @@ void SpriteBatch::flip(Texture::TextureRegion& region, bool horizontal, bool ver
 	{
 		// swap the top left with bottom left and top right with bottom right
 		// to horizontally flip the region on the quad
-
-		// tmp vars
-		glm::vec2 bl = region.bottomLeft;
-		glm::vec2 br = region.bottomRight;
-
-		// swap
-		region.bottomLeft = region.topLeft;
-		region.bottomRight = region.topRight;
-		region.topLeft = bl;
-		region.topRight = br;
+		std::swap(region.topLeft, region.bottomLeft);
+		std::swap(region.topRight, region.bottomRight);
 	}
 }
 

@@ -104,10 +104,7 @@ void ShaderProgram::loadFromFile(Type shaderType, const std::string & filename)
 
 	if (!file.good())
 	{
-		char *buff = new char[filename.length() + 40];
-		sprintf(buff, "SGL Error: File \"%s\" could not be found", filename.c_str());
-		std::string message(buff);
-		delete[]buff;
+		std::string message("Error: Could not open file: " + filename);
 		throw Exception(message);
 	}
 
@@ -155,11 +152,6 @@ void ShaderProgram::load(Type shaderType, const std::string & source)
 
 	// attach the shader to the program
 	glAttachShader(_programID, *shader);
-}
-
-void ShaderProgram::attribute(const std::string &name, glm::vec3 v)
-{
-	glUniform3f(getAttributeLocation(name), v.x, v.y, v.z);
 }
 
 Uniform ShaderProgram::uniform(const std::string &name)

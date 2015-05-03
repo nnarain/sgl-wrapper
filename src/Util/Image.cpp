@@ -4,39 +4,41 @@
 
 #include <fstream>
 #include <algorithm>
+#include <vector>
+#include <memory>
+
+#include <iostream>
 
 using namespace sgl;
 
-Image::Image(const std::string &filename, Format format) :
-	_format(format),
-	_filename(filename),
-	_data(NULL),
-	_width(0),
-	_height(0),
-	_size(0)
-{
-}
+/* picopng decode prototype*/
+extern int decodePNG(std::vector<unsigned char>& out_image, unsigned long& image_width, unsigned long& image_height, const unsigned char* in_png, size_t in_size, bool convert_to_rgba32 = true);
 
-Image::Image(const std::string &filename) : Image(filename, findFormat(getFileExtension(filename)))
-{
-}
 
-void Image::load()
+void Image::load(Texture& texture, const char *filename)
 {
-	switch (_format)
+	Image::Format format = findFormat(getFileExtension(filename));
+
+	switch (format)
 	{
 	case Image::Format::BMP:
-		loadBMP();
+		loadBMP(texture, filename);
 		break;
 	case Image::Format::TGA:
-		loadTGA();
+		loadTGA(texture, filename);
+		break;
+	case Image::Format::PNG:
+		loadPNG(texture, filename);
+		break;
+	case Image::Format::DDS:
+		loadDDS(texture, filename);
 		break;
 	}
 }
 
-void Image::loadBMP()
+void Image::loadBMP(Texture& texture, const char *filename)
 {
-	std::ifstream file(_filename, std::ifstream::binary);
+	std::ifstream file(filename, std::ifstream::binary);
 	Image::BitmapHeader header;
 
 	// check if file is valid
@@ -48,40 +50,45 @@ void Image::loadBMP()
 		// verify the header signature
 		if (header.signature[0] == 'B' && header.signature[1] == 'M')
 		{
-			// set the general image data
-			_width  = header.width;
-			_height = header.height;
 
-			_size = header.imageDataSize;
-			if (_size == 0)
-				_size = _width * _height * 3; // pixel width * pixel height * RGB
+			unsigned int size = header.imageDataSize;
+			if (size == 0)
+				size = header.width * header.height * 3; // pixel width * pixel height * RGB
 
 			// get the image data
-			_data = new char[_size];
-
-			file.read(_data, _size);
+			char *data = new char[size];
+			file.read(data, size);
 
 			// check if the read failed
 			if (file.fail())
-			{
-				throw Exception("Failed to read image data from file: " + _filename);
-			}
+				throw Exception("Failed to read image data from file");
 
+			// set texture data
+
+			texture.setFormat(Texture::Format::BGR);
+			texture.setInternalFormat(Texture::InternalFormat::RGB);
+
+			texture.setWidth(header.width);
+			texture.setHeight(header.height);
+			texture.setData(data);
+
+			// free
+			delete[] data;
 		}
 		else
 		{
-			throw Exception("Bad signature: " + _filename);
+			throw Exception("Bad signature: ");
 		}
 	}
 	else
 	{
-		throw Exception("could not open file: " + _filename);
+		throw Exception("could not open file");
 	}
 }
 
-void Image::loadTGA()
+void Image::loadTGA(Texture& texture, const char *filename)
 {
-	std::ifstream file(_filename, std::ifstream::binary);
+	std::ifstream file(filename, std::ifstream::binary);
 	Image::TGAHeader header;
 
 	// check if the file is valid
@@ -90,27 +97,124 @@ void Image::loadTGA()
 		// read the header
 		file.read((char *)&header, sizeof(Image::TGAHeader));
 
-		// set the general image data
-		_width = header.width;
-		_height = header.height;
-
-		_size = _width * _height * 3;
+		unsigned int size = header.width * header.height * 3;
 
 		// get the image data
-		_data = new char[_size];
-
-		file.read(_data, _size);
+		char *data = new char[size];
+		file.read(data, size);
 
 		if (file.fail())
-		{
-			throw Exception("Failed to read file: " + _filename);
-		}
+			throw Exception("Failed to read file");
 
+		// set the texture data
+		texture.setFormat(Texture::Format::BGR);
+		texture.setInternalFormat(Texture::InternalFormat::RGB);
+
+		texture.setWidth(header.width);
+		texture.setHeight(header.height);
+		texture.setData(data);
+
+		// release data
+		delete[] data;
 	}
 	else
 	{
-		throw Exception("Failed to open file: " + _filename);
+		throw Exception("Failed to open file");
 	}
+}
+
+void Image::loadPNG(Texture& texture, const char * filename)
+{
+	// raw pixel data
+	std::vector<unsigned char> pixels;
+	// png width
+	unsigned long width;
+	// png height
+	unsigned long height;
+
+	// load png file
+	std::ifstream file(filename, std::ios::in | std::ios::binary | std::ios::ate);
+
+	if (!file.good()) throw Exception("could not open file");
+
+	// file size
+	std::streamsize size = 0;
+	if (file.seekg(0, std::ios::end).good()) size = file.tellg();
+	if (file.seekg(0, std::ios::beg).good()) size -= file.tellg();
+
+	if (size <= 0) throw Exception("File is empty : Image::loadPNG()");
+
+	// png file buffer
+	unsigned char * pngBuff = new unsigned char[(unsigned int)size];
+
+	// populate buffer
+	file.read((char *)pngBuff, size);
+
+	// load png via picoPNG decode function
+	int error = decodePNG(pixels, width, height, pngBuff, (size_t)size);
+
+	// buffer no longer needed
+	delete[] pngBuff;
+
+	// check for loading errors
+	if (error)
+		throw Exception("Failed to load PNG");
+
+	// copy the pixel data into the data
+	char *data = new char[pixels.size()];
+	memcpy(data, &pixels[0], pixels.size() * sizeof(char));
+
+	// set texture data
+	texture.setInternalFormat(Texture::InternalFormat::RGBA);
+	texture.setFormat(Texture::Format::RGBA);
+
+	texture.setWidth((unsigned int)width);
+	texture.setHeight((unsigned int)height);
+	texture.setData(data);
+
+	// release the pixel data
+	delete[] data;
+}
+
+void Image::loadDDS(Texture& texture, const char *filename)
+{
+	// open the image file
+	std::ifstream file(filename, std::ios::binary);
+	if (!file.good()) throw Exception("Could not open file: " + std::string(filename));
+
+	// read the DDS file header
+	Image::DDSHeader header;
+	file.read((char *)&header, sizeof(Image::DDSHeader));
+
+	if (strncmp(header.signature, "DDS ", 4) != 0) throw Exception("Invalid DDS file: " + std::string(filename));
+
+	// read in the rest of the data
+	unsigned size = (header.mipMapCount > 1) ? header.linearSize * 2 : header.linearSize;
+
+	char *data = new char[size];
+
+	file.read(data, size);
+
+	// Set the texture format
+
+	std::string szFourCC(header.ddspf.fourCC);
+
+	if (szFourCC == "DXT1")
+		texture.setFormat(Texture::Format::RGBA_DXT1);
+	else if (szFourCC == "DXT3")
+		texture.setFormat(Texture::Format::RGBA_DXT3);
+	else if (szFourCC == "DXT5")
+		texture.setFormat(Texture::Format::RGBA_DXT5);
+
+	texture.setInternalFormat(Texture::InternalFormat::RGBA);
+
+	//
+	unsigned int blockSize = (texture.getFormat() == Texture::Format::RGBA_DXT1) ? 8 : 16;
+	
+	texture.setWidth(header.width);
+	texture.setHeight(header.height);
+
+	texture.setCompressedData(data, header.mipMapCount, blockSize);
 }
 
 std::string Image::getFileExtension(const std::string &filename)
@@ -137,39 +241,12 @@ Image::Format Image::findFormat(const std::string &ext)
 		format = Image::Format::TGA;
 	else if (ext == "bmp")
 		format = Image::Format::BMP;
+	else if (ext == "png" || ext == "PNG")
+		format = Image::Format::PNG;
+	else if (ext == "DDS" || ext == "dds")
+		format = Image::Format::DDS;
 	else
 		throw Exception("unsupported format: " + ext);
 
 	return format;
-}
-
-Image::Format Image::getFormat()
-{
-	return _format;
-}
-
-unsigned int Image::getWidth() const
-{
-	return _width;
-}
-
-unsigned int Image::getHeight() const
-{
-	return _height;
-}
-
-
-char *Image::getData() const
-{
-	return _data;
-}
-
-unsigned int Image::size() const
-{
-	return _size;
-}
-
-Image::~Image(void)
-{
-	if (_data) delete _data;
 }

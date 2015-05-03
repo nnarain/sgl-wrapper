@@ -1,10 +1,21 @@
 
 #include "SGL/GL/Texture.h"
 
+#include <cassert>
 #include <memory>
 #include <algorithm>
 
 using namespace sgl;
+
+Texture::Texture(Target target) :
+	_target(target),
+	_width(0),
+	_height(0),
+	_isBound(false),
+	_currentUnit(Texture::Unit::NONE)
+{
+	create();
+}
 
 Texture::Texture(Target target, int width, int height, Texture::InternalFormat internalFormat, Texture::Format format) :
 	_width(width),
@@ -15,8 +26,8 @@ Texture::Texture(Target target, int width, int height, Texture::InternalFormat i
 	create();
 	setTarget(target);
 
-	_internalFormat = static_cast<GLint>(internalFormat);
-	_format         = static_cast<GLenum>(format);
+	_internalFormat = internalFormat;
+	_format         = format;
 }
 
 void Texture::create()
@@ -24,16 +35,56 @@ void Texture::create()
 	glGenTextures(1, &_id);
 }
 
-void Texture::data(char* pixels)
+void Texture::setData(char* pixels)
 {
-	data(_target, pixels);
+	setData(_target, pixels);
 }
 
-void Texture::data(Target target, char* pixels)
+void Texture::setData(Target target, char* pixels)
 {
 	assert(_isBound && "Texture has not been bound");
 
-	glTexImage2D(static_cast<GLenum>(target), 0, _internalFormat, _width, _height, 0, _format, GL_UNSIGNED_BYTE, pixels);
+	glTexImage2D(
+		static_cast<GLenum>(target),
+		0,
+		static_cast<GLint>(_internalFormat),
+		_width,
+		_height,
+		0,
+		static_cast<GLenum>(_format),
+		GL_UNSIGNED_BYTE,
+		pixels
+	);
+}
+
+void Texture::setCompressedData(char * pixels, unsigned int levels, unsigned int blockSize)
+{
+	assert(_isBound && "Texture has not been bound");
+
+	unsigned int level;
+	unsigned int offset = 0;
+	unsigned int width  = _width;
+	unsigned int height = _height;
+
+	for (level = 0; level < levels && (width || height); ++level)
+	{
+		unsigned int size = ((width + 3) / 4) * ((height + 3) / 4) * blockSize;
+
+		glCompressedTexImage2D(
+			static_cast<GLuint>(_target),
+			level, 
+			static_cast<GLenum>(_format),
+			width,
+			height,
+			0,
+			size,
+			pixels + offset
+		);
+
+		offset += size;
+		width /= 2;
+		height /= 2;
+	}
 }
 
 void Texture::bind()
@@ -96,17 +147,17 @@ Texture::TextureRegion Texture::region(float x, float y, float w, float h)
 
 	// calculate the corners of the region using points (x1, y1) & (x2, y2)
 
-	region.bottomLeft.s = x1;
-	region.bottomLeft.t = y1;
+	region.bottomLeft.x = x1;
+	region.bottomLeft.y = y1;
 
-	region.topLeft.s = x1;
-	region.topLeft.t = y2;
+	region.topLeft.x = x1;
+	region.topLeft.y = y2;
 
-	region.topRight.s = x2;
-	region.topRight.t = y2;
+	region.topRight.x = x2;
+	region.topRight.y = y2;
 
-	region.bottomRight.s = x2;
-	region.bottomRight.t = y1;
+	region.bottomRight.x = x2;
+	region.bottomRight.y = y1;
 
 	return region;
 }
@@ -119,6 +170,26 @@ void Texture::setTarget(Texture::Target target)
 Texture::Target Texture::getTarget() const
 {
 	return _target;
+}
+
+void Texture::setInternalFormat(Texture::InternalFormat format)
+{
+	_internalFormat = format;
+}
+
+Texture::InternalFormat Texture::getInternalFormat() const
+{
+	return _internalFormat;
+}
+
+void Texture::setFormat(Texture::Format format)
+{
+	_format = format;
+}
+
+Texture::Format Texture::getFormat() const
+{
+	return _format;
 }
 
 GLuint Texture::getId() const

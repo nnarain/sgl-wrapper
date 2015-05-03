@@ -9,9 +9,6 @@
 #include "SGL/GL/Texture.h"
 #include "SGL/Type/Geometry.h"
 
-// math
-#include <glm/glm.hpp>
-
 namespace sgl
 {
 	/**
@@ -33,21 +30,18 @@ namespace sgl
 				The texture that the sprite uses
 		*/
 		Sprite(float x, float y, float width, float height, Texture* tex);
-		Sprite(const Sprite&);
-		Sprite& operator=(Sprite);
-		friend void swap(Sprite&, Sprite&);
 
 		~Sprite();
 
 		void flip(bool h, bool v);
 
-		void setPosition(glm::vec2 pos);
+		void setPosition(Vector2 pos);
 		void setPosition(float x, float y);
-		glm::vec2& getPosition();
+		Vector2& getPosition();
 
 		void setDimensions(float w, float h);
 
-		glm::vec2& getDimesions();
+		Vector2& getDimesions();
 		float getWidth();
 		float getHeight();
 
@@ -62,9 +56,9 @@ namespace sgl
 
 	private:
 		//! 2D position
-		glm::vec2* _pos;
+		Vector2 _pos;
 		//! dimesions in pixels
-		glm::vec2* _dim;
+		Vector2 _dim;
 
 		//! texture that the sprite uses
 		Texture* _texture;

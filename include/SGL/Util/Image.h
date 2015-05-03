@@ -4,6 +4,8 @@
 
 #include <SGL/Util/SGLExport.h>
 
+#include <SGL/GL/Texture.h>
+
 #include <string>
 #include <cstdint>
 
@@ -16,7 +18,8 @@ namespace sgl
 	*/
 	SGLCLASS Image
 	{
-		NO_COPY(Image);
+	private:
+		Image(void);
 
 	public:
 
@@ -25,11 +28,13 @@ namespace sgl
 		//! Format
 		enum class Format
 		{
-			BMP, TGA
+			BMP, TGA, PNG, DDS
 		};
 
+		// packing headers
+		#pragma pack(push, 1)
+
 		//! Bitmap Header
-		#pragma pack(1)
 		struct BitmapHeader
 		{
 			char signature[2];             // should be 'BM'
@@ -51,7 +56,6 @@ namespace sgl
 		};
 
 		// TGA Header
-		#pragma pack(1)
 		struct TGAHeader
 		{
 			uint8_t  idLen;
@@ -68,61 +72,76 @@ namespace sgl
 			uint8_t  imageDescriptor;
 		};
 
+		struct DDSPixelFormat
+		{
+			uint32_t size;
+			uint32_t flags;
+			char     fourCC[4];
+			uint32_t rgbBitCount;
+			uint32_t rBitMask;
+			uint32_t gBitMask;
+			uint32_t bBitMask;
+			uint32_t aBitMask;
+		};
 
-		/* Constructors */
+		struct DDSHeader
+		{
+			char           signature[4];
+			uint32_t       size;
+			uint32_t       flags;
+			uint32_t       height;
+			uint32_t       width;
+			uint32_t       linearSize;
+			uint32_t       depth;
+			uint32_t       mipMapCount;
+			uint32_t       reserved1[11];
+			DDSPixelFormat ddspf;
+			uint32_t       caps;
+			uint32_t       caps2;
+			uint32_t       caps3;
+			uint32_t       caps4;
+			uint32_t       reserved2;
+		};
 
-		Image(const std::string &filename, Format format);
-		Image(const std::string &filename);
-		~Image(void);
+		#pragma pack(pop)
 
 		/* Public Functions */
 
-		void load();
-
-		/* Getters */
-
-		Format getFormat();
-
-		unsigned int getWidth() const;
-		unsigned int getHeight() const;
-
-		char *getData() const;
-
-		unsigned int size() const;
+		static void load(Texture& texture, const char *filename);
 
 	private:
-
-		Format _format;
-		std::string _filename;
-
-		unsigned int _width;
-		unsigned int _height;
-
-		char*        _data;
-
-		unsigned int _size;
 
 		/* Private Functions */
 
 		/**
 			Load an uncompressed Bitmap file
 		*/
-		void loadBMP();
+		static void loadBMP(Texture& texture, const char *filename);
 
 		/**
 			Load an uncompressed TGA file
 		*/
-		void loadTGA();
+		static void loadTGA(Texture& texture, const char *filename);
+
+		/**
+			Load PNG file
+		*/
+		static void loadPNG(Texture& texture, const char *filename);
+
+		/**
+			Load DDS file
+		*/
+		static void loadDDS(Texture& texture, const char *filename);
 
 		/**
 			@return the file extension of the given file name
 		*/
-		std::string getFileExtension(const std::string &filename);
+		static std::string getFileExtension(const std::string &filename);
 
 		/**
 			@return the Image::Format corresponding to the given extension string
 		*/
-		Image::Format findFormat(const std::string &ext);
+		static Image::Format findFormat(const std::string &ext);
 
 	};
 }

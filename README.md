@@ -1,37 +1,48 @@
-SGL Wrapper
-===========
+SGL
+===
 
-Simple OpenGL Wrapper. A simple object oriented wrapper for OpenGL.
+Simple OpenGL. A simple object oriented interface to OpenGL.
 
 
-Features
---------
+**The OpenGL Interface includes**
 
 * Camera
-* ShaderProgram
-* Basic representation of 3D models
-	* translation, rotation, scaling
-	* vertex attributes (position, normals, texutures, colors)
+* Shaders
 * Textures
-* Frame buffers and Render buffers
-* Sprites, SpriteSheets and SpriteBatching
-* Lights and Materials
+* Generic Buffers
+* Framebuffers
+* Uniforms
+* Meshes
+	* bind and draw vertex data
 
+**2D API**
+
+* Sprites
+* Sprite batching
+* 2D font rendering
+	
+**Utilities**
+
+* Image loading
+	* Bitmap
+	* TGA
+	* PNG with [picoPNG](http://lodev.org/lodepng/)
+	* DDS
+* Wavefront Object Loader
+
+**Math**
+
+* 2, 3, 4 dimensional vectors
+* 3x3 and 4x4 Matrices
 
 Build
 -----
 
-Dependencies: GLEW, GLM
+Dependencies: GLEW
 
 Builds with CMake
 
-Note: This library compiles with Visual C++, GNU compiler **will not** work (yet).
-
-This command should do the trick:
-
-```bash
-/> cmake -G "Visual Studio 12" C:\path\to\project
-```
+Note: This library uses C++11 features.
 
 Examples
 --------

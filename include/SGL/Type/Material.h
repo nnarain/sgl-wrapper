@@ -1,18 +1,18 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
+#include "SGL/Math/Vector3.h"
 
 namespace sgl
 {
 	struct Material
 	{
-		glm::vec3 ambientColor;
+		Vector3 ambientColor;
 
-		glm::vec3 diffuseColor;
+		Vector3 diffuseColor;
 		float diffuseIntensity;
 
-		glm::vec3 specularColor;
+		Vector3 specularColor;
 		float specularIntensity;
 		float specularPower;
 	};

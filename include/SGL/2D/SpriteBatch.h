@@ -26,7 +26,7 @@ namespace sgl
 			The SpriteBatch provides and 2D position and 2D texture coordinate vertex attributes.	
 			- Bind the position to input 0
 			- Bind the texture coordinate to input 1
-			- Provide uniform sampler2D called texture
+			- Provide uniform sampler2D called sampler
 	*/
 	SGLCLASS SpriteBatch
 	{
@@ -39,8 +39,8 @@ namespace sgl
 		//! Vertex. Position and texture coordinates
 		struct Vertex
 		{
-			glm::vec2 pos;
-			glm::vec2 texCoord;
+			Vector2 pos;
+			Vector2 texCoord;
 		};
 
 		//! Intermediate structure to store vertex data before the batching stage
@@ -90,11 +90,14 @@ namespace sgl
 		void draw(Sprite& sprite, bool flipH, bool flipV);
 
 		/**
+			
+		*/
+		void draw(Quad& quad, Texture::TextureRegion& region, Texture* texture, bool flipH, bool flipV);
+
+		/**
 			Base draw
 		*/
 		void draw(Quad& quad, Texture::TextureRegion& region, Texture* texture);
-
-
 
 		/**
 			render the batches and tidy up

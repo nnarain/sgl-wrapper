@@ -19,7 +19,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${bin})
 # find packages
 find_package(OpenGL)
 find_package(GLEW)
-find_package(GLM)
 
 # set src and include directories
 set(INCL "include")
@@ -28,7 +27,6 @@ include_directories(${INCL})
 
 include_directories(${OPENGL_INCLUDE_DIR})
 include_directories(${GLEW_INCLUDE_DIR})
-include_directories(${GLM_INCLUDE_DIR})
 
 # find header & source
 file(GLOB_RECURSE HEADER "${INCL}/*.h")
@@ -44,6 +42,9 @@ file(GLOB_RECURSE UtilSources ${SRC}/Util/*.cpp)
 
 file(GLOB_RECURSE 2DHeaders ${INCL}/SGL/2D/*.h)
 file(GLOB_RECURSE 2DSources ${SRC}/2D/*.cpp)
+
+file(GLOB_RECURSE MathHeaders "${INCL}/SGL/Math/*.h")
+file(GLOB_RECURSE MathSources "${SRC}/Math/*.cpp")
 
 file(GLOB_RECURSE TypeHeaders ${INCL}/SGL/Type/*.h)
 
@@ -63,15 +64,17 @@ add_library(
 )
 
 # include groups
-source_group("Header Files/GL" FILES ${GLHeaders})
-source_group("Header Files/Util"    FILES ${UtilHeaders})
-source_group("Header Files/2D"      FILES ${2DHeaders})
-source_group("Header Files/Type"    FILES ${TypeHeaders})
+source_group("Header Files/GL"   FILES ${GLHeaders})
+source_group("Header Files/Util" FILES ${UtilHeaders})
+source_group("Header Files/2D"   FILES ${2DHeaders})
+source_group("Header Files/Type" FILES ${TypeHeaders})
+source_group("Header Files/Math" FILES ${MathHeaders})
 
 # source file groups
-source_group("Source Files/GL" FILES ${GLSources})
-source_group("Source Files/Util"    FILES ${UtilSources})
-source_group("Source Files/2D"      FILES ${2DSources})
+source_group("Source Files/GL"   FILES ${GLSources})
+source_group("Source Files/Util" FILES ${UtilSources})
+source_group("Source Files/2D"   FILES ${2DSources})
+source_group("Source Files/Math" FILES ${MathSources})
 
 # libs
 target_link_libraries(${libName} ${OPENGL_gl_LIBRARY})

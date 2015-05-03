@@ -1,13 +1,12 @@
 
-#pragma once
-
 #ifndef CAMERA_H
 #define CAMERA_H
 
 #include "SGL/Util/SGLExport.h"
 #include "SGL/Type/Geometry.h"
 
-#include <glm/glm.hpp>
+#include "SGL/Math/Vector3.h"
+#include "SGL/Math/Matrix4.h"
 
 namespace sgl{
 
@@ -32,9 +31,7 @@ namespace sgl{
 				height of your viewport
 		*/
 		Camera(float fov, float viewportWidth, float viewportHeight);
-		Camera(const Camera&);
-		Camera& operator=(Camera);
-		friend void swap(Camera&, Camera&);
+
 		~Camera(void);
 
 		/**
@@ -45,7 +42,7 @@ namespace sgl{
 		/**
 			point camera to (x,y,z)
 		*/
-		void lookAt(glm::vec3);
+		void lookAt(const Vector3 &);
 		/**
 			point camera to (x,y,z)
 		*/
@@ -59,68 +56,59 @@ namespace sgl{
 		/**
 			@return the multiplied camera matrices
 		*/
-		glm::mat4 combined();
+		Matrix4 combined();
 
 		/**
 			@return the camera projection matrices
 		*/
-		glm::mat4 projection();
+		const Matrix4& projection() const;
 
 		/**
 			@return the camera's view matrices
 		*/
-		glm::mat4 view();
-
-		/**
-			@return the direction of the camera
-		*/
-		glm::vec3 direction() const;
-
-		/**
-			@return the world space transform of the camera
-		*/
-		glm::mat4 transform();
+		const Matrix4& view() const;
 
 		/* Setters & Getters */
 		
 		/**
-		Sets world position of camera, (x,y,z)
+			Sets world position of camera, (x,y,z)
 		*/
-		void setPosition(glm::vec3);
+		void setPosition(const Vector3&);
 
 		/**
-		Sets world position of camera, (x,y,z)
+			Sets world position of camera, (x,y,z)
 		*/
 		void setPosition(float, float, float);
-		glm::vec3 getPosition() const;
+		const Vector3& getPosition() const;
 
-		glm::vec3 getTarget() const;
+		const Vector3& getTarget() const;
 
-		glm::vec3 getUpVector() const;
-		void setUpVector(glm::vec3 up);
-
-		glm::vec3 getLookDirection() const;
-
-		glm::vec3 getRightDirection() const;
+		const Vector3& getUpVector() const;
+		void setUpVector(const Vector3& up);
 
 	private:
 		//! camera position
-		glm::vec3* _pos;
+		Vector3 _pos;
 		
 		//! where the camera is pointed to
-		glm::vec3* _target;
+		Vector3 _target;
 		
 		//! cameras up vector
-		glm::vec3* _up;
-		//! cameras right vector
-		glm::vec3* _right;
-		// direction camera is looking
-		glm::vec3* _look;
+		Vector3 _up;
 
 		//! camera projection
-		glm::mat4* _proj;
-		//! camera view
-		glm::mat4* _view;
+		Matrix4 _proj;
+		
+		/* 
+			camera view matrix
+		
+			| right.x   up.x   forward.x   position.x |
+			| right.y   up.y   forward.y   position.x |
+			| right.z   up.z   forward.z   position.x |
+			|   0        0         0           0      |
+
+		*/
+		Matrix4 _view;
 
 		//! field of view
 		float _fov;
@@ -133,6 +121,14 @@ namespace sgl{
 		float _nearClipping;
 		//! far clipping distance
 		float _farClipping;
+
+		//! camera requires an update
+		bool _dirty;
+
+		/* Private member functions */
+
+		void calculateViewMatrix(void);
+		void calculateProjectionMatrix(void);
 
 	};
 };

@@ -6,23 +6,24 @@
 
 #include "SGL/Util/SGLExport.h"
 
-#include <glm/glm.hpp>
+#include "SGL/Math/Vector2.h"
+#include "SGL/Math/Vector3.h"
 
 namespace sgl
 {
 	struct Quad
 	{
-		glm::vec2 bottomLeft;
-		glm::vec2 topLeft;
-		glm::vec2 topRight;
-		glm::vec2 bottomRight;
+		Vector2 bottomLeft;
+		Vector2 topLeft;
+		Vector2 topRight;
+		Vector2 bottomRight;
 	};
 
 	//! Ray
 	struct Ray
 	{
-		glm::vec3 origin;
-		glm::vec3 direction;
+		Vector3 origin;
+		Vector3 direction;
 	};
 
 	namespace util

@@ -56,36 +56,36 @@ void Uniform::set(float v1, float v2, float v3, float v4)
 
 /* float value pointer */
 
-void Uniform::set(const glm::vec3 &v)
+void Uniform::set(const Vector3 &v)
 {
-	glUniform3fv(_location, 1, &v[0]);
+	glUniform3f(_location, v.x, v.y, v.z);
 }
 
-void Uniform::set(const glm::vec4 &v)
+void Uniform::set(const Vector4 &v)
 {
-	glUniform4fv(_location, 1, &v[0]);
+	glUniform4f(_location, v.x, v.y, v.z, v.w);
 }
 
 /* Matrix 3x3 set */
-void Uniform::set(const glm::mat3 &v)
+void Uniform::set(const Matrix3 &v)
 {
 	set(v, false);
 }
 
-void Uniform::set(const glm::mat3 &v, bool transpose)
+void Uniform::set(const Matrix3 &v, bool transpose)
 {
 	glUniformMatrix3fv(_location, 1, transpose, &v[0][0]);
 }
 
 /* Matrix 4x4 set */
-void Uniform::set(const glm::mat4 &v)
+void Uniform::set(const Matrix4 &v)
 {
 	set(v, false);
 }
 
-void Uniform::set(const glm::mat4 &v, bool transpose)
+void Uniform::set(const Matrix4 &v, bool transpose)
 {
-	glUniformMatrix4fv(_location, 1, transpose, &v[0][0]);
+	glUniformMatrix4fv(_location, 1, transpose, v.get());
 }
 
 /* Texture */

@@ -6,8 +6,9 @@
 
 #include "SGL/Util/SGLExport.h"
 
+#include "SGL/Math/Vector2.h"
+
 #include <GL/glew.h>
-#include <glm/glm.hpp>
 
 namespace sgl{
 
@@ -38,20 +39,25 @@ namespace sgl{
 		//! Texture Format
 		enum class Format
 		{
-			RED   = GL_RED,
-			RG    = GL_RG,
-			RGB   = GL_RGB,
-			BGR   = GL_BGR,
-			RGBA  = GL_RGBA,
-			BGRA  = GL_BGRA,
+			RED       = GL_RED,
+			RG        = GL_RG,
+			RGB       = GL_RGB,
+			BGR       = GL_BGR,
+			RGBA      = GL_RGBA,
+			BGRA      = GL_BGRA,
 
-			DEPTH = GL_DEPTH_COMPONENT
+			RGBA_DXT1 = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT,
+			RGBA_DXT3 = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT,
+			RGBA_DXT5 = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT,
+
+			DEPTH     = GL_DEPTH_COMPONENT
 		};
 
 		//! Internal Texture format
 		enum class InternalFormat
 		{
 			RGB   = GL_RGB,
+			RGBA  = GL_RGBA,
 
 			DEPTH = GL_DEPTH_COMPONENT
 		};
@@ -96,19 +102,22 @@ namespace sgl{
 		//! Holder for uv coordinates
 		struct TextureRegion
 		{
-			glm::vec2 bottomLeft;
-			glm::vec2 topLeft;
-			glm::vec2 topRight;
-			glm::vec2 bottomRight;
+			Vector2 bottomLeft;
+			Vector2 topLeft;
+			Vector2 topRight;
+			Vector2 bottomRight;
 		};
 
 		/* Constructors */
 
+		Texture(Target);
 		Texture(Target target, int width, int height, InternalFormat internalFormat, Format format);
 		~Texture();
 
-		void data(char* pixels);
-		void data(Target target, char* pixels);
+		void setData(char* pixels);
+		void setData(Target target, char* pixels);
+
+		void setCompressedData(char * pixels, unsigned int levels, unsigned int blockSize);
 
 		/**
 			Bind texture to a texture unit
@@ -144,6 +153,12 @@ namespace sgl{
 		void setTarget(Target target);
 		Texture::Target getTarget() const;
 
+		void setInternalFormat(Texture::InternalFormat);
+		InternalFormat getInternalFormat() const;
+
+		void setFormat(Texture::Format);
+		Format getFormat() const;
+
 		void setWidth(int w);
 		int getWidth() const;
 
@@ -171,9 +186,10 @@ namespace sgl{
 		int _height;
 
 		//! internal format of pixel data
-		GLint _internalFormat;
+		InternalFormat _internalFormat;
+
 		//! format of pixel data
-		GLenum _format;
+		Format _format;
 
 		//!
 		bool _isBound;

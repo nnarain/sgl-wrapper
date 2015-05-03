@@ -1,27 +1,27 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
+#include "SGL/Math/Vector3.h"
 
 namespace sgl
 {
 	//! Base structure of lights
 	struct BaseLight
 	{
-		glm::vec3 color;
+		Vector3 color;
 		float ambientIntensity;
 	};
 
 	//! uniform directional light
 	struct DirectionalLight : public BaseLight
 	{
-		glm::vec3 direction;
+		Vector3 direction;
 	};
 
 	//! point source light
 	struct PointLight : public BaseLight
 	{
-		glm::vec3 position;
+		Vector3 position;
 
 		struct
 		{
@@ -34,7 +34,7 @@ namespace sgl
 	//! cone light
 	struct SpotLight : public PointLight
 	{
-		glm::vec3 direction;
+		Vector3 direction;
 		float cutoff; ///< angle of spot light spread
 	};
 
