@@ -21,6 +21,9 @@ namespace sgl
 
 		float det(void);
 
+		void invert(void);
+		void transpose(void);
+
 		void set(float * m);
 
 		/* Operators */

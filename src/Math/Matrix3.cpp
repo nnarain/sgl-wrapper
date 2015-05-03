@@ -2,6 +2,7 @@
 #include <SGL/Math/Matrix3.h>
 
 #include <cassert>
+#include <algorithm>
 
 using namespace sgl;
 
@@ -84,6 +85,48 @@ float Matrix3::det(void)
 		+ _mat[MC] * (_mat[MD] * _mat[MH] - _mat[ME] * _mat[MG]);
 
 	return det;
+}
+
+void Matrix3::invert(void)
+{
+	float newMat[3 * 3];
+	float detM;
+	float invDet;
+
+	detM = det();
+
+	assert(detM != 0 && "Determinant cannot be zero");
+
+	invDet = 1.0f / detM;
+
+	newMat[MA] = (_mat[ME] * _mat[MI] - _mat[MF] * _mat[MH]) * invDet; //
+	newMat[MB] = (_mat[MC] * _mat[MH] - _mat[MB] * _mat[MI]) * invDet; //
+	newMat[MC] = (_mat[MB] * _mat[MF] - _mat[ME] * _mat[MC]) * invDet; //
+	newMat[MD] = (_mat[MF] * _mat[MG] - _mat[MD] * _mat[MI]) * invDet; //
+	newMat[ME] = (_mat[MA] * _mat[MI] - _mat[MC] * _mat[MG]) * invDet; //
+	newMat[MF] = (_mat[MC] * _mat[MD] - _mat[MA] * _mat[MF]) * invDet; //
+	newMat[MG] = (_mat[MD] * _mat[MH] - _mat[ME] * _mat[MG]) * invDet; //
+	newMat[MH] = (_mat[MB] * _mat[MG] - _mat[MA] * _mat[MH]) * invDet; //
+	newMat[MI] = (_mat[MA] * _mat[ME] - _mat[MB] * _mat[MD]) * invDet; //
+
+	set(newMat);
+}
+
+void Matrix3::transpose(void)
+{
+	using std::swap;
+
+	Matrix3 m(*this);
+
+	int i, j;
+
+	for (i = 0; i < 3; ++i)
+	{
+		for (j = 0; j < 3; ++j)
+		{
+			(*this)[j][i] = m[i][j];
+		}
+	}
 }
 
 void Matrix3::set(float * m)

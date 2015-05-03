@@ -76,6 +76,7 @@ void Entity::scale(float t)
 
 Matrix4& Entity::getModelMatrix(void)
 {
+	// don't update unless changes were made 
 	if (_transformDirty)
 	{
 		_transform.toScale(_scale);
@@ -93,7 +94,16 @@ Matrix3& Entity::getNormalMatrix(void)
 	if (_normalDirty)
 	{
 		// the inverse transpose of the model matrix is the normal matrix
+		const Matrix4& M = getModelMatrix();
+		
+		_normalMatrix = M.toMatrix3();
+		_normalMatrix.invert();
+		_normalMatrix.transpose();
+
+		_normalDirty = true;
 	}
+
+	return _normalMatrix;
 }
 
 Entity::~Entity(void)
