@@ -29,8 +29,18 @@ namespace sgl{
 		void setPosition(float, float, float);
 		void setPosition(const Vector3&);
 
-	private:
-		
+		Matrix4& getModelMatrix(void);
+		Matrix3& getNormalMatrix(void);
 
+	private:
+		Vector3 _position;
+		Vector3 _angle;
+		Vector3 _scale;
+
+		Matrix4 _transform;
+		Matrix3 _normalMatrix;
+
+		bool _transformDirty;
+		bool _normalDirty;
 	};
 };
