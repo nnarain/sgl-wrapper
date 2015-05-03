@@ -1,7 +1,7 @@
-SGL Wrapper
-===========
+SGL
+===
 
-Simple OpenGL Wrapper. A simple object oriented interface to OpenGL.
+Simple OpenGL. A simple object oriented interface to OpenGL.
 
 
 **The OpenGL Interface includes**
