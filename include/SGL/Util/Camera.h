@@ -118,9 +118,9 @@ namespace sgl{
 		float _viewportHeight;
 
 		//! near clipping distance
-		float _nearClipping;
+		float _zNear;
 		//! far clipping distance
-		float _farClipping;
+		float _zFar;
 
 		//! camera requires an update
 		bool _dirty;

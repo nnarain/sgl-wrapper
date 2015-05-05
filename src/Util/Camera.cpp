@@ -13,8 +13,8 @@ Camera::Camera()
 
 Camera::Camera(float fov, float viewportWidth, float viewportHeight) :
 	_fov(fov),
-	_nearClipping(0.1f),
-	_farClipping(100.0f),
+	_zNear(0.1f),
+	_zFar(100.0f),
 	_viewportWidth(viewportWidth),
 	_viewportHeight(viewportHeight),
 	_up(0,1,0),
@@ -51,12 +51,12 @@ void Camera::calculateViewMatrix(void)
 	// store results in the view matrix
 
 	/*
-	| right.x   up.x   forward.x   position.x |
-	| right.y   up.y   forward.y   position.x |
-	| right.z   up.z   forward.z   position.x |
-	|   0        0         0           1      |
+		| right.x   up.x   forward.x   position.x |
+		| right.y   up.y   forward.y   position.x |
+		| right.z   up.z   forward.z   position.x |
+		|   0        0         0           1      |
 
-	Rows and columns are transposed
+		Rows and columns are transposed
 	*/
 
 	// right
@@ -88,9 +88,9 @@ void Camera::calculateProjectionMatrix(void)
 
 	_proj[0][0] = 1.0f / (aspect * tanHalfFov);
 	_proj[1][1] = 1.0f / (tanHalfFov);
-	_proj[2][2] = - ((_farClipping + _nearClipping) / (_farClipping - _nearClipping));
+	_proj[2][2] = -((_zFar + _zNear) / (_zFar - _zNear));
 	_proj[2][3] = -1.0f;
-	_proj[3][2] = -(2.0f * _farClipping * _nearClipping) / (_farClipping - _nearClipping);
+	_proj[3][2] = -(2.0f * _zFar * _zNear) / (_zFar - _zNear);
 }
 
 void Camera::lookAt(const Vector3& v)
