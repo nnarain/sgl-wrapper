@@ -11,16 +11,15 @@ Camera::Camera()
 {
 }
 
-Camera::Camera(float fov, float viewportWidth, float viewportHeight) :
-	_fov(fov),
-	_zNear(0.1f),
-	_zFar(100.0f),
+Camera::Camera(float viewportWidth, float viewportHeight) :
 	_viewportWidth(viewportWidth),
 	_viewportHeight(viewportHeight),
+	_zNear(0.1f),
+	_zFar(100.0f),
 	_up(0,1,0),
 	_dirty(true)
 {
-	calculateProjectionMatrix();
+
 }
 
 void Camera::update()
@@ -78,19 +77,6 @@ void Camera::calculateViewMatrix(void)
 	_view[3][2] = z.dot(_pos);
 
 	_view[3][3] = 1;
-}
-
-void Camera::calculateProjectionMatrix(void)
-{
-	float aspect = _viewportWidth / _viewportHeight;
-
-	float tanHalfFov = tan(DEG_TO_RAD(_fov) / 2.0f);
-
-	_proj[0][0] = 1.0f / (aspect * tanHalfFov);
-	_proj[1][1] = 1.0f / (tanHalfFov);
-	_proj[2][2] = -((_zFar + _zNear) / (_zFar - _zNear));
-	_proj[2][3] = -1.0f;
-	_proj[3][2] = -(2.0f * _zFar * _zNear) / (_zFar - _zNear);
 }
 
 void Camera::lookAt(const Vector3& v)

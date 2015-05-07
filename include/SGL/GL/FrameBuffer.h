@@ -64,9 +64,11 @@ namespace sgl
 		void setDrawBuffer(Attachment a);
 		void setDrawBuffers(void);
 
+		void setReadBuffer(Attachment a);
+
 		void addAttachment(Attachment attachment);
 
-		bool error();
+		void checkError();
 
 		GLuint getId() const;
 

@@ -14,7 +14,9 @@ ShaderProgram::ShaderProgram(void) :
 	_fragmentShader(0),
 	_attributeLocation(0),
 	_attributes(new std::vector<VertexAttribute>),
-	_isActive(false)
+	_isActive(false),
+	_isCompiled(false),
+	_isLinked(false)
 {
 	create();
 }
@@ -45,6 +47,8 @@ void ShaderProgram::unbind()
 
 void ShaderProgram::begin()
 {
+	assert(_isCompiled && "Shader is not compiled");
+	assert(_isLinked && "Shader has not been linked");
 	assert(!_isActive && !_inUse && "This or another shader is already bound!!");
 
 	bind();
@@ -59,7 +63,7 @@ void ShaderProgram::end()
 	_isActive = _inUse = false;
 }
 
-bool ShaderProgram::link()
+void ShaderProgram::link()
 {
 	glLinkProgram(_programID);
 
@@ -70,7 +74,7 @@ bool ShaderProgram::link()
 		throw Exception(getProgramLog());
 	}
 
-	return true;
+	_isLinked = true;
 }
 
 void ShaderProgram::addAttribute(const std::string &name, int numComponents)
@@ -146,9 +150,12 @@ void ShaderProgram::load(Type shaderType, const std::string & source)
 
 	if (shaderCompiled != GL_TRUE)
 	{
+		_isCompiled = false;
 		std::string log = getShaderLog(*shader);
 		throw Exception(log);
 	}
+
+	_isCompiled = true;
 
 	// attach the shader to the program
 	glAttachShader(_programID, *shader);

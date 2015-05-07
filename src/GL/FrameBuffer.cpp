@@ -67,14 +67,54 @@ void FrameBuffer::setDrawBuffers(void)
 	glDrawBuffers(_attachments->size(), &(*_attachments)[0]);
 }
 
+void FrameBuffer::setReadBuffer(Attachment a)
+{
+	glReadBuffer(static_cast<GLenum>(a));
+}
+
 void FrameBuffer::addAttachment(Attachment attachment)
 {
 	_attachments->push_back(static_cast<GLenum>(attachment));
 }
 
-bool FrameBuffer::error()
+void FrameBuffer::checkError()
 {
-	return glCheckFramebufferStatus(static_cast<GLenum>(_target)) != GL_FRAMEBUFFER_COMPLETE;
+	GLenum ret = glCheckFramebufferStatus(static_cast<GLenum>(_target));
+
+	if (ret != GL_FRAMEBUFFER_COMPLETE)
+	{
+		std::string what;
+
+		switch (ret)
+		{
+		case GL_FRAMEBUFFER_UNDEFINED:
+			what = "Framebuffer undefined";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+			what = "incomplete attachment";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+			what = "incomplete missing attachment";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+			what = "incomplete draw buffer";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+			what = "incomplete read buffer";
+			break;
+		case GL_FRAMEBUFFER_UNSUPPORTED:
+			what = "unsupported";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
+			what = "incomplete multisample";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
+			what = "incomplete layer targets";
+			break;
+		}
+
+		throw Exception("Framebuffer Error: " + what);
+	}
 }
 
 GLuint FrameBuffer::getId() const
