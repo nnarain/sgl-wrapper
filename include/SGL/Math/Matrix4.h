@@ -25,6 +25,7 @@ namespace sgl
 
 		void toScale(const Vector3 &v);
 		void toScale(float x, float y, float z);
+		void toScale(float t);
 
 		void toRotation(const Vector3 &v, float angle);
 
