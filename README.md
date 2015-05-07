@@ -6,7 +6,7 @@ Simple OpenGL. A simple object oriented interface to OpenGL.
 
 **The OpenGL Interface includes**
 
-* Camera
+* Orthographic and Perspective Camera
 * Shaders
 * Textures
 * Generic Buffers
