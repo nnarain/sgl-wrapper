@@ -1,6 +1,7 @@
 
 #include "SGL/Util/ObjLoader.h"
 
+#include <SGL/Util/Image.h>
 #include <SGL/Util/Exception.h>
 
 #include <fstream>
@@ -15,9 +16,14 @@ ObjLoader::ObjLoader() :
 {
 }
 
-void ObjLoader::load(ObjModel &model, const std::string &filename)
+void ObjLoader::load(ObjModel &model, const char *modelpath, const char * texturepath)
 {
-	parse(filename);
+	if (texturepath != NULL)
+	{
+		loadTexture(model.getTexture(), texturepath);
+	}
+
+	parse(modelpath);
 	bindToMesh(model);
 }
 
@@ -117,12 +123,12 @@ void ObjLoader::bindToMesh(ObjModel &model)
 	mesh.create(stride * sizeof(float));
 }
 
-void ObjLoader::parse(const std::string &filename)
+void ObjLoader::parse(const char * filename)
 {
 	std::ifstream file(filename);
 
 	if (!file.good())
-		throw Exception("could not open file: " + filename);
+		throw Exception("could not open file: " + std::string(filename));
 
 	//
 	std::string currentMesh = "";
@@ -234,6 +240,18 @@ void ObjLoader::tokenize(std::vector<std::string>& tokens, std::string &s, const
 	}
 	// push the last token
 	tokens.push_back(s);
+}
+
+void ObjLoader::loadTexture(sgl::Texture& texture, const char * filename)
+{
+	texture.bind();
+
+	Image::load(texture, filename);
+
+	texture.parameter(Texture::ParamName::MAG_FILTER, Texture::Param::LINEAR);
+	texture.parameter(Texture::ParamName::MIN_FILTER, Texture::Param::LINEAR);
+
+	texture.unbind();
 }
 
 ObjLoader::~ObjLoader()
