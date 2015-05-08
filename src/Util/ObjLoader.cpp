@@ -59,7 +59,7 @@ void ObjLoader::bindToMesh(ObjModel &model)
 		std::vector<Face> &faces = mesh.faces;
 
 		// set mesh data
-		int drawCount = faces.size() * 3;
+		int drawCount = faces.size() * 3; // each face is a triangle (3 vertices)
 
 		model.addMeshData(meshName, offset, drawCount);
 		
@@ -68,7 +68,7 @@ void ObjLoader::bindToMesh(ObjModel &model)
 		std::vector<Face>::iterator iter;
 		for (iter = faces.begin(); iter != faces.end(); ++iter)
 		{
-			Face face = (*iter);
+			Face& face = (*iter);
 
 			int i;
 			for (i = 0; i < 3; ++i)
@@ -79,22 +79,25 @@ void ObjLoader::bindToMesh(ObjModel &model)
 
 				if (vertSize > 0)
 				{
-					buffer.push_back(_positions->at(vIdx).x);
-					buffer.push_back(_positions->at(vIdx).y);
-					buffer.push_back(_positions->at(vIdx).z);
+					Vector3& v = _positions->at(vIdx);
+					buffer.push_back(v.x);
+					buffer.push_back(v.y);
+					buffer.push_back(v.z);
 				}
 
 				if (normSize > 0)
 				{
-					buffer.push_back(_normals->at(nIdx).x);
-					buffer.push_back(_normals->at(nIdx).y);
-					buffer.push_back(_normals->at(nIdx).z);
+					Vector3& n = _normals->at(nIdx);
+					buffer.push_back(n.x);
+					buffer.push_back(n.y);
+					buffer.push_back(n.z);
 				}
 
 				if (uvSize > 0)
 				{
-					buffer.push_back(_texCoords->at(tIdx).x);
-					buffer.push_back(_texCoords->at(tIdx).y);
+					Vector2 &uv = _texCoords->at(tIdx);
+					buffer.push_back(uv.x);
+					buffer.push_back(1.0f - uv.y);
 				}
 			}
 		}
