@@ -21,7 +21,7 @@ namespace sgl
 		ObjLoader();
 		~ObjLoader();
 
-		void load(ObjModel &model, const std::string &filename);
+		void load(ObjModel &model, const char *modelpath, const char * texturepath = NULL);
 
 	private:
 
@@ -44,8 +44,10 @@ namespace sgl
 
 		std::map<std::string, MeshData> * _meshes;
 
-		void parse(const std::string &filename);
+		void parse(const char* filename);
 		void bindToMesh(ObjModel &model);
+
+		void loadTexture(sgl::Texture& texture, const char * filename);
 
 		void createVertexFromTokens(Vector3 &v, std::vector<std::string> &tokens);
 		void createUVFromTokens(Vector2 &uv, std::vector<std::string> &tokens);
