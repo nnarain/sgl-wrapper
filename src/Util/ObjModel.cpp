@@ -30,6 +30,9 @@ void ObjModel::draw()
 
 void ObjModel::unbind()
 {
+	if (_texture.isBound())
+		_texture.unbind();
+
 	_mesh.unbind();
 }
 
