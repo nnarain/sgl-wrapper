@@ -1,6 +1,7 @@
 
 #include "SGL/Util/ObjLoader.h"
 
+#include <SGL/Util/Image.h>
 #include <SGL/Util/Exception.h>
 
 #include <fstream>
@@ -15,9 +16,14 @@ ObjLoader::ObjLoader() :
 {
 }
 
-void ObjLoader::load(ObjModel &model, const std::string &filename)
+void ObjLoader::load(ObjModel &model, const char *modelpath, const char * texturepath)
 {
-	parse(filename);
+	if (texturepath != NULL)
+	{
+		loadTexture(model.getTexture(), texturepath);
+	}
+
+	parse(modelpath);
 	bindToMesh(model);
 }
 
@@ -59,7 +65,7 @@ void ObjLoader::bindToMesh(ObjModel &model)
 		std::vector<Face> &faces = mesh.faces;
 
 		// set mesh data
-		int drawCount = faces.size() * 3;
+		int drawCount = faces.size() * 3; // each face is a triangle (3 vertices)
 
 		model.addMeshData(meshName, offset, drawCount);
 		
@@ -68,7 +74,7 @@ void ObjLoader::bindToMesh(ObjModel &model)
 		std::vector<Face>::iterator iter;
 		for (iter = faces.begin(); iter != faces.end(); ++iter)
 		{
-			Face face = (*iter);
+			Face& face = (*iter);
 
 			int i;
 			for (i = 0; i < 3; ++i)
@@ -79,22 +85,25 @@ void ObjLoader::bindToMesh(ObjModel &model)
 
 				if (vertSize > 0)
 				{
-					buffer.push_back(_positions->at(vIdx).x);
-					buffer.push_back(_positions->at(vIdx).y);
-					buffer.push_back(_positions->at(vIdx).z);
+					Vector3& v = _positions->at(vIdx);
+					buffer.push_back(v.x);
+					buffer.push_back(v.y);
+					buffer.push_back(v.z);
 				}
 
 				if (normSize > 0)
 				{
-					buffer.push_back(_normals->at(nIdx).x);
-					buffer.push_back(_normals->at(nIdx).y);
-					buffer.push_back(_normals->at(nIdx).z);
+					Vector3& n = _normals->at(nIdx);
+					buffer.push_back(n.x);
+					buffer.push_back(n.y);
+					buffer.push_back(n.z);
 				}
 
 				if (uvSize > 0)
 				{
-					buffer.push_back(_texCoords->at(tIdx).x);
-					buffer.push_back(_texCoords->at(tIdx).y);
+					Vector2 &uv = _texCoords->at(tIdx);
+					buffer.push_back(uv.x);
+					buffer.push_back(1.0f - uv.y);
 				}
 			}
 		}
@@ -114,12 +123,12 @@ void ObjLoader::bindToMesh(ObjModel &model)
 	mesh.create(stride * sizeof(float));
 }
 
-void ObjLoader::parse(const std::string &filename)
+void ObjLoader::parse(const char * filename)
 {
 	std::ifstream file(filename);
 
 	if (!file.good())
-		throw Exception("could not open file: " + filename);
+		throw Exception("could not open file: " + std::string(filename));
 
 	//
 	std::string currentMesh = "";
@@ -231,6 +240,18 @@ void ObjLoader::tokenize(std::vector<std::string>& tokens, std::string &s, const
 	}
 	// push the last token
 	tokens.push_back(s);
+}
+
+void ObjLoader::loadTexture(sgl::Texture& texture, const char * filename)
+{
+	texture.bind();
+
+	Image::load(texture, filename);
+
+	texture.parameter(Texture::ParamName::MAG_FILTER, Texture::Param::LINEAR);
+	texture.parameter(Texture::ParamName::MIN_FILTER, Texture::Param::LINEAR);
+
+	texture.unbind();
 }
 
 ObjLoader::~ObjLoader()

@@ -2,7 +2,7 @@
 #ifndef GL_TYPES_H
 #define GL_TYPES_H
 
-#include <GL/GL.h>
+#include <GL/glew.h>
 
 namespace sgl
 {

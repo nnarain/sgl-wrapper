@@ -12,6 +12,7 @@ Texture::Texture(Target target) :
 	_width(0),
 	_height(0),
 	_isBound(false),
+	_pixelDataType(GLType::UBYTE),
 	_currentUnit(Texture::Unit::NONE)
 {
 	create();
@@ -21,6 +22,7 @@ Texture::Texture(Target target, int width, int height, Texture::InternalFormat i
 	_width(width),
 	_height(height),
 	_isBound(false),
+	_pixelDataType(GLType::UBYTE),
 	_currentUnit(Texture::Unit::NONE)
 {
 	create();
@@ -52,7 +54,7 @@ void Texture::setData(Target target, char* pixels)
 		_height,
 		0,
 		static_cast<GLenum>(_format),
-		GL_UNSIGNED_BYTE,
+		static_cast<GLenum>(_pixelDataType),
 		pixels
 	);
 }
@@ -220,6 +222,16 @@ void Texture::setHeight(int h)
 int Texture::getHeight() const
 {
 	return _height;
+}
+
+void Texture::setPixelDataType(GLType type)
+{
+	_pixelDataType = type;
+}
+
+GLType Texture::getPixelDataType(void) const
+{
+	return _pixelDataType;
 }
 
 int Texture::getIndex() const

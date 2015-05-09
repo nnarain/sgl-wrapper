@@ -68,7 +68,10 @@ namespace sgl{
 		*/
 		void end();
 
-		bool link();
+		/**
+			Link the shader
+		*/
+		void link();
 
 		/**
 			Creates and adds a vertex attribute to the shader, binding its location in the order that this function is called.
@@ -124,6 +127,10 @@ namespace sgl{
 
 		//! is active flag for this object
 		bool _isActive;
+		//!
+		bool _isLinked;
+		//!
+		bool _isCompiled;
 		//! flag checks if any shader is active
 		static bool _inUse;
 

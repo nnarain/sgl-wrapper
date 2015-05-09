@@ -17,20 +17,8 @@ namespace sgl{
 	{
 	public:
 		Camera(void);
-
-		/**
-			Creates a camera with a field of view and viewport dimensions
-
-			@param fov
-				The field of view
-
-			@param viewportWidth
-				width of your view port
-
-			@param viewportHeight
-				height of your viewport
-		*/
-		Camera(float fov, float viewportWidth, float viewportHeight);
+		Camera(float viewportWidth, float viewportHeight);
+		
 
 		~Camera(void);
 
@@ -86,7 +74,8 @@ namespace sgl{
 		const Vector3& getUpVector() const;
 		void setUpVector(const Vector3& up);
 
-	private:
+	protected:
+
 		//! camera position
 		Vector3 _pos;
 		
@@ -110,25 +99,24 @@ namespace sgl{
 		*/
 		Matrix4 _view;
 
-		//! field of view
-		float _fov;
 		//!
 		float _viewportWidth;
 		//!
 		float _viewportHeight;
 
 		//! near clipping distance
-		float _nearClipping;
+		float _zNear;
 		//! far clipping distance
-		float _farClipping;
+		float _zFar;
 
 		//! camera requires an update
 		bool _dirty;
 
+	private:
+
 		/* Private member functions */
 
 		void calculateViewMatrix(void);
-		void calculateProjectionMatrix(void);
 
 	};
 };

@@ -106,6 +106,11 @@ void Matrix4::toScale(const Vector3 &v)
 	toScale(v.x, v.y, v.z);
 }
 
+void Matrix4::toScale(float t)
+{
+	toScale(t, t, t);
+}
+
 void Matrix4::toScale(float x, float y, float z)
 {
 	clear();

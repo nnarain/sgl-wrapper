@@ -9,6 +9,11 @@ FrameBuffer::FrameBuffer() :
 	glGenFramebuffers(1, &_id);
 }
 
+void FrameBuffer::bind()
+{
+	bind(Target::DEFAULT);
+}
+
 void FrameBuffer::bind(Target target)
 {
 	_target = target;
@@ -23,7 +28,12 @@ void FrameBuffer::unbind()
 
 void FrameBuffer::setTexture(Texture& texture, FrameBuffer::Attachment attachment)
 {
-	glFramebufferTexture(static_cast<GLuint>(_target), static_cast<GLuint>(attachment), texture.getId(), 0);
+	glFramebufferTexture(
+		static_cast<GLuint>(_target), 
+		static_cast<GLuint>(attachment), 
+		texture.getId(), 
+		0
+	);
 }
 
 void FrameBuffer::setTexture2D(const Texture &texture, Attachment attachment)
@@ -37,24 +47,74 @@ void FrameBuffer::setTexture2D(const Texture &texture, Attachment attachment)
 	);
 }
 
-void FrameBuffer::setRenderBuffer(RenderBuffer& renderBuffer, GLuint attachment)
+void FrameBuffer::setRenderBuffer(RenderBuffer& renderBuffer, Attachment attachment)
 {
-	glFramebufferRenderbuffer(static_cast<GLuint>(_target), attachment, GL_RENDERBUFFER, renderBuffer.handle());
+	glFramebufferRenderbuffer(
+		static_cast<GLuint>(_target),
+		static_cast<GLuint>(attachment), 
+		GL_RENDERBUFFER, 
+		renderBuffer.handle()
+	);
 }
 
-void FrameBuffer::setDrawBuffer()
+void FrameBuffer::setDrawBuffer(Attachment a)
+{
+	glDrawBuffer(static_cast<GLenum>(a));
+}
+
+void FrameBuffer::setDrawBuffers(void)
 {
 	glDrawBuffers(_attachments->size(), &(*_attachments)[0]);
 }
 
-void FrameBuffer::addAttachment(GLenum attachment)
+void FrameBuffer::setReadBuffer(Attachment a)
 {
-	_attachments->push_back(attachment);
+	glReadBuffer(static_cast<GLenum>(a));
 }
 
-bool FrameBuffer::error()
+void FrameBuffer::addAttachment(Attachment attachment)
 {
-	return glCheckFramebufferStatus(static_cast<GLenum>(_target)) != GL_FRAMEBUFFER_COMPLETE;
+	_attachments->push_back(static_cast<GLenum>(attachment));
+}
+
+void FrameBuffer::checkError()
+{
+	GLenum ret = glCheckFramebufferStatus(static_cast<GLenum>(_target));
+
+	if (ret != GL_FRAMEBUFFER_COMPLETE)
+	{
+		std::string what;
+
+		switch (ret)
+		{
+		case GL_FRAMEBUFFER_UNDEFINED:
+			what = "Framebuffer undefined";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+			what = "incomplete attachment";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+			what = "incomplete missing attachment";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+			what = "incomplete draw buffer";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+			what = "incomplete read buffer";
+			break;
+		case GL_FRAMEBUFFER_UNSUPPORTED:
+			what = "unsupported";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
+			what = "incomplete multisample";
+			break;
+		case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
+			what = "incomplete layer targets";
+			break;
+		}
+
+		throw Exception("Framebuffer Error: " + what);
+	}
 }
 
 GLuint FrameBuffer::getId() const
