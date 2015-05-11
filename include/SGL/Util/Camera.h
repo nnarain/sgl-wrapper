@@ -67,10 +67,23 @@ namespace sgl{
 			Sets world position of camera, (x,y,z)
 		*/
 		void setPosition(float, float, float);
-		const Vector3& getPosition() const;
 
+		/**
+			Get the camera position
+		*/
+		Vector3& getPosition();
+
+		/**
+			Get the cameras lookat position
+		*/
 		const Vector3& getTarget() const;
 
+		/**
+			Get the camera directions
+		*/
+		Vector3 getDirection();
+
+		/***/
 		const Vector3& getUpVector() const;
 		void setUpVector(const Vector3& up);
 

@@ -163,9 +163,14 @@ void Camera::setPosition(float x, float y, float z)
 	_dirty = true;
 }
 
-const Vector3& Camera::getPosition() const
+Vector3& Camera::getPosition()
 {
 	return _pos;
+}
+
+Vector3 Camera::getDirection()
+{
+	return (_target - _pos).normalize();
 }
 
 const Vector3& Camera::getUpVector() const

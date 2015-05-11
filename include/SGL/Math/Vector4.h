@@ -43,6 +43,9 @@ namespace sgl
 		Vector4& operator-=(const Vector4& v);
 		Vector4& operator*=(float s);
 		Vector4& operator/=(float s);
+
+		bool operator==(const Vector4 &v);
+		bool operator!=(const Vector4 &v);
 	};
 }
 

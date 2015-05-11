@@ -122,6 +122,16 @@ Vector3& Vector3::operator/=(float s)
 	return *this;
 }
 
+bool Vector3::operator==(const Vector3& v)
+{
+	return this->x == v.x && this->y == v.y && this->z == v.z;
+}
+
+bool Vector3::operator!=(const Vector3& v)
+{
+	return !((*this) == v);
+}
+
 Vector3::~Vector3()
 {
 }
