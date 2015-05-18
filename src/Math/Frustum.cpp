@@ -7,6 +7,11 @@ Frustum::Frustum()
 {
 }
 
+Plane& Frustum::getPlane(PlaneId id)
+{
+	return _planes[static_cast<int>(id)];
+}
+
 Frustum::~Frustum()
 {
 
