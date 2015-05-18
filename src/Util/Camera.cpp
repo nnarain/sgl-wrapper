@@ -190,6 +190,22 @@ const Vector3& Camera::getTarget() const
 	return _target;
 }
 
+/**
+	Get the cameras far clipping distance
+*/
+float Camera::getFarClipping() const
+{
+	return _zFar;
+}
+
+/**
+	Get the cameras near clipping distance
+*/
+float Camera::getNearClipping() const
+{
+	return _zNear;
+}
+
 Camera::~Camera()
 {
 

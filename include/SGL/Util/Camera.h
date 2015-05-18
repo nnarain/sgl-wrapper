@@ -83,9 +83,25 @@ namespace sgl{
 		*/
 		Vector3 getDirection();
 
-		/***/
+		/**
+			Get the cameras up vector
+		*/
 		const Vector3& getUpVector() const;
+		
+		/**
+			Set the cameras up vector
+		*/
 		void setUpVector(const Vector3& up);
+
+		/**
+			Get the cameras far clipping distance
+		*/
+		float getFarClipping() const;
+
+		/**
+			Get the cameras near clipping distance
+		*/
+		float getNearClipping() const;
 
 	protected:
 
