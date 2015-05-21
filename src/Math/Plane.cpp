@@ -22,6 +22,24 @@ void Plane::set(const Vector3& p1, const Vector3& p2, const Vector3& p3)
 	_d = -(_normal.dot(p1));
 }
 
+Plane::Side Plane::checkPlaneSide(const Vector3 &point)
+{
+	float dist = _normal.dot(point) + _d;
+
+	if (dist == 0)
+	{
+		return Plane::Side::ON;
+	}
+	else if (dist < 0)
+	{
+		return Plane::Side::BACK;
+	}
+	else
+	{
+		return Plane::Side::FRONT;
+	}
+}
+
 Plane::~Plane()
 {
 

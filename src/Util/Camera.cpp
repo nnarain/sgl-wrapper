@@ -45,7 +45,7 @@ void Camera::calculateViewMatrix(void)
 	Vector3 x = Vector3(z).cross(_up).normalize();
 
 	// eye space y-axis
-	Vector3 y = Vector3(x).cross(z);
+	Vector3 y = Vector3(x).cross(z).normalize();
 
 	// store results in the view matrix
 
@@ -188,6 +188,17 @@ void Camera::setUpVector(const Vector3 &up)
 const Vector3& Camera::getTarget() const
 {
 	return _target;
+}
+
+float Camera::getViewPortWidth(void) const
+{
+	return _viewportWidth;
+}
+
+
+float Camera::getViewPortHeight(void) const
+{
+	return _viewportHeight;
 }
 
 /**

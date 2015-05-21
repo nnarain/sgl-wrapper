@@ -12,11 +12,18 @@ namespace sgl
 	{
 	public:
 
+		enum class Side
+		{
+			BACK, FRONT, ON
+		};
+
 		Plane(const Vector3& p1, const Vector3& p2, const Vector3& p3);
 		Plane();
 		~Plane();
 
 		void set(const Vector3& p1, const Vector3& p2, const Vector3& p3);
+
+		Plane::Side checkPlaneSide(const Vector3 &point);
 
 	private:
 		// the planes normal
