@@ -156,6 +156,8 @@ namespace sgl{
 
 		void calculateViewMatrix(void);
 
+		void updateViewPort();
+
 	};
 };
 

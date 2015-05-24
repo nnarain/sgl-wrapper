@@ -5,6 +5,8 @@
 #include "SGL/Math/MathUtil.h"
 #include "SGL/Math/Vector4.h"
 
+#include <GL/glew.h>
+
 using namespace sgl;
 
 Camera::Camera()
@@ -19,7 +21,7 @@ Camera::Camera(float viewportWidth, float viewportHeight) :
 	_up(0,1,0),
 	_dirty(true)
 {
-
+	updateViewPort();
 }
 
 void Camera::update()
@@ -133,9 +135,14 @@ Ray Camera::pickRay(float viewportX, float viewportY)
 	return ray;
 }
 
+void Camera::updateViewPort()
+{
+	glViewport(0, 0, _viewportWidth, _viewportHeight);
+}
+
 Matrix4 Camera::combined()
 {
-	return Matrix4();
+	return _proj * _view;
 }
 
 const Matrix4& Camera::projection() const

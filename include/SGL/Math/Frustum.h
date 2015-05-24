@@ -26,7 +26,9 @@ namespace sgl
 		enum class PointId
 		{
 			LBN, LTN, RTN, RBN,
-			LBF, LTF, RTF, RBF
+			LBF, LTF, RTF, RBF,
+
+			NC, FC
 		};
 
 		Frustum();
@@ -37,12 +39,14 @@ namespace sgl
 		Plane& getPlane(PlaneId id);
 		Vector3& getPoint(PointId id);
 
+		float getVolume(void);
+
 	private:
 		// left, right, top, bottom, near and far frustum planes
 		Plane _planes[6];
 
 		// eight points of the frustum
-		Vector3 _points[8];
+		Vector3 _points[10];
 
 	};
 }

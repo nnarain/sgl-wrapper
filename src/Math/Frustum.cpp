@@ -44,10 +44,12 @@ void Frustum::construct(float fov, float aspectRatio, float near, float far, con
 	forward.z = -viewMatrix[2][2];
 
 	// near plane center point
-	Vector3 nearCenter = Vector3(pos) + (forward * near);
+	Vector3& nearCenter = getPoint(PointId::NC);
+	nearCenter = Vector3(pos) + (forward * near);
 
 	// far plane center point
-	Vector3 farCenter  = Vector3(pos) + (forward * far);
+	Vector3& farCenter = getPoint(PointId::FC);
+	farCenter  = Vector3(pos) + (forward * far);
 
 	//
 	Vector3& ltn = getPoint(PointId::LTN);
@@ -63,16 +65,58 @@ void Frustum::construct(float fov, float aspectRatio, float near, float far, con
 	rbn = nearCenter - (up * nearH / 2.0f) + (right * nearW / 2.0f);
 
 	Vector3& ltf = getPoint(PointId::LTF);
-	ltf = nearCenter + (up * farH / 2.0f) - (right * farW / 2.0f);
+	ltf = farCenter + (up * farH / 2.0f) - (right * farW / 2.0f);
 
 	Vector3& lbf = getPoint(PointId::LBF);
-	lbf = nearCenter - (up * farH / 2.0f) - (right * farW / 2.0f);
+	lbf = farCenter - (up * farH / 2.0f) - (right * farW / 2.0f);
 
 	Vector3& rtf = getPoint(PointId::RTF);
-	rtf = nearCenter + (up * farH / 2.0f) + (right * farW / 2.0f);
+	rtf = farCenter + (up * farH / 2.0f) + (right * farW / 2.0f);
 
 	Vector3& rbf = getPoint(PointId::RBF);
-	rbf = nearCenter - (up * farH / 2.0f) + (right * farW / 2.0f);
+	rbf = farCenter - (up * farH / 2.0f) + (right * farW / 2.0f);
+}
+
+float Frustum::getVolume(void)
+{
+	float volume;
+
+	Vector3& lbn = getPoint(PointId::LBN);
+	Vector3& rbn = getPoint(PointId::RBN);
+	Vector3& ltn = getPoint(PointId::LTN);
+
+	Vector3& lbf = getPoint(PointId::LBF);
+	Vector3& rbf = getPoint(PointId::RBF);
+	Vector3& ltf = getPoint(PointId::LTF);
+
+	// near plane center
+	Vector3& nearCenter = getPoint(PointId::NC);
+
+	// near width
+	float nearW = (lbn - rbn).length();
+	// near height
+	float nearH = (ltn - lbn).length();
+
+	// far plane center
+	Vector3& farCenter = getPoint(PointId::FC);
+
+	// far width
+	float farW = (lbf - rbf).length();
+	// far height
+	float farH = (ltf - lbf).length();
+
+	// far plane area
+	float farArea  = farW * farH;
+	// near plane area
+	float nearArea = nearW * nearH;
+
+	// distance between near and far plnae
+	float h = (farCenter - nearCenter).length();
+
+	//
+	volume = (1.0f / 6.0f) * h * (farArea + (farW + farH) * (nearW * nearH) + nearArea);
+
+	return volume;
 }
 
 Plane& Frustum::getPlane(PlaneId id)
