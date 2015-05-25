@@ -16,4 +16,17 @@
 // tan in degrees
 #define tanDeg(deg) tan(DEG_TO_RAD((deg)))
 
+
+namespace sgl
+{
+	namespace math
+	{
+		template<typename T>
+		T lerp(T x0, T x1, float t)
+		{
+			return x0 + ((x1 - x0) * t);
+		}
+	}
+}
+
 #endif
