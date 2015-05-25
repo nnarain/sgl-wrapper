@@ -5,6 +5,8 @@
 #include "SGL/Math/MathUtil.h"
 #include "SGL/Math/Vector4.h"
 
+#include <GL/glew.h>
+
 using namespace sgl;
 
 Camera::Camera()
@@ -19,7 +21,7 @@ Camera::Camera(float viewportWidth, float viewportHeight) :
 	_up(0,1,0),
 	_dirty(true)
 {
-
+	updateViewPort();
 }
 
 void Camera::update()
@@ -45,7 +47,7 @@ void Camera::calculateViewMatrix(void)
 	Vector3 x = Vector3(z).cross(_up).normalize();
 
 	// eye space y-axis
-	Vector3 y = Vector3(x).cross(z);
+	Vector3 y = Vector3(x).cross(z).normalize();
 
 	// store results in the view matrix
 
@@ -133,9 +135,14 @@ Ray Camera::pickRay(float viewportX, float viewportY)
 	return ray;
 }
 
+void Camera::updateViewPort()
+{
+	glViewport(0, 0, _viewportWidth, _viewportHeight);
+}
+
 Matrix4 Camera::combined()
 {
-	return Matrix4();
+	return _proj * _view;
 }
 
 const Matrix4& Camera::projection() const
@@ -188,6 +195,17 @@ void Camera::setUpVector(const Vector3 &up)
 const Vector3& Camera::getTarget() const
 {
 	return _target;
+}
+
+float Camera::getViewPortWidth(void) const
+{
+	return _viewportWidth;
+}
+
+
+float Camera::getViewPortHeight(void) const
+{
+	return _viewportHeight;
 }
 
 /**

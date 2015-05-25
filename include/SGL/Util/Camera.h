@@ -94,6 +94,15 @@ namespace sgl{
 		void setUpVector(const Vector3& up);
 
 		/**
+		*/
+		float getViewPortWidth(void) const;
+
+		/**
+		
+		*/
+		float getViewPortHeight(void) const;
+
+		/**
 			Get the cameras far clipping distance
 		*/
 		float getFarClipping() const;
@@ -146,6 +155,8 @@ namespace sgl{
 		/* Private member functions */
 
 		void calculateViewMatrix(void);
+
+		void updateViewPort();
 
 	};
 };

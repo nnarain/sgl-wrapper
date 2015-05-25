@@ -43,16 +43,18 @@ Vector3& Vector3::cross(const Vector3& v)
 	return *this;
 }
 
-void Vector3::set(const Vector3 & v)
+Vector3& Vector3::set(const Vector3 & v)
 {
-	set(v.x, v.y, v.z);
+	return set(v.x, v.y, v.z);
 }
 
-void Vector3::set(float x, float y, float z)
+Vector3& Vector3::set(float x, float y, float z)
 {
 	this->x = x;
 	this->y = y;
 	this->z = z;
+
+	return *this;
 }
 
 /* Operators */
