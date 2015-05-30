@@ -25,3 +25,8 @@ float Context::getViewPortHeight(void)
 {
 	return _viewPort.y;
 }
+
+float Context::getScreenAspectRatio(void)
+{
+	return _viewPort.x / _viewPort.y;
+}

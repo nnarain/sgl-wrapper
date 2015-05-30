@@ -16,6 +16,7 @@ namespace sgl
 		static Vector2 getViewPortDimensions(void);
 		static float   getViewPortWidth(void);
 		static float   getViewPortHeight(void);
+		static float   getScreenAspectRatio(void);
 
 	private:
 

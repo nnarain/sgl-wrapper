@@ -360,6 +360,67 @@ void Matrix4::transpose(void)
 	}
 }
 
+/* Opengl Matrices */
+
+void Matrix4::lookAt(Vector3 eye, Vector3 center, Vector3 up)
+{
+	//
+	clear();
+
+	// eye space z axis
+	Vector3 z = (center - eye).normalize();
+
+	// eye space x axis
+	Vector3 x = Vector3(z).cross(up).normalize();
+
+	// eye space y axis
+	Vector3 y = Vector3(x).cross(z).normalize();
+
+	// create the view matrix
+
+	/*
+		| right.x   up.x   forward.x   position.x |
+		| right.y   up.y   forward.y   position.x |
+		| right.z   up.z   forward.z   position.x |
+		|   0        0         0           1      |
+
+		Rows and columns are transposed
+	*/
+
+	// right
+	(*this)[0][0] = x.x;
+	(*this)[1][0] = x.y;
+	(*this)[2][0] = x.z;
+	(*this)[3][0] = x.dot(eye) * -1;
+
+	// up
+	(*this)[0][1] = y.x;
+	(*this)[1][1] = y.y;
+	(*this)[2][1] = y.z;
+	(*this)[3][1] = y.dot(eye) * -1;
+
+	// forward
+	(*this)[0][2] = -z.x;
+	(*this)[1][2] = -z.y;
+	(*this)[2][2] = -z.z;
+	(*this)[3][2] = z.dot(eye);
+
+	(*this)[3][3] = 1;
+}
+
+void Matrix4::perspective(float fov, float aspect, float near, float far)
+{
+	clear();
+
+	float tanHalfFov = tanDeg(fov / 2.0f);
+
+	(*this)[0][0] = 1.0f / (aspect * tanHalfFov);
+	(*this)[1][1] = 1.0f / (tanHalfFov);
+	(*this)[2][2] = -((far + near) / (far - near));
+	(*this)[2][3] = -1.0f;
+	(*this)[3][2] = -(2.0f * far * near) / (far - near);
+}
+
 void Matrix4::clear(void)
 {
 	int i;

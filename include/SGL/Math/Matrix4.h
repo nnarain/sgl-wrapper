@@ -53,6 +53,11 @@ namespace sgl
 
 		void transpose(void);
 
+		/* Opengl Matrices */
+
+		void lookAt(Vector3 eye, Vector3 center, Vector3 up);
+		void perspective(float fov, float aspectRatio, float near, float far);
+
 		/*  */
 		Matrix3 toMatrix3(void) const;
 
