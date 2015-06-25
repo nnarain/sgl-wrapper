@@ -75,6 +75,26 @@ void Frustum::construct(float fov, float aspectRatio, float near, float far, con
 
 	Vector3& rbf = getPoint(PointId::RBF);
 	rbf = farCenter - (up * farH / 2.0f) + (right * farW / 2.0f);
+
+	// calculate the frustum planes
+	
+	Plane& l = getPlane(PlaneId::LEFT);
+	l = Plane(lbn, ltn, ltf);
+
+	Plane& r = getPlane(PlaneId::RIGHT);
+	r = Plane(rbn, rtn, rtf);
+
+	Plane& t = getPlane(PlaneId::TOP);
+	t = Plane(ltn, ltf, rtf);
+
+	Plane& b = getPlane(PlaneId::BOTTOM);
+	b = Plane(lbn, lbf, rbf);
+
+	Plane& n = getPlane(PlaneId::NEAR);
+	n = Plane(lbn, rbn, rtn);
+
+	Plane& f = getPlane(PlaneId::FAR);
+	f = Plane(lbf, rbf, rtf);
 }
 
 float Frustum::getVolume(void)
