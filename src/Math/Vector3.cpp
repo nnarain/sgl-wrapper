@@ -43,6 +43,11 @@ Vector3& Vector3::cross(const Vector3& v)
 	return *this;
 }
 
+float Vector3::proj(const Vector3& w)
+{
+	return abs(this->dot(w)) / this->length();
+}
+
 Vector3& Vector3::set(const Vector3 & v)
 {
 	return set(v.x, v.y, v.z);

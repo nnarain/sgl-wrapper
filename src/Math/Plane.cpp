@@ -20,6 +20,19 @@ void Plane::set(const Vector3& p1, const Vector3& p2, const Vector3& p3)
 
 	_normal.set(v1).cross(v2).normalize();
 	_d = -(_normal.dot(p1));
+
+	ref = p1;
+}
+
+float Plane::distanceToPointUnsigned(Vector3& point)
+{
+	return _normal.proj((point - ref));
+}
+
+float Plane::distanceToPointSigned(Vector3& point)
+{
+	Vector3 w = point - ref;
+	return _normal.dot(w) / _normal.length();
 }
 
 Plane::Side Plane::checkPlaneSide(const Vector3 &point)

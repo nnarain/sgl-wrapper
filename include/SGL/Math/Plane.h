@@ -23,6 +23,9 @@ namespace sgl
 
 		void set(const Vector3& p1, const Vector3& p2, const Vector3& p3);
 
+		float distanceToPointUnsigned(Vector3& point);
+		float distanceToPointSigned(Vector3& point);
+
 		Plane::Side checkPlaneSide(const Vector3 &point);
 
 	private:
@@ -30,6 +33,8 @@ namespace sgl
 		Vector3 _normal;
 		// the plane constant
 		float _d;
+		// reference point that lies on the plane
+		Vector3 ref;
 	};
 }
 
