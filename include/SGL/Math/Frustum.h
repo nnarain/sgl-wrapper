@@ -7,6 +7,7 @@
 #include "SGL/Math/Plane.h"
 #include "SGL/Math/Vector3.h"
 #include "SGL/Math/Matrix4.h"
+#include "SGL/Math/AABB.h"
 
 namespace sgl
 {
@@ -40,6 +41,7 @@ namespace sgl
 		~Frustum();
 
 		Frustum::Side checkPoint(Vector3& point);
+		Frustum::Side checkBox(AABB& aabb);
 
 		void construct(float fov, float aspectRatio, float near, float far, const Vector3& pos, const Matrix4& viewMatrix);
 

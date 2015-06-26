@@ -1,6 +1,8 @@
 
 #include "SGL/Math/Plane.h"
 
+#include <cmath>
+
 using namespace sgl;
 
 Plane::Plane()
@@ -26,13 +28,12 @@ void Plane::set(const Vector3& p1, const Vector3& p2, const Vector3& p3)
 
 float Plane::distanceToPointUnsigned(Vector3& point)
 {
-	return _normal.proj((point - ref));
+	return abs(_normal.dot(point));
 }
 
 float Plane::distanceToPointSigned(Vector3& point)
 {
-	Vector3 w = point - ref;
-	return _normal.dot(w) / _normal.length();
+	return _normal.dot(point);
 }
 
 Plane::Side Plane::checkPlaneSide(const Vector3 &point)

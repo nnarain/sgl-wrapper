@@ -20,6 +20,7 @@ namespace sgl
 		Vector3 min;
 		Vector3 max;
 		Vector3 center;
+		Vector3 dim;
 
 	private:
 	};

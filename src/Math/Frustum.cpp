@@ -28,6 +28,22 @@ Frustum::Side Frustum::checkPoint(Vector3& point)
 	return result;
 }
 
+Frustum::Side Frustum::checkBox(AABB& aabb)
+{
+	float hx = aabb.dim.x;
+	float hy = aabb.dim.y;
+	float hz = aabb.dim.z;
+
+	int i;
+	for (i = 0; i < 16; ++i)
+	{
+		int out = 0;
+		int in = 0;
+	}
+
+	return Frustum::Side::INSIDE;
+}
+
 void Frustum::construct(float fov, float aspectRatio, float near, float far, const Vector3& pos, const Matrix4& viewMatrix)
 {
 	// near plane height
@@ -94,22 +110,22 @@ void Frustum::construct(float fov, float aspectRatio, float near, float far, con
 	// calculate the frustum planes
 	
 	Plane& l = getPlane(PlaneId::LEFT);
-	l = Plane(lbn, ltn, ltf);
+	l = Plane(lbn, ltf, ltn);
 
 	Plane& r = getPlane(PlaneId::RIGHT);
-	r = Plane(rbn, rtn, rtf);
+	r = Plane(rtn, rtf, rbn);
 
 	Plane& t = getPlane(PlaneId::TOP);
-	t = Plane(ltn, ltf, rtf);
+	t = Plane(rtf, ltf, ltn);
 
 	Plane& b = getPlane(PlaneId::BOTTOM);
-	b = Plane(lbn, lbf, rbf);
+	b = Plane(rbf, lbf, lbn);
 
 	Plane& n = getPlane(PlaneId::NEAR);
-	n = Plane(lbn, rbn, rtn);
+	n = Plane(rtn, rbn, lbn);
 
 	Plane& f = getPlane(PlaneId::FAR);
-	f = Plane(lbf, rbf, rtf);
+	f = Plane(rtf, rbf, lbf);
 }
 
 float Frustum::getVolume(void)
