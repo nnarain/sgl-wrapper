@@ -12,6 +12,21 @@ Frustum::Frustum()
 {
 }
 
+Frustum::Side Frustum::checkPoint(Vector3& point)
+{
+	Frustum::Side result = Frustum::Side::INSIDE;
+
+	int i;
+	for (i = 0; i < 6; ++i)
+	{
+		if (_planes[i].distanceToPointSigned(point) < 0)
+		{
+			return Frustum::Side::OUTSIDE;
+		}
+	}
+
+	return result;
+}
 
 void Frustum::construct(float fov, float aspectRatio, float near, float far, const Vector3& pos, const Matrix4& viewMatrix)
 {

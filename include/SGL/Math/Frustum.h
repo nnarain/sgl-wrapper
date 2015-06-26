@@ -14,6 +14,11 @@ namespace sgl
 	{
 	public:
 
+		enum class Side
+		{
+			INSIDE, OUTSIDE, INTERSECT
+		};
+
 		// planes
 		enum class PlaneId
 		{
@@ -22,7 +27,7 @@ namespace sgl
 			NEAR, FAR
 		};
 
-		//
+		// points
 		enum class PointId
 		{
 			LBN, LTN, RTN, RBN,
@@ -33,6 +38,8 @@ namespace sgl
 
 		Frustum();
 		~Frustum();
+
+		Frustum::Side checkPoint(Vector3& point);
 
 		void construct(float fov, float aspectRatio, float near, float far, const Vector3& pos, const Matrix4& viewMatrix);
 
