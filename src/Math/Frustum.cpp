@@ -34,14 +34,66 @@ Frustum::Side Frustum::checkBox(AABB& aabb)
 	float hy = aabb.dim.y;
 	float hz = aabb.dim.z;
 
+	Frustum::Side result = Frustum::Side::INSIDE;
+
 	int i;
-	for (i = 0; i < 16; ++i)
+	for (i = 0; i < 6; ++i)
 	{
 		int out = 0;
-		int in = 0;
+		int in  = 0;
+
+		// check each vertex of the bounding volume
+		// and count the vertices that are inside and outside the frustum
+
+		// if none are inside (in = 0), return Frustum::Side::OUTSIDE
+
+		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(-hx, -hy, -hz)) < 0)
+			out++;
+		else
+			in++;
+
+		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(hx, -hy, -hz)) < 0)
+			out++;
+		else
+			in++;
+
+		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(-hx, -hy, hz)) < 0)
+			out++;
+		else
+			in++;
+
+		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(hx, -hy, hz)) < 0)
+			out++;
+		else
+			in++;
+
+		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(-hx, hy, -hz)) < 0)
+			out++;
+		else
+			in++;
+
+		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(-hx, hy, -hz)) < 0)
+			out++;
+		else
+			in++;
+
+		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(-hx, hy, hz)) < 0)
+			out++;
+		else
+			in++;
+
+		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(hx, hy, hz)) < 0)
+			out++;
+		else
+			in++;
+
+		if (!in)
+			return Frustum::Side::OUTSIDE;
+		else if (out)
+			result = Frustum::Side::INTERSECT;
 	}
 
-	return Frustum::Side::INSIDE;
+	return result;
 }
 
 void Frustum::construct(float fov, float aspectRatio, float near, float far, const Vector3& pos, const Matrix4& viewMatrix)

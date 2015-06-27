@@ -13,6 +13,7 @@ namespace sgl
 	{
 	public:
 
+		AABB();
 		AABB(const Vector3& min, const Vector3& max);
 
 	public:
