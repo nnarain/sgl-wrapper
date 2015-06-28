@@ -31,7 +31,16 @@ namespace sgl
 			//
 			Buffer& vbo = _mesh->getVBO();
 			vbo.bind();
-			vbo.setData(&_vertexBuffer[0], size * sizeof(Vertex));
+			
+			if (_vertexBuffer.size() > 0)
+			{
+				vbo.setData(&_vertexBuffer[0], size * sizeof(Vertex));
+			}
+			else
+			{
+				vbo.setData(0, 0);
+			}
+
 			vbo.unbind();
 
 			//
