@@ -28,13 +28,14 @@ namespace sgl
 
 		Plane::Side checkPlaneSide(const Vector3 &point);
 
-	private:
+	public:
 		// the planes normal
-		Vector3 _normal;
+		Vector3 normal;
+
 		// the plane constant
-		float _d;
-		// reference point that lies on the plane
-		Vector3 ref;
+		float d;
+
+	private:
 	};
 }
 

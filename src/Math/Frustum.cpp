@@ -47,42 +47,42 @@ Frustum::Side Frustum::checkBox(AABB& aabb)
 
 		// if none are inside (in = 0), return Frustum::Side::OUTSIDE
 
-		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(-hx, -hy, -hz)) < 0)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3(-hx, -hy, -hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
 
-		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(hx, -hy, -hz)) < 0)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3(hx, -hy, -hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
 
-		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(-hx, -hy, hz)) < 0)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3(-hx, -hy, hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
 
-		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(hx, -hy, hz)) < 0)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3(hx, -hy, hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
 
-		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(-hx, hy, -hz)) < 0)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3(-hx, hy, -hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
 
-		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(-hx, hy, -hz)) < 0)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3(-hx, hy, -hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
 
-		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(-hx, hy, hz)) < 0)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3(-hx, hy, hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
 
-		if (_planes[i].distanceToPointSigned(aabb.center + Vector3(hx, hy, hz)) < 0)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3(hx, hy, hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
@@ -168,7 +168,7 @@ void Frustum::construct(float fov, float aspectRatio, float near, float far, con
 	r = Plane(rtn, rtf, rbn);
 
 	Plane& t = getPlane(PlaneId::TOP);
-	t = Plane(rtf, ltf, ltn);
+	t = Plane(rtf, rtn, ltn);
 
 	Plane& b = getPlane(PlaneId::BOTTOM);
 	b = Plane(rbf, lbf, lbn);
@@ -177,7 +177,7 @@ void Frustum::construct(float fov, float aspectRatio, float near, float far, con
 	n = Plane(rtn, rbn, lbn);
 
 	Plane& f = getPlane(PlaneId::FAR);
-	f = Plane(rtf, rbf, lbf);
+	f = Plane(rtf, ltf, lbf);
 }
 
 float Frustum::getVolume(void)
