@@ -116,6 +116,16 @@ Vector4& Vector4::operator/=(float s)
 	return *this;
 }
 
+bool Vector4::operator==(const Vector4 &v)
+{
+	return this->x == v.x && this->y == v.y && this->z == v.z && this->w == v.w;
+}
+
+bool Vector4::operator!=(const Vector4 &v)
+{
+	return !((*this) == v);
+}
+
 Vector4::~Vector4()
 {
 }

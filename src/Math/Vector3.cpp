@@ -43,16 +43,23 @@ Vector3& Vector3::cross(const Vector3& v)
 	return *this;
 }
 
-void Vector3::set(const Vector3 & v)
+float Vector3::proj(const Vector3& w)
 {
-	set(v.x, v.y, v.z);
+	return abs(this->dot(w)) / this->length();
 }
 
-void Vector3::set(float x, float y, float z)
+Vector3& Vector3::set(const Vector3 & v)
+{
+	return set(v.x, v.y, v.z);
+}
+
+Vector3& Vector3::set(float x, float y, float z)
 {
 	this->x = x;
 	this->y = y;
 	this->z = z;
+
+	return *this;
 }
 
 /* Operators */
@@ -120,6 +127,16 @@ Vector3& Vector3::operator/=(float s)
 	this->z /= s;
 
 	return *this;
+}
+
+bool Vector3::operator==(const Vector3& v)
+{
+	return this->x == v.x && this->y == v.y && this->z == v.z;
+}
+
+bool Vector3::operator!=(const Vector3& v)
+{
+	return !((*this) == v);
 }
 
 Vector3::~Vector3()

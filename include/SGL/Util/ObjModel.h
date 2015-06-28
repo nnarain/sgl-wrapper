@@ -4,6 +4,7 @@
 
 #include <SGL/Util/SGLExport.h>
 #include <SGL/GL/Mesh.h>
+#include <SGL/GL/Texture.h>
 
 #include <map>
 
@@ -25,6 +26,8 @@ namespace sgl
 		~ObjModel();
 
 		void bind();
+		void bind(Texture::Unit unit);
+
 		void draw();
 		void unbind();
 
@@ -35,9 +38,14 @@ namespace sgl
 
 		Mesh& getMesh();
 
+		Texture& getTexture();
+
 	private:
 		//! mesh containing render data for the obj model
 		Mesh _mesh;
+
+		//! optional model texture
+		Texture _texture;
 
 		//! number of vertices in mesh
 		int _vertexCount;

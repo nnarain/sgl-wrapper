@@ -21,32 +21,32 @@ void Buffer::create()
 
 void Buffer::bind()
 {
-	glBindBuffer(_target, _id);
+	glBindBuffer(static_cast<GLenum>(_target), _id);
 }
 
 void Buffer::unbind()
 {
-	glBindBuffer(_target, 0);
+	glBindBuffer(static_cast<GLenum>(_target), 0);
 }
 
 void Buffer::setData(void * buffer, int size)
 {
-	glBufferData(_target, size, buffer, _usage);
+	glBufferData(static_cast<GLenum>(_target), size, buffer, static_cast<GLenum>(_usage));
 }
 
 void Buffer::subData(void * buffer, int offset, int size)
 {
-	glBufferSubData(_target, offset, size, buffer);
+	glBufferSubData(static_cast<GLenum>(_target), offset, size, buffer);
 }
 
 void Buffer::setTarget(Target target)
 {
-	_target = static_cast<GLenum>(target);
+	_target = target;
 }
 
 void Buffer::setUsage(Usage usage)
 {
-	_usage = static_cast<GLenum>(usage);
+	_usage = usage;
 }
 
 GLuint Buffer::getId() const

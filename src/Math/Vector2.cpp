@@ -96,6 +96,16 @@ Vector2& Vector2::operator/=(float s)
 	return *this;
 }
 
+bool Vector2::operator==(const Vector2 &v)
+{
+	return this->x == v.x && this->y == v.y;
+}
+
+bool Vector2::operator!=(const Vector2 &v)
+{
+	return !((*this) == v);
+}
+
 Vector2::~Vector2()
 {
 }

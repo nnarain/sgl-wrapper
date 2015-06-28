@@ -25,6 +25,7 @@ namespace sgl
 
 		void toScale(const Vector3 &v);
 		void toScale(float x, float y, float z);
+		void toScale(float t);
 
 		void toRotation(const Vector3 &v, float angle);
 
@@ -51,6 +52,11 @@ namespace sgl
 		float det(void);
 
 		void transpose(void);
+
+		/* Opengl Matrices */
+
+		void lookAt(Vector3 eye, Vector3 center, Vector3 up);
+		void perspective(float fov, float aspectRatio, float near, float far);
 
 		/*  */
 		Matrix3 toMatrix3(void) const;

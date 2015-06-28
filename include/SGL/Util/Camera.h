@@ -17,20 +17,8 @@ namespace sgl{
 	{
 	public:
 		Camera(void);
-
-		/**
-			Creates a camera with a field of view and viewport dimensions
-
-			@param fov
-				The field of view
-
-			@param viewportWidth
-				width of your view port
-
-			@param viewportHeight
-				height of your viewport
-		*/
-		Camera(float fov, float viewportWidth, float viewportHeight);
+		Camera(float viewportWidth, float viewportHeight);
+		
 
 		~Camera(void);
 
@@ -79,14 +67,53 @@ namespace sgl{
 			Sets world position of camera, (x,y,z)
 		*/
 		void setPosition(float, float, float);
-		const Vector3& getPosition() const;
 
+		/**
+			Get the camera position
+		*/
+		Vector3& getPosition();
+
+		/**
+			Get the cameras lookat position
+		*/
 		const Vector3& getTarget() const;
 
+		/**
+			Get the camera directions
+		*/
+		Vector3 getDirection();
+
+		/**
+			Get the cameras up vector
+		*/
 		const Vector3& getUpVector() const;
+		
+		/**
+			Set the cameras up vector
+		*/
 		void setUpVector(const Vector3& up);
 
-	private:
+		/**
+		*/
+		float getViewPortWidth(void) const;
+
+		/**
+		
+		*/
+		float getViewPortHeight(void) const;
+
+		/**
+			Get the cameras far clipping distance
+		*/
+		float getFarClipping() const;
+
+		/**
+			Get the cameras near clipping distance
+		*/
+		float getNearClipping() const;
+
+	protected:
+
 		//! camera position
 		Vector3 _pos;
 		
@@ -110,25 +137,26 @@ namespace sgl{
 		*/
 		Matrix4 _view;
 
-		//! field of view
-		float _fov;
 		//!
 		float _viewportWidth;
 		//!
 		float _viewportHeight;
 
 		//! near clipping distance
-		float _nearClipping;
+		float _zNear;
 		//! far clipping distance
-		float _farClipping;
+		float _zFar;
 
 		//! camera requires an update
 		bool _dirty;
 
+	private:
+
 		/* Private member functions */
 
 		void calculateViewMatrix(void);
-		void calculateProjectionMatrix(void);
+
+		void updateViewPort();
 
 	};
 };

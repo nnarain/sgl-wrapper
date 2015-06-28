@@ -7,8 +7,15 @@ ObjModel::ObjModel() :
 	_mesh(Mesh::Type::TRIANGLES, Buffer::Usage::STATIC_DRAW),
 	_meshData(new std::map<std::string, MeshData>),
 	_meshDataKeys(new std::vector<std::string>),
-	_vertexCount(0)
+	_vertexCount(0),
+	_texture(Texture::Target::TEXTURE2D)
 {
+}
+
+void ObjModel::bind(Texture::Unit unit)
+{
+	_texture.bind(unit);
+	bind();
 }
 
 void ObjModel::bind()
@@ -23,6 +30,9 @@ void ObjModel::draw()
 
 void ObjModel::unbind()
 {
+	if (_texture.isBound())
+		_texture.unbind();
+
 	_mesh.unbind();
 }
 
@@ -54,6 +64,11 @@ void ObjModel::setMeshData(int idx)
 Mesh& ObjModel::getMesh()
 {
 	return _mesh;
+}
+
+Texture& ObjModel::getTexture()
+{
+	return _texture;
 }
 
 ObjModel::~ObjModel()

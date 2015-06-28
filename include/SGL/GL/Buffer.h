@@ -77,8 +77,8 @@ namespace sgl
 	private:
 		GLuint _id;
 
-		GLenum _target;
-		GLenum _usage;
+		Target _target;
+		Usage _usage;
 
 		int _size;
 

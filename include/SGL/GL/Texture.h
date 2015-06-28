@@ -6,6 +6,7 @@
 
 #include "SGL/Util/SGLExport.h"
 
+#include "SGL/Type/GLTypes.h"
 #include "SGL/Math/Vector2.h"
 
 #include <GL/glew.h>
@@ -56,10 +57,11 @@ namespace sgl{
 		//! Internal Texture format
 		enum class InternalFormat
 		{
-			RGB   = GL_RGB,
-			RGBA  = GL_RGBA,
+			RGB     = GL_RGB,
+			RGBA    = GL_RGBA,
 
-			DEPTH = GL_DEPTH_COMPONENT
+			DEPTH   = GL_DEPTH_COMPONENT,
+			DEPTH16 = GL_DEPTH_COMPONENT16
 		};
 
 		//! Texture Parameters
@@ -165,6 +167,9 @@ namespace sgl{
 		void setHeight(int h);
 		int getHeight() const;
 
+		void setPixelDataType(GLType type);
+		GLType getPixelDataType(void) const;
+
 		int getIndex() const;
 
 		GLuint getId() const;
@@ -190,6 +195,9 @@ namespace sgl{
 
 		//! format of pixel data
 		Format _format;
+
+		//! pixel data type
+		GLType _pixelDataType;
 
 		//!
 		bool _isBound;

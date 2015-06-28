@@ -5,22 +5,23 @@
 #include "SGL/Math/MathUtil.h"
 #include "SGL/Math/Vector4.h"
 
+#include <GL/glew.h>
+
 using namespace sgl;
 
 Camera::Camera()
 {
 }
 
-Camera::Camera(float fov, float viewportWidth, float viewportHeight) :
-	_fov(fov),
-	_nearClipping(0.1f),
-	_farClipping(100.0f),
+Camera::Camera(float viewportWidth, float viewportHeight) :
 	_viewportWidth(viewportWidth),
 	_viewportHeight(viewportHeight),
+	_zNear(0.1f),
+	_zFar(100.0f),
 	_up(0,1,0),
 	_dirty(true)
 {
-	calculateProjectionMatrix();
+	updateViewPort();
 }
 
 void Camera::update()
@@ -46,17 +47,17 @@ void Camera::calculateViewMatrix(void)
 	Vector3 x = Vector3(z).cross(_up).normalize();
 
 	// eye space y-axis
-	Vector3 y = Vector3(x).cross(z);
+	Vector3 y = Vector3(x).cross(z).normalize();
 
 	// store results in the view matrix
 
 	/*
-	| right.x   up.x   forward.x   position.x |
-	| right.y   up.y   forward.y   position.x |
-	| right.z   up.z   forward.z   position.x |
-	|   0        0         0           1      |
+		| right.x   up.x   forward.x   position.x |
+		| right.y   up.y   forward.y   position.x |
+		| right.z   up.z   forward.z   position.x |
+		|   0        0         0           1      |
 
-	Rows and columns are transposed
+		Rows and columns are transposed
 	*/
 
 	// right
@@ -78,19 +79,6 @@ void Camera::calculateViewMatrix(void)
 	_view[3][2] = z.dot(_pos);
 
 	_view[3][3] = 1;
-}
-
-void Camera::calculateProjectionMatrix(void)
-{
-	float aspect = _viewportWidth / _viewportHeight;
-
-	float tanHalfFov = tan(DEG_TO_RAD(_fov) / 2.0f);
-
-	_proj[0][0] = 1.0f / (aspect * tanHalfFov);
-	_proj[1][1] = 1.0f / (tanHalfFov);
-	_proj[2][2] = - ((_farClipping + _nearClipping) / (_farClipping - _nearClipping));
-	_proj[2][3] = -1.0f;
-	_proj[3][2] = -(2.0f * _farClipping * _nearClipping) / (_farClipping - _nearClipping);
 }
 
 void Camera::lookAt(const Vector3& v)
@@ -147,9 +135,14 @@ Ray Camera::pickRay(float viewportX, float viewportY)
 	return ray;
 }
 
+void Camera::updateViewPort()
+{
+	glViewport(0, 0, _viewportWidth, _viewportHeight);
+}
+
 Matrix4 Camera::combined()
 {
-	return Matrix4();
+	return _proj * _view;
 }
 
 const Matrix4& Camera::projection() const
@@ -177,9 +170,14 @@ void Camera::setPosition(float x, float y, float z)
 	_dirty = true;
 }
 
-const Vector3& Camera::getPosition() const
+Vector3& Camera::getPosition()
 {
 	return _pos;
+}
+
+Vector3 Camera::getDirection()
+{
+	return (_target - _pos).normalize();
 }
 
 const Vector3& Camera::getUpVector() const
@@ -197,6 +195,33 @@ void Camera::setUpVector(const Vector3 &up)
 const Vector3& Camera::getTarget() const
 {
 	return _target;
+}
+
+float Camera::getViewPortWidth(void) const
+{
+	return _viewportWidth;
+}
+
+
+float Camera::getViewPortHeight(void) const
+{
+	return _viewportHeight;
+}
+
+/**
+	Get the cameras far clipping distance
+*/
+float Camera::getFarClipping() const
+{
+	return _zFar;
+}
+
+/**
+	Get the cameras near clipping distance
+*/
+float Camera::getNearClipping() const
+{
+	return _zNear;
 }
 
 Camera::~Camera()
