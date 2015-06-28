@@ -46,6 +46,8 @@ namespace sgl
 		void add(Frustum& frustum);
 		void add(AABB& aabb);
 
+		void addLine(DebugVertex& v1, DebugVertex& v2);
+
 
 	private:
 

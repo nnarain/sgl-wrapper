@@ -81,6 +81,11 @@ void DebugRenderer::add(AABB& aabb)
 	_builder->addLineQuad(DebugVertex(lbf), DebugVertex(rbf), DebugVertex(lbn), DebugVertex(rbn));
 }
 
+void DebugRenderer::addLine(DebugVertex& v1, DebugVertex& v2)
+{
+	_builder->addLine(v1, v2);
+}
+
 void DebugRenderer::end()
 {
 	_builder->end();
