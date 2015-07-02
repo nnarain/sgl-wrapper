@@ -35,3 +35,11 @@ float Context::getScreenAspectRatio(void)
 {
 	return _viewPort.x / _viewPort.y;
 }
+
+Vector2 Context::pixelToNDC(float pixelX, float pixelY)
+{
+	float ndcX = ((pixelX / _viewPort.x) - 0.5f) * 2.0f;
+	float ndcY = ((pixelY / _viewPort.y) - 0.5f) * 2.0f;
+
+	return Vector2(ndcX, ndcY);
+}

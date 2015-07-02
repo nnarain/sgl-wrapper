@@ -1,6 +1,7 @@
 
 #include "SGL/2D/Sprite.h"
 #include "SGL/Type/Geometry.h"
+#include "SGL/Util/Context.h"
 
 #include <algorithm>
 
@@ -106,7 +107,13 @@ Rect& Sprite::getQuad()
 {
 	if (_updateQuad)
 	{
-		sgl::util::makeQuad(_quad, _pos.x, _pos.y, _dim.x, _dim.y);
+		//sgl::util::makeQuad(_quad, _pos.x, _pos.y, _dim.x, _dim.y);
+
+		_quad.bottomLeft  = Context::pixelToNDC(_pos.x, _pos.y);
+		_quad.topLeft     = Context::pixelToNDC(_pos.x, _pos.y + _dim.y);
+		_quad.topRight    = Context::pixelToNDC(_pos.x + _dim.x, _pos.x + _dim.y);
+		_quad.bottomRight = Context::pixelToNDC(_pos.x + _dim.x, _pos.y);
+
 		_updateQuad = false;
 	}
 

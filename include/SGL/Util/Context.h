@@ -29,6 +29,8 @@ namespace sgl
 		static float   getViewPortHeight(void);
 		static float   getScreenAspectRatio(void);
 
+		static Vector2 pixelToNDC(float x, float y);
+
 	private:
 
 		static Vector2 _viewPort;
