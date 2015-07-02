@@ -7,7 +7,7 @@
 #include "SGL/Util/SGLExport.h"
 
 #include "SGL/GL/Texture.h"
-#include "SGL/Type/Geometry.h"
+#include "SGL/Math/Rect.h"
 
 namespace sgl
 {
@@ -52,7 +52,7 @@ namespace sgl
 		void setTextureRegion(float x, float y, float w, float h);
 		Texture::TextureRegion& getTextureRegion();
 
-		Quad& getQuad();
+		Rect& getQuad();
 
 	private:
 		//! 2D position
@@ -66,7 +66,7 @@ namespace sgl
 		Texture::TextureRegion _region;
 
 		//! quad
-		Quad _quad;
+		Rect _quad;
 		//! flag to update the quad
 		bool _updateQuad;
 	};

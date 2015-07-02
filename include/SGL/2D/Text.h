@@ -11,7 +11,6 @@
 #include "SGL/2D/SpriteBatch.h"
 #include "SGL/2D/BitmapFont.h"
 
-#include "SGL/Type/Geometry.h"
 #include "SGL/GL/Texture.h"
 
 #include "SGL/Math/Vector2.h"
@@ -79,10 +78,10 @@ namespace sgl
 		//! Font Cell
 		struct Cell
 		{
-			Quad quad;
+			Rect quad;
 			Texture::TextureRegion region;
 
-			Cell(Quad& q, Texture::TextureRegion& r)
+			Cell(Rect& q, Texture::TextureRegion& r)
 			{
 				quad = q;
 				region = r;

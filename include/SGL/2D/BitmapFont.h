@@ -10,7 +10,6 @@
 
 #include "SGL/2D/SpriteBatch.h"
 #include "SGL/GL/Texture.h"
-#include "SGL/Type/Geometry.h"
 
 #include "SGL/Math/Vector2.h"
 

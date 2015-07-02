@@ -5,6 +5,7 @@
 #include "SGL/Util/SGLExport.h"
 
 #include "SGL/Util/Camera.h"
+#include "SGL/Math/Vector2.h"
 
 namespace sgl
 {
