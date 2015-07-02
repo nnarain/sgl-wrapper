@@ -1,5 +1,6 @@
 
 #include "SGL/2D/Text.h"
+#include "SGL/Util/Context.h"
 
 #include <cstdarg>
 
@@ -43,12 +44,16 @@ void Text::append(const char *str)
 		}
 		else
 		{
-			Quad quad;
-			util::makeQuad(quad, _offset.x, _offset.y, _dimension.x, _dimension.y);
+			Rect rect;
+
+			rect.bottomLeft  = Context::pixelToNDC(_offset.x, _offset.y);
+			rect.topLeft     = Context::pixelToNDC(_offset.x, _offset.y + _dimension.y);
+			rect.topRight    = Context::pixelToNDC(_offset.x + _dimension.x, _offset.y + _dimension.y);
+			rect.bottomRight = Context::pixelToNDC(_offset.x + _dimension.x, _offset.y);
 
 			_offset.x += _dimension.x;
 
-			_cells->emplace_back(quad, _font->getCharRegion(c));
+			_cells->emplace_back(rect, _font->getCharRegion(c));
 		}
 	}
 }
