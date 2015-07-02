@@ -10,6 +10,7 @@
 #include "SGL/GL/Mesh.h"
 #include "SGL/Util/Camera.h"
 #include "SGL/2D/Sprite.h"
+#include "SGL/Math/Rect.h"
 
 #include <vector>
 
@@ -48,7 +49,7 @@ namespace sgl
 		{
 		public:
 			Glyph(void);
-			Glyph(Quad& quad, Texture::TextureRegion& region, Texture*);
+			Glyph(Rect& quad, Texture::TextureRegion& region, Texture*);
 
 			Texture* texture;
 
@@ -92,12 +93,12 @@ namespace sgl
 		/**
 			
 		*/
-		void draw(Quad& quad, Texture::TextureRegion& region, Texture* texture, bool flipH, bool flipV);
+		void draw(Rect& quad, Texture::TextureRegion& region, Texture* texture, bool flipH, bool flipV);
 
 		/**
 			Base draw
 		*/
-		void draw(Quad& quad, Texture::TextureRegion& region, Texture* texture);
+		void draw(Rect& quad, Texture::TextureRegion& region, Texture* texture);
 
 		/**
 			render the batches and tidy up

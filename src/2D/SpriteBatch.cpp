@@ -13,7 +13,7 @@ SpriteBatch::Glyph::Glyph()
 {
 }
 
-SpriteBatch::Glyph::Glyph(Quad& quad, Texture::TextureRegion& region, Texture* t)
+SpriteBatch::Glyph::Glyph(Rect& quad, Texture::TextureRegion& region, Texture* t)
 {
 	texture     = t;
 
@@ -57,7 +57,7 @@ void SpriteBatch::draw(Sprite& sprite)
 {
 	// call the base draw with the sprite's quad, region and texture
 
-	Quad                   &quad    = sprite.getQuad();
+	Rect                   &quad = sprite.getQuad();
 	Texture::TextureRegion &region  = sprite.getTextureRegion();
 	Texture                *texture = sprite.getTexture();
 
@@ -69,7 +69,7 @@ void SpriteBatch::draw(Sprite& sprite, bool flipH, bool flipV)
 	// call the base draw with the sprite's quad, region and texture.
 	// flip on the specified axis'
 
-	Quad                   &quad    = sprite.getQuad();
+	Rect                   &quad = sprite.getQuad();
 	Texture::TextureRegion region   = sprite.getTextureRegion();
 	Texture                *texture = sprite.getTexture();
 
@@ -78,7 +78,7 @@ void SpriteBatch::draw(Sprite& sprite, bool flipH, bool flipV)
 	draw(quad, region, texture);
 }
 
-void SpriteBatch::draw(Quad& quad, Texture::TextureRegion& region, Texture* texture, bool flipH, bool flipV)
+void SpriteBatch::draw(Rect& quad, Texture::TextureRegion& region, Texture* texture, bool flipH, bool flipV)
 {
 	Texture::TextureRegion r(region);
 	flip(r, flipH, flipV);
@@ -86,7 +86,7 @@ void SpriteBatch::draw(Quad& quad, Texture::TextureRegion& region, Texture* text
 	draw(quad, r, texture);
 }
 
-void SpriteBatch::draw(Quad& quad, Texture::TextureRegion& region, Texture* texture)
+void SpriteBatch::draw(Rect& quad, Texture::TextureRegion& region, Texture* texture)
 {
 	_glyphs->emplace_back(quad, region, texture);
 }

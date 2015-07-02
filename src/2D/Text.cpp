@@ -43,7 +43,7 @@ void Text::append(const char *str)
 		}
 		else
 		{
-			Quad quad;
+			Rect quad;
 			util::makeQuad(quad, _offset.x, _offset.y, _dimension.x, _dimension.y);
 
 			_offset.x += _dimension.x;

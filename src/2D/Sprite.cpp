@@ -1,5 +1,6 @@
 
 #include "SGL/2D/Sprite.h"
+#include "SGL/Type/Geometry.h"
 
 #include <algorithm>
 
@@ -101,7 +102,7 @@ Texture::TextureRegion& Sprite::getTextureRegion()
 	return _region;
 }
 
-Quad& Sprite::getQuad()
+Rect& Sprite::getQuad()
 {
 	if (_updateQuad)
 	{

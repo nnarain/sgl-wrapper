@@ -5,6 +5,11 @@ using namespace sgl;
 
 Vector2 Context::_viewPort = Vector2(0, 0);
 
+void Context::clear(BufferBits bits)
+{
+	glClear(static_cast<GLbitfield>(bits));
+}
+
 void Context::setViewPortDimension(float w, float h)
 {
 	_viewPort.x = w;

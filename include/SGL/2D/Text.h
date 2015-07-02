@@ -79,10 +79,10 @@ namespace sgl
 		//! Font Cell
 		struct Cell
 		{
-			Quad quad;
+			Rect quad;
 			Texture::TextureRegion region;
 
-			Cell(Quad& q, Texture::TextureRegion& r)
+			Cell(Rect& q, Texture::TextureRegion& r)
 			{
 				quad = q;
 				region = r;

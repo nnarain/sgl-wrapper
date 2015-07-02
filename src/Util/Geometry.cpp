@@ -2,22 +2,22 @@
 #include "SGL/Type/Geometry.h"
 #include "SGL/Util/SGLCoordinate.h"
 
-SGLVOIDFUNC sgl::util::makeQuad(sgl::Quad& quad, float pixelX, float pixelY, float pixelW, float pixelH)
+SGLVOIDFUNC sgl::util::makeQuad(sgl::Rect& rect, float pixelX, float pixelY, float pixelW, float pixelH)
 {
 	float x1, y1, x2, y2;
 	sgl::util::pixelToNDC(pixelX, pixelY, &x1, &y1);
 	sgl::util::pixelToNDC(pixelX + pixelW, pixelY + pixelH, &x2, &y2);
 
-	quad.bottomLeft.x = x1;
-	quad.bottomLeft.y = y1;
+	rect.bottomLeft.x = x1;
+	rect.bottomLeft.y = y1;
 
-	quad.topLeft.x = x1;
-	quad.topLeft.y = y2;
+	rect.topLeft.x = x1;
+	rect.topLeft.y = y2;
 
-	quad.topRight.x = x2;
-	quad.topRight.y = y2;
+	rect.topRight.x = x2;
+	rect.topRight.y = y2;
 
-	quad.bottomRight.x = x2;
-	quad.bottomRight.y = y1;
+	rect.bottomRight.x = x2;
+	rect.bottomRight.y = y1;
 }
 

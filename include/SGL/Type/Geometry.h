@@ -6,29 +6,15 @@
 
 #include "SGL/Util/SGLExport.h"
 
+#include "SGL/Math/Rect.h"
 #include "SGL/Math/Vector2.h"
 #include "SGL/Math/Vector3.h"
 
 namespace sgl
 {
-	struct Quad
-	{
-		Vector2 bottomLeft;
-		Vector2 topLeft;
-		Vector2 topRight;
-		Vector2 bottomRight;
-	};
-
-	//! Ray
-	struct Ray
-	{
-		Vector3 origin;
-		Vector3 direction;
-	};
-
 	namespace util
 	{
-		SGLVOIDFUNC makeQuad(Quad& quad, float x, float y, float w, float h);
+		SGLVOIDFUNC makeQuad(Rect& rect, float x, float y, float w, float h);
 	};
 };
 
