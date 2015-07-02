@@ -1,6 +1,5 @@
 
 #include "SGL/2D/Sprite.h"
-#include "SGL/Type/Geometry.h"
 #include "SGL/Util/Context.h"
 
 #include <algorithm>

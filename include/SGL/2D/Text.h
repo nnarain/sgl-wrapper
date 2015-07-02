@@ -11,7 +11,6 @@
 #include "SGL/2D/SpriteBatch.h"
 #include "SGL/2D/BitmapFont.h"
 
-#include "SGL/Type/Geometry.h"
 #include "SGL/GL/Texture.h"
 
 #include "SGL/Math/Vector2.h"
