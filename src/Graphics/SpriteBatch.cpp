@@ -1,5 +1,5 @@
 
-#include "SGL/2D/SpriteBatch.h"
+#include "SGL/Graphics/SpriteBatch.h"
 #include "SGL/Util/Exception.h"
 
 #include <algorithm>
@@ -13,21 +13,25 @@ SpriteBatch::Glyph::Glyph()
 {
 }
 
-SpriteBatch::Glyph::Glyph(Rect& quad, Texture::TextureRegion& region, Texture* t)
+SpriteBatch::Glyph::Glyph(Rect& quad, Texture::TextureRegion& region, Color& c, Texture* t)
 {
 	texture     = t;
 
 	v1.pos      = quad.bottomLeft;
 	v1.texCoord = region.bottomLeft;
+	v1.color    = c;
 
 	v2.pos      = quad.topLeft;
 	v2.texCoord = region.topLeft;
+	v2.color    = c;
 
 	v3.pos      = quad.topRight;
 	v3.texCoord = region.topRight;
+	v3.color    = c;
 
 	v4.pos      = quad.bottomRight;
 	v4.texCoord = region.bottomRight;
+	v4.color    = c;
 }
 
 /* SpriteBatch */
@@ -41,6 +45,7 @@ SpriteBatch::SpriteBatch() :
 	// bind position and texture coordinate attributes
 	_mesh.addAttribute(VertexAttribute(0, 2));
 	_mesh.addAttribute(VertexAttribute(1, 2));
+	_mesh.addAttribute(VertexAttribute(2, 4));
 
 	_mesh.create(sizeof(Vertex));
 }
@@ -57,11 +62,12 @@ void SpriteBatch::draw(Sprite& sprite)
 {
 	// call the base draw with the sprite's quad, region and texture
 
-	Rect                   &quad = sprite.getQuad();
+	Rect                   &quad    = sprite.getQuad();
 	Texture::TextureRegion &region  = sprite.getTextureRegion();
+	Color&                 color = sprite.getColor();
 	Texture                *texture = sprite.getTexture();
 
-	draw(quad, region, texture);
+	draw(quad, region, color, texture);
 }
 
 void SpriteBatch::draw(Sprite& sprite, bool flipH, bool flipV)
@@ -69,26 +75,37 @@ void SpriteBatch::draw(Sprite& sprite, bool flipH, bool flipV)
 	// call the base draw with the sprite's quad, region and texture.
 	// flip on the specified axis'
 
-	Rect                   &quad = sprite.getQuad();
+	Rect                   &quad    = sprite.getQuad();
 	Texture::TextureRegion region   = sprite.getTextureRegion();
+	Color&                 color = sprite.getColor();
 	Texture                *texture = sprite.getTexture();
 
 	flip(region, flipH, flipV);
 
-	draw(quad, region, texture);
+	draw(quad, region, color, texture);
 }
 
-void SpriteBatch::draw(Rect& quad, Texture::TextureRegion& region, Texture* texture, bool flipH, bool flipV)
+void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Texture* texture)
+{
+	draw(rect, region, Color(1, 1, 1, 1), texture);
+}
+
+void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Texture* texture, bool flipH, bool flipV)
+{
+	draw(rect, region, Color(1, 1, 1, 1), texture, flipH, flipV);
+}
+
+void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Color& color, Texture* texture, bool flipH, bool flipV)
 {
 	Texture::TextureRegion r(region);
 	flip(r, flipH, flipV);
 
-	draw(quad, r, texture);
+	draw(rect, r, color, texture);
 }
 
-void SpriteBatch::draw(Rect& quad, Texture::TextureRegion& region, Texture* texture)
+void SpriteBatch::draw(Rect& quad, Texture::TextureRegion& region, Color& color, Texture* texture)
 {
-	_glyphs->emplace_back(quad, region, texture);
+	_glyphs->emplace_back(quad, region, color, texture);
 }
 
 void SpriteBatch::renderBatch()

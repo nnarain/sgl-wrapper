@@ -1,5 +1,5 @@
 
-#include "SGL/2D/Text.h"
+#include "SGL/Graphics/Text.h"
 #include "SGL/Util/Context.h"
 
 #include <cstdarg>

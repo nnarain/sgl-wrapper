@@ -1,5 +1,5 @@
 
-#include "SGL/2D/Sprite.h"
+#include "SGL/Graphics/Sprite.h"
 #include "SGL/Util/Context.h"
 
 #include <algorithm>
@@ -9,6 +9,7 @@ using namespace sgl;
 Sprite::Sprite(float x, float y, float w, float h, Texture* tex) :
 	_pos(x, y),
 	_dim(w, h),
+	_color(1,1,1,1),
 	_texture(tex),
 	_updateQuad(true)
 {
@@ -117,6 +118,16 @@ Rect& Sprite::getQuad()
 	}
 
 	return _quad;
+}
+
+void Sprite::setColor(const Color& c)
+{
+	_color = c;
+}
+
+Color& Sprite::getColor()
+{
+	return _color;
 }
 
 Sprite::~Sprite()
