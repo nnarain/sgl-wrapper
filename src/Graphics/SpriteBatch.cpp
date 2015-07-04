@@ -1,5 +1,5 @@
 
-#include "SGL/2D/SpriteBatch.h"
+#include "SGL/Graphics/SpriteBatch.h"
 #include "SGL/Util/Exception.h"
 
 #include <algorithm>

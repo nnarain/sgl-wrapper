@@ -40,8 +40,8 @@ file(GLOB_RECURSE GLSources ${SRC}/GL/*.cpp)
 file(GLOB_RECURSE UtilHeaders ${INCL}/SGL/Util/*.h)
 file(GLOB_RECURSE UtilSources ${SRC}/Util/*.cpp)
 
-file(GLOB_RECURSE 2DHeaders ${INCL}/SGL/2D/*.h)
-file(GLOB_RECURSE 2DSources ${SRC}/2D/*.cpp)
+file(GLOB_RECURSE GraphicsHeaders ${INCL}/SGL/Graphics/*.h)
+file(GLOB_RECURSE GraphicsSources ${SRC}/Graphics/*.cpp)
 
 file(GLOB_RECURSE MathHeaders "${INCL}/SGL/Math/*.h")
 file(GLOB_RECURSE MathSources "${SRC}/Math/*.cpp")
@@ -52,9 +52,6 @@ file(GLOB_RECURSE TypeHeaders ${INCL}/SGL/Type/*.h)
 # compiler flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-# define macros
-add_definitions(-DGLM_FORCE_RADIANS)
-
 # create
 add_library(
 	${libName}
@@ -64,17 +61,17 @@ add_library(
 )
 
 # include groups
-source_group("Header Files/GL"   FILES ${GLHeaders})
-source_group("Header Files/Util" FILES ${UtilHeaders})
-source_group("Header Files/2D"   FILES ${2DHeaders})
-source_group("Header Files/Type" FILES ${TypeHeaders})
-source_group("Header Files/Math" FILES ${MathHeaders})
+source_group("Header Files/GL"       FILES ${GLHeaders})
+source_group("Header Files/Util"     FILES ${UtilHeaders})
+source_group("Header Files/Graphics" FILES ${GraphicsHeaders})
+source_group("Header Files/Type"     FILES ${TypeHeaders})
+source_group("Header Files/Math"     FILES ${MathHeaders})
 
 # source file groups
-source_group("Source Files/GL"   FILES ${GLSources})
-source_group("Source Files/Util" FILES ${UtilSources})
-source_group("Source Files/2D"   FILES ${2DSources})
-source_group("Source Files/Math" FILES ${MathSources})
+source_group("Source Files/GL"       FILES ${GLSources})
+source_group("Source Files/Util"     FILES ${UtilSources})
+source_group("Source Files/Graphics" FILES ${GraphicsSources})
+source_group("Source Files/Math"     FILES ${MathSources})
 
 # libs
 target_link_libraries(${libName} ${OPENGL_gl_LIBRARY})

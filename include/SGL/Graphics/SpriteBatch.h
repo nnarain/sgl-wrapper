@@ -9,7 +9,7 @@
 #include "SGL/GL/ShaderProgram.h"
 #include "SGL/GL/Mesh.h"
 #include "SGL/Util/Camera.h"
-#include "SGL/2D/Sprite.h"
+#include "SGL/Graphics/Sprite.h"
 #include "SGL/Math/Rect.h"
 #include "SGL/Graphics/Color.h"
 

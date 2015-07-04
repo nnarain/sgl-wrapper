@@ -8,7 +8,7 @@
 
 #include "SGL/Util/SGLExport.h"
 
-#include "SGL/2D/SpriteBatch.h"
+#include "SGL/Graphics/SpriteBatch.h"
 #include "SGL/GL/Texture.h"
 
 #include "SGL/Math/Vector2.h"
