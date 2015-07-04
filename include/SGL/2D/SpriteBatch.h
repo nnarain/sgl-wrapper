@@ -11,8 +11,7 @@
 #include "SGL/Util/Camera.h"
 #include "SGL/2D/Sprite.h"
 #include "SGL/Math/Rect.h"
-#include "SGL/Math/Vector3.h"
-#include "SGL/Math/Vector4.h"
+#include "SGL/Graphics/Color.h"
 
 #include <vector>
 
@@ -44,7 +43,7 @@ namespace sgl
 		{
 			Vector2 pos;
 			Vector2 texCoord;
-			Vector4 color;
+			Color color;
 		};
 
 		//! Intermediate structure to store vertex data before the batching stage
@@ -52,7 +51,7 @@ namespace sgl
 		{
 		public:
 			Glyph(void);
-			Glyph(Rect& quad, Texture::TextureRegion& region, sgl::Vector4& c, Texture*);
+			Glyph(Rect& quad, Texture::TextureRegion& region, Color& c, Texture*);
 
 			Texture* texture;
 
@@ -100,7 +99,7 @@ namespace sgl
 
 		/**
 		*/
-		void draw(Rect& rect, Texture::TextureRegion& region, Vector4& color, Texture* texture, bool flipH, bool flipV);
+		void draw(Rect& rect, Texture::TextureRegion& region, Color& color, Texture* texture, bool flipH, bool flipV);
 
 		/**
 		*/
@@ -111,7 +110,7 @@ namespace sgl
 		/**
 			Base draw
 		*/
-		void draw(Rect& rect, Texture::TextureRegion& region, sgl::Vector4& color, Texture* texture);
+		void draw(Rect& rect, Texture::TextureRegion& region, Color& color, Texture* texture);
 
 		/**
 			render the batches and tidy up

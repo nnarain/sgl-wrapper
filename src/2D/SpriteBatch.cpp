@@ -13,7 +13,7 @@ SpriteBatch::Glyph::Glyph()
 {
 }
 
-SpriteBatch::Glyph::Glyph(Rect& quad, Texture::TextureRegion& region, Vector4& c, Texture* t)
+SpriteBatch::Glyph::Glyph(Rect& quad, Texture::TextureRegion& region, Color& c, Texture* t)
 {
 	texture     = t;
 
@@ -64,7 +64,7 @@ void SpriteBatch::draw(Sprite& sprite)
 
 	Rect                   &quad    = sprite.getQuad();
 	Texture::TextureRegion &region  = sprite.getTextureRegion();
-	Vector4&               color    = sprite.getColor();
+	Color&                 color = sprite.getColor();
 	Texture                *texture = sprite.getTexture();
 
 	draw(quad, region, color, texture);
@@ -77,7 +77,7 @@ void SpriteBatch::draw(Sprite& sprite, bool flipH, bool flipV)
 
 	Rect                   &quad    = sprite.getQuad();
 	Texture::TextureRegion region   = sprite.getTextureRegion();
-	Vector4&               color    = sprite.getColor();
+	Color&                 color = sprite.getColor();
 	Texture                *texture = sprite.getTexture();
 
 	flip(region, flipH, flipV);
@@ -87,15 +87,15 @@ void SpriteBatch::draw(Sprite& sprite, bool flipH, bool flipV)
 
 void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Texture* texture)
 {
-	draw(rect, region, Vector4(1,1,1,1), texture);
+	draw(rect, region, Color(1, 1, 1, 1), texture);
 }
 
 void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Texture* texture, bool flipH, bool flipV)
 {
-	draw(rect, region, Vector4(1, 1, 1, 1), texture, flipH, flipV);
+	draw(rect, region, Color(1, 1, 1, 1), texture, flipH, flipV);
 }
 
-void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Vector4& color, Texture* texture, bool flipH, bool flipV)
+void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Color& color, Texture* texture, bool flipH, bool flipV)
 {
 	Texture::TextureRegion r(region);
 	flip(r, flipH, flipV);
@@ -103,7 +103,7 @@ void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Vector4& colo
 	draw(rect, r, color, texture);
 }
 
-void SpriteBatch::draw(Rect& quad, Texture::TextureRegion& region, Vector4& color, Texture* texture)
+void SpriteBatch::draw(Rect& quad, Texture::TextureRegion& region, Color& color, Texture* texture)
 {
 	_glyphs->emplace_back(quad, region, color, texture);
 }

@@ -4,6 +4,10 @@
 using namespace sgl;
 
 
+Color::Color() : Color(0,0,0,0)
+{
+}
+
 Color::Color(float r, float g, float b) : Color(r, g, b, 1)
 {
 }

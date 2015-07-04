@@ -120,12 +120,12 @@ Rect& Sprite::getQuad()
 	return _quad;
 }
 
-void Sprite::setColor(const Vector4& c)
+void Sprite::setColor(const Color& c)
 {
 	_color = c;
 }
 
-Vector4& Sprite::getColor()
+Color& Sprite::getColor()
 {
 	return _color;
 }
