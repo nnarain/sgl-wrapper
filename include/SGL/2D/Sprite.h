@@ -8,6 +8,8 @@
 
 #include "SGL/GL/Texture.h"
 #include "SGL/Math/Rect.h"
+#include "SGL/Math/Vector2.h"
+#include "SGL/Graphics/Color.h"
 
 namespace sgl
 {
@@ -52,6 +54,9 @@ namespace sgl
 		void setTextureRegion(float x, float y, float w, float h);
 		Texture::TextureRegion& getTextureRegion();
 
+		void setColor(const Color& c);
+		Color& getColor();
+
 		Rect& getQuad();
 
 	private:
@@ -59,6 +64,9 @@ namespace sgl
 		Vector2 _pos;
 		//! dimesions in pixels
 		Vector2 _dim;
+
+		//!
+		Color _color;
 
 		//! texture that the sprite uses
 		Texture* _texture;
