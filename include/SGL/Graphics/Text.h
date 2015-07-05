@@ -10,6 +10,7 @@
 
 #include "SGL/Graphics/SpriteBatch.h"
 #include "SGL/Graphics/BitmapFont.h"
+#include "SGL/Graphics/Color.h"
 
 #include "SGL/GL/Texture.h"
 
@@ -59,6 +60,9 @@ namespace sgl
 
 		Vector2& getDimensions(void);
 
+		void setColor(Color& c);
+		Color getColor();
+
 		/* Stream Operator */
 
 		template<typename T>
@@ -94,6 +98,8 @@ namespace sgl
 		Vector2 _offset;
 
 		Vector2 _dimension;
+
+		Color _color;
 
 		std::vector<Cell>* _cells;
 
