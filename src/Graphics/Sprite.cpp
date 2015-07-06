@@ -1,5 +1,6 @@
 
-#include "SGL/2D/Sprite.h"
+#include "SGL/Graphics/Sprite.h"
+#include "SGL/Util/Context.h"
 
 #include <algorithm>
 
@@ -8,6 +9,7 @@ using namespace sgl;
 Sprite::Sprite(float x, float y, float w, float h, Texture* tex) :
 	_pos(x, y),
 	_dim(w, h),
+	_color(1,1,1,1),
 	_texture(tex),
 	_updateQuad(true)
 {
@@ -101,15 +103,36 @@ Texture::TextureRegion& Sprite::getTextureRegion()
 	return _region;
 }
 
-Quad& Sprite::getQuad()
+Rect& Sprite::getQuad()
 {
 	if (_updateQuad)
 	{
-		sgl::util::makeQuad(_quad, _pos.x, _pos.y, _dim.x, _dim.y);
+		//sgl::util::makeQuad(_quad, _pos.x, _pos.y, _dim.x, _dim.y);
+
+//		_quad.bottomLeft  = Context::pixelToNDC(_pos.x, _pos.y);
+//		_quad.topLeft     = Context::pixelToNDC(_pos.x, _pos.y + _dim.y);
+//		_quad.topRight    = Context::pixelToNDC(_pos.x + _dim.x, _pos.x + _dim.y);
+//		_quad.bottomRight = Context::pixelToNDC(_pos.x + _dim.x, _pos.y);
+//
+		_quad.x      = _pos.x;
+		_quad.y      = _pos.y;
+		_quad.width  = _dim.x;
+		_quad.height = _dim.y;
+
 		_updateQuad = false;
 	}
 
 	return _quad;
+}
+
+void Sprite::setColor(const Color& c)
+{
+	_color = c;
+}
+
+Color& Sprite::getColor()
+{
+	return _color;
 }
 
 Sprite::~Sprite()

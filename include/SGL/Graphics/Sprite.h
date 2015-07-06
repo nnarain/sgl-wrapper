@@ -7,7 +7,9 @@
 #include "SGL/Util/SGLExport.h"
 
 #include "SGL/GL/Texture.h"
-#include "SGL/Type/Geometry.h"
+#include "SGL/Math/Rect.h"
+#include "SGL/Math/Vector2.h"
+#include "SGL/Graphics/Color.h"
 
 namespace sgl
 {
@@ -52,7 +54,10 @@ namespace sgl
 		void setTextureRegion(float x, float y, float w, float h);
 		Texture::TextureRegion& getTextureRegion();
 
-		Quad& getQuad();
+		void setColor(const Color& c);
+		Color& getColor();
+
+		Rect& getQuad();
 
 	private:
 		//! 2D position
@@ -60,13 +65,16 @@ namespace sgl
 		//! dimesions in pixels
 		Vector2 _dim;
 
+		//!
+		Color _color;
+
 		//! texture that the sprite uses
 		Texture* _texture;
 		//! The region of the texture that the sprite uses
 		Texture::TextureRegion _region;
 
 		//! quad
-		Quad _quad;
+		Rect _quad;
 		//! flag to update the quad
 		bool _updateQuad;
 	};

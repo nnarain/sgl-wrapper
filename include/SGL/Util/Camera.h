@@ -3,10 +3,10 @@
 #define CAMERA_H
 
 #include "SGL/Util/SGLExport.h"
-#include "SGL/Type/Geometry.h"
 
 #include "SGL/Math/Vector3.h"
 #include "SGL/Math/Matrix4.h"
+#include "SGL/Math/Ray.h"
 
 namespace sgl{
 

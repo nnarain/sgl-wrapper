@@ -1,5 +1,6 @@
 
-#include "SGL/2D/Text.h"
+#include "SGL/Graphics/Text.h"
+#include "SGL/Util/Context.h"
 
 #include <cstdarg>
 
@@ -9,6 +10,7 @@ Text::Text(void) :
 	_position(0,0),
 	_offset(0,0),
 	_dimension(40,40),
+	_color(1,1,1,1),
 	_cells(new std::vector<Cell>())
 {
 }
@@ -18,7 +20,7 @@ void Text::draw(SpriteBatch& batch, bool flipH, bool flipV)
 	std::vector<Cell>::iterator iter;
 	for (iter = _cells->begin(); iter != _cells->end(); ++iter)
 	{
-		batch.draw((*iter).quad, (*iter).region, _font->getTexture(), flipH, flipV);
+		batch.draw((*iter).quad, (*iter).region, _color, _font->getTexture(), flipH, flipV);
 	}
 }
 
@@ -29,10 +31,12 @@ void Text::draw(SpriteBatch& batch)
 
 void Text::append(const char *str)
 {
+	// loop to end of string
 	while (*str)
 	{
 		char c = *str++;
 
+		// if a line feed, move the offsets down
 		if (c == '\n')
 		{
 			_offset.x = _position.x;
@@ -43,12 +47,18 @@ void Text::append(const char *str)
 		}
 		else
 		{
-			Quad quad;
-			util::makeQuad(quad, _offset.x, _offset.y, _dimension.x, _dimension.y);
+			// create the rect that the character displays in
+
+			Rect rect;
+
+			rect.x      = _offset.x;
+			rect.y      = _offset.y;
+			rect.width  = _dimension.x;
+			rect.height = _dimension.y;
 
 			_offset.x += _dimension.x;
 
-			_cells->emplace_back(quad, _font->getCharRegion(c));
+			_cells->emplace_back(rect, _font->getCharRegion(c));
 		}
 	}
 }
@@ -113,6 +123,16 @@ void Text::setDimensions(float w, float h)
 Vector2& Text::getDimensions(void)
 {
 	return _dimension;
+}
+
+void Text::setColor(Color& c)
+{
+	_color = c;
+}
+
+Color Text::getColor()
+{
+	return _color;
 }
 
 Text::~Text(void)
