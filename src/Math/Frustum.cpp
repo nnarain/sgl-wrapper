@@ -28,6 +28,28 @@ Frustum::Side Frustum::checkPoint(Vector3& point)
 	return result;
 }
 
+Frustum::Side Frustum::checkSphere(Sphere& sphere)
+{
+	Frustum::Side result = Frustum::Side::INSIDE;
+
+	int i;
+	for (i = 0; i < 6; ++i)
+	{
+		float distance = _planes[i].distanceToPointSigned(sphere.position);
+
+		if (distance < -sphere.radius)
+		{
+			return Frustum::Side::OUTSIDE;
+		}
+		else if (distance < sphere.radius)
+		{
+			result = Frustum::Side::INTERSECT;
+		}
+	}
+
+	return result;
+}
+
 Frustum::Side Frustum::checkBox(AABB& aabb)
 {
 	float hx = aabb.dim.x;
