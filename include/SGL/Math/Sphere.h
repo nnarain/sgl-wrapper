@@ -8,10 +8,14 @@ namespace sgl
 {
 	struct Sphere
 	{
-		Vector3 position;
+		Vector3 center;
 		float radius;
 
-		Sphere(Vector3& p, float r) : position(p), radius(r)
+		Sphere() : Sphere(Vector3(0,0,0), 0)
+		{
+		}
+
+		Sphere(Vector3& c, float r) : center(c), radius(r)
 		{
 		}
 	};

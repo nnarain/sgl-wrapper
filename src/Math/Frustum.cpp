@@ -35,7 +35,7 @@ Frustum::Side Frustum::checkSphere(Sphere& sphere)
 	int i;
 	for (i = 0; i < 6; ++i)
 	{
-		float distance = _planes[i].distanceToPointSigned(sphere.position);
+		float distance = _planes[i].distanceToPointSigned(sphere.center);
 
 		if (distance < -sphere.radius)
 		{
