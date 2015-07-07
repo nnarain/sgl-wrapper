@@ -12,10 +12,10 @@ namespace sgl
 	{
 	public:
 
-		Vector2 bottomLeft;
-		Vector2 topLeft;
-		Vector2 topRight;
-		Vector2 bottomRight;
+		float x;
+		float y;
+		float width;
+		float height;
 
 	private:
 	};

@@ -1,6 +1,7 @@
 
 #include "SGL/Graphics/SpriteBatch.h"
 #include "SGL/Util/Exception.h"
+#include "SGL/Util/Context.h"
 
 #include <algorithm>
 #include <cassert>
@@ -13,25 +14,8 @@ SpriteBatch::Glyph::Glyph()
 {
 }
 
-SpriteBatch::Glyph::Glyph(Rect& quad, Texture::TextureRegion& region, Color& c, Texture* t)
+SpriteBatch::Glyph::Glyph(Vertex& v1, Vertex& v2, Vertex& v3, Vertex& v4, Texture* t) : v1(v1), v2(v2), v3(v3), v4(v4), texture(t)
 {
-	texture     = t;
-
-	v1.pos      = quad.bottomLeft;
-	v1.texCoord = region.bottomLeft;
-	v1.color    = c;
-
-	v2.pos      = quad.topLeft;
-	v2.texCoord = region.topLeft;
-	v2.color    = c;
-
-	v3.pos      = quad.topRight;
-	v3.texCoord = region.topRight;
-	v3.color    = c;
-
-	v4.pos      = quad.bottomRight;
-	v4.texCoord = region.bottomRight;
-	v4.color    = c;
 }
 
 /* SpriteBatch */
@@ -103,9 +87,32 @@ void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Color& color,
 	draw(rect, r, color, texture);
 }
 
-void SpriteBatch::draw(Rect& quad, Texture::TextureRegion& region, Color& color, Texture* texture)
+void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Color& color, Texture* texture)
 {
-	_glyphs->emplace_back(quad, region, color, texture);
+	Vertex v1, v2, v3, v4;
+
+	// bottom left
+	v1.pos      = Context::pixelToNDC(rect.x, rect.y);
+	v1.texCoord = region.bottomLeft;
+	v1.color    = color;
+
+	// top left
+	v2.pos      = Context::pixelToNDC(rect.x, rect.y + rect.height);
+	v2.texCoord = region.topLeft;
+	v2.color    = color;
+
+	// top right
+	v3.pos      = Context::pixelToNDC(rect.x + rect.width, rect.y + rect.height);
+	v3.texCoord = region.topRight;
+	v3.color    = color;
+
+	// bottom right
+	v4.pos      = Context::pixelToNDC(rect.x + rect.width, rect.y);
+	v4.texCoord = region.bottomRight;
+	v4.color    = color;
+
+	//_glyphs->emplace_back(rect, region, color, texture);
+	_glyphs->emplace_back(v1, v2, v3, v4, texture);
 }
 
 void SpriteBatch::renderBatch()
@@ -168,7 +175,7 @@ void SpriteBatch::render(Texture* texture, std::vector<Vertex> *batch)
 	int size = batch->size();
 
 	// update the mesh data and draw count
-	sgl::Buffer &vbo = _mesh.getVBO();
+	Buffer &vbo = _mesh.getVBO();
 	vbo.bind();
 	vbo.setData(&(*batch)[0], size * sizeof(Vertex));
 	vbo.unbind();

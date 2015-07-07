@@ -51,7 +51,7 @@ namespace sgl
 		{
 		public:
 			Glyph(void);
-			Glyph(Rect& quad, Texture::TextureRegion& region, Color& c, Texture*);
+			Glyph(Vertex& v1, Vertex& v2, Vertex& v3, Vertex& v4, Texture* t);
 
 			Texture* texture;
 

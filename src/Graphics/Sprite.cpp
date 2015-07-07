@@ -109,10 +109,15 @@ Rect& Sprite::getQuad()
 	{
 		//sgl::util::makeQuad(_quad, _pos.x, _pos.y, _dim.x, _dim.y);
 
-		_quad.bottomLeft  = Context::pixelToNDC(_pos.x, _pos.y);
-		_quad.topLeft     = Context::pixelToNDC(_pos.x, _pos.y + _dim.y);
-		_quad.topRight    = Context::pixelToNDC(_pos.x + _dim.x, _pos.x + _dim.y);
-		_quad.bottomRight = Context::pixelToNDC(_pos.x + _dim.x, _pos.y);
+//		_quad.bottomLeft  = Context::pixelToNDC(_pos.x, _pos.y);
+//		_quad.topLeft     = Context::pixelToNDC(_pos.x, _pos.y + _dim.y);
+//		_quad.topRight    = Context::pixelToNDC(_pos.x + _dim.x, _pos.x + _dim.y);
+//		_quad.bottomRight = Context::pixelToNDC(_pos.x + _dim.x, _pos.y);
+//
+		_quad.x      = _pos.x;
+		_quad.y      = _pos.y;
+		_quad.width  = _dim.x;
+		_quad.height = _dim.y;
 
 		_updateQuad = false;
 	}

@@ -10,28 +10,28 @@ Plane::Plane()
 
 }
 
-Plane::Plane(const Vector3& p1, const Vector3& p2, const Vector3& p3)
+Plane::Plane(Vector3& p1, Vector3& p2, Vector3& p3)
 {
 	set(p1, p2, p3);
 }
 
-void Plane::set(const Vector3& p1, const Vector3& p2, const Vector3& p3)
+void Plane::set(Vector3& p1, Vector3& p2, Vector3& p3)
 {
 	Vector3 v1 = Vector3(p1) - p2;
 	Vector3 v2 = Vector3(p2) - p3;
 
 	normal.set(v1).cross(v2).normalize();
-	d = -(normal.dot(p1));
+	d = -normal.dot(p1);
 }
 
 float Plane::distanceToPointUnsigned(Vector3& point)
 {
-	return abs(normal.dot(point));
+	return abs(distanceToPointSigned(point));
 }
 
 float Plane::distanceToPointSigned(Vector3& point)
 {
-	return normal.dot(point);
+	return normal.dot(point) + d;
 }
 
 Plane::Side Plane::checkPlaneSide(const Vector3 &point)
