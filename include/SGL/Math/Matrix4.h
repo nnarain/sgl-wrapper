@@ -29,6 +29,8 @@ namespace sgl
 
 		void toRotation(const Vector3 &v, float angle);
 
+		Matrix3 toNormalMatrix();
+
 		/* Transforms */
 
 		void translate(const Vector3& v);
