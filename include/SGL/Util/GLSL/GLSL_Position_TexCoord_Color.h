@@ -4,6 +4,8 @@
 
 #define GLSL(src) "\n" #src
 
+#include "SGL/GL/ShaderProgram.h"
+
 #include <string>
 
 namespace sgl
@@ -42,6 +44,20 @@ namespace sgl
 		}
 
 	);
+
+	namespace loadshader
+	{
+		void position_texCoord_color(ShaderProgram& shader)
+		{
+			shader.load(ShaderProgram::Type::VERTEX,   GLSL_POSITION_TEXCOORD_COLOR_VERT);
+			shader.load(ShaderProgram::Type::FRAGMENT, GLSL_POSITION_TEXCOORD_COLOR_FRAG);
+			shader.addAttribute("vPosition", 2);
+			shader.addAttribute("vTexCoord", 2);
+			shader.addAttribute("vColor",    4);
+
+			shader.link();
+		}
+	}
 }
 
 #endif

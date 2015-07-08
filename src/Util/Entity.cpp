@@ -53,6 +53,7 @@ void Entity::rotate(float x, float y, float z)
 	_angle.z += z;
 
 	_transformDirty = true;
+	_normalDirty = true;
 }
 
 void Entity::scale(const Vector3& s)
@@ -100,7 +101,7 @@ Matrix3& Entity::getNormalMatrix(void)
 		_normalMatrix.invert();
 		_normalMatrix.transpose();
 
-		_normalDirty = true;
+		_normalDirty = false;
 	}
 
 	return _normalMatrix;

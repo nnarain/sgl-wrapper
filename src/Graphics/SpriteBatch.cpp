@@ -87,6 +87,11 @@ void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Color& color,
 	draw(rect, r, color, texture);
 }
 
+void SpriteBatch::draw(Rect& rect, Texture* texture)
+{
+	draw(rect, texture->region(0, 0, -1, -1), texture);
+}
+
 void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Color& color, Texture* texture)
 {
 	Vertex v1, v2, v3, v4;

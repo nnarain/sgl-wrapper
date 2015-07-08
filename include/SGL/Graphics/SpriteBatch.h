@@ -105,6 +105,11 @@ namespace sgl
 		*/
 		void draw(Rect& rect, Texture::TextureRegion& region, Texture* texture);
 
+		/**
+		
+		*/
+		void draw(Rect& rect, Texture* texture);
+
 		/***/
 
 		/**

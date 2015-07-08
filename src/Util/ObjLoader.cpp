@@ -16,7 +16,17 @@ ObjLoader::ObjLoader() :
 {
 }
 
+void ObjLoader::load(ObjModel &model, const char *modelpath)
+{
+	load(model, modelpath, NULL);
+}
+
 void ObjLoader::load(ObjModel &model, const char *modelpath, const char * texturepath)
+{
+	load(model, modelpath, texturepath, false);
+}
+
+void ObjLoader::load(ObjModel &model, const char *modelpath, const char * texturepath, bool invertUV)
 {
 	if (texturepath != NULL)
 	{
@@ -24,10 +34,11 @@ void ObjLoader::load(ObjModel &model, const char *modelpath, const char * textur
 	}
 
 	parse(modelpath);
-	bindToMesh(model);
+	bindToMesh(model, invertUV);
 }
 
-void ObjLoader::bindToMesh(ObjModel &model)
+
+void ObjLoader::bindToMesh(ObjModel &model, bool invertUV)
 {
 	const int vertSize = _positions->size();
 	const int normSize = _normals->size();
@@ -103,7 +114,7 @@ void ObjLoader::bindToMesh(ObjModel &model)
 				{
 					Vector2 &uv = _texCoords->at(tIdx);
 					buffer.push_back(uv.x);
-					buffer.push_back(1.0f - uv.y);
+					buffer.push_back(invertUV ? 1.0f - uv.y : uv.y);
 				}
 			}
 		}
