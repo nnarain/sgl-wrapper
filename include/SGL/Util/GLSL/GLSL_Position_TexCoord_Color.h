@@ -51,9 +51,9 @@ namespace sgl
 		{
 			shader.load(ShaderProgram::Type::VERTEX,   GLSL_POSITION_TEXCOORD_COLOR_VERT);
 			shader.load(ShaderProgram::Type::FRAGMENT, GLSL_POSITION_TEXCOORD_COLOR_FRAG);
-			shader.addAttribute("vPosition", 2);
-			shader.addAttribute("vTexCoord", 2);
-			shader.addAttribute("vColor",    4);
+			shader.addAttribute("vPosition");
+			shader.addAttribute("vTexCoord");
+			shader.addAttribute("vColor");
 
 			shader.link();
 		}

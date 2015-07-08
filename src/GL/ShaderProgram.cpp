@@ -13,7 +13,7 @@ ShaderProgram::ShaderProgram(void) :
 	_vertexShader(0),
 	_fragmentShader(0),
 	_attributeLocation(0),
-	_attributes(new std::vector<VertexAttribute>),
+	_fragColorOutput(0),
 	_isActive(false),
 	_isCompiled(false),
 	_isLinked(false)
@@ -77,21 +77,14 @@ void ShaderProgram::link()
 	_isLinked = true;
 }
 
-void ShaderProgram::addAttribute(const std::string &name, int numComponents)
+void ShaderProgram::addAttribute(const std::string &name)
 {
-	glBindAttribLocation(_programID, _attributeLocation, name.c_str());
-
-	_attributes->emplace_back(_attributeLocation++, numComponents);
-	//_attributeLocation++;
+	glBindAttribLocation(_programID, _attributeLocation++, name.c_str());
 }
 
-void ShaderProgram::addAttribute(const std::string &name, int numComponents, int numComponentsPerLocations)
+void ShaderProgram::bindFragOutput(const std::string name)
 {
-	glBindAttribLocation(_programID, _attributeLocation, name.c_str());
-
-	_attributeLocation += numComponents / numComponentsPerLocations;
-
-	_attributes->emplace_back(_attributeLocation, numComponents);
+	glBindFragDataLocation(_programID, _fragColorOutput++, name.c_str());
 }
 
 void ShaderProgram::loadFromFile(const std::string &vertSource, const std::string &fragSource)
@@ -176,11 +169,6 @@ GLint ShaderProgram::getUniformLocation(const std::string &name)
 	return glGetUniformLocation(_programID, name.c_str());
 }
 
-const std::vector<VertexAttribute> & ShaderProgram::getVertexAttributes() const
-{
-	return (*_attributes);
-}
-
 GLuint ShaderProgram::handle() const
 {
 	return _programID;
@@ -256,5 +244,4 @@ Uniform ShaderProgram::operator[](const std::string &name)
 ShaderProgram::~ShaderProgram(void)
 {
 	destroy();
-	delete _attributes;
 }

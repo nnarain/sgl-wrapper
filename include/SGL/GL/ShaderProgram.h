@@ -77,8 +77,8 @@ namespace sgl{
 			Creates and adds a vertex attribute to the shader, binding its location in the order that this function is called.
 			Locations start at 0
 		*/
-		void addAttribute(const std::string &name, int numComponents);
-		void addAttribute(const std::string &name, int numComponents, int numComponentsPerLocations);
+		void addAttribute(const std::string &name);
+		void bindFragOutput(const std::string name);
 
 		/**
 			@return the uniform specified by the name
@@ -98,11 +98,6 @@ namespace sgl{
 		GLint getUniformLocation(const std::string &name);
 
 		/**
-			@return vector containing vertex attributes
-		*/
-		const std::vector<VertexAttribute> & getVertexAttributes() const;
-
-		/**
 			@return the program handle
 		*/
 		GLuint handle() const;
@@ -119,11 +114,11 @@ namespace sgl{
 		//! fragment shader handle
 		GLuint _fragmentShader;
 
-		//! attribute location
+		//!
 		int _attributeLocation;
 
-		//! store attributes
-		std::vector<VertexAttribute>* _attributes;
+		//!
+		int _fragColorOutput;
 
 		//! is active flag for this object
 		bool _isActive;
