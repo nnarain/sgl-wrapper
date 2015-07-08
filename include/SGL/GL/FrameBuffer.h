@@ -4,7 +4,6 @@
 #include "SGL/Util/SGLExport.h"
 
 #include <GL/glew.h>
-#include <vector>
 
 #include "SGL/GL/Texture.h"
 #include "SGL/GL/RenderBuffer.h"
@@ -61,12 +60,13 @@ namespace sgl
 		void setTexture2D(const Texture &texture, Attachment attachment);
 		void setRenderBuffer(RenderBuffer& renderBuffer, Attachment attachment);
 
-		void setDrawBuffer(Attachment a);
-		void setDrawBuffers(void);
+		/**
+			Add a Multi Render Target Texture
+		*/
+		void addMRT(Texture& target);
+		void setMRTBuffers(void);
 
 		void setReadBuffer(Attachment a);
-
-		void addAttachment(Attachment attachment);
 
 		void checkError();
 
@@ -78,7 +78,8 @@ namespace sgl
 
 		bool _isBound;
 
-		std::vector<GLenum>* _attachments;
+		// number of multi render targets
+		int _numMRT;
 	};
 
 };
