@@ -15,13 +15,19 @@ namespace sgl
 		NO_COPY(RenderBuffer);
 
 	public:
+
+		enum class Storage
+		{
+			DEPTH = GL_DEPTH_COMPONENT
+		};
+
 		RenderBuffer();
 		~RenderBuffer();
 
 		void bind();
 		void unbind();
 
-		void storage(GLuint component, int w, int h);
+		void storage(Storage component, int w, int h);
 
 		GLuint handle() const;
 

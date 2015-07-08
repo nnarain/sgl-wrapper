@@ -1,6 +1,6 @@
 
-#ifndef GLSL_POSITION_TEXCOORD_H
-#define GLSL_POSITION_TEXCOORD_H
+#ifndef GLSL_POSITION_TEXCOORD_COLOR_H
+#define GLSL_POSITION_TEXCOORD_COLOR_H
 
 #define GLSL(src) "\n" #src
 
@@ -10,7 +10,7 @@
 
 namespace sgl
 {
-	const std::string GLSL_POSITION_TEXCOORD_COLOR_VERT = GLSL(
+	static const std::string GLSL_POSITION_TEXCOORD_COLOR_VERT = GLSL(
 
 		in vec2 vPosition;
 		in vec2 vTexCoord;
@@ -29,7 +29,7 @@ namespace sgl
 
 	);
 
-	const std::string GLSL_POSITION_TEXCOORD_COLOR_FRAG = GLSL(
+	static const std::string GLSL_POSITION_TEXCOORD_COLOR_FRAG = GLSL(
 
 		out vec4 fragColor;
 
@@ -47,7 +47,7 @@ namespace sgl
 
 	namespace loadshader
 	{
-		void position_texCoord_color(ShaderProgram& shader)
+		static void position_texCoord_color(ShaderProgram& shader)
 		{
 			shader.load(ShaderProgram::Type::VERTEX,   GLSL_POSITION_TEXCOORD_COLOR_VERT);
 			shader.load(ShaderProgram::Type::FRAGMENT, GLSL_POSITION_TEXCOORD_COLOR_FRAG);

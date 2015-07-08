@@ -1,10 +1,13 @@
 #include "SGL/GL/FrameBuffer.h"
 #include "SGL/Util/Exception.h"
 
+#include <cassert>
+
 using namespace sgl;
 
 FrameBuffer::FrameBuffer() :
-	_attachments(new std::vector<GLenum>)
+	_attachments(new std::vector<GLenum>),
+	_isBound(false)
 {
 	glGenFramebuffers(1, &_id);
 }
@@ -18,16 +21,24 @@ void FrameBuffer::bind(Target target)
 {
 	_target = target;
 	glBindFramebuffer(static_cast<GLuint>(_target), _id);
+
+	_isBound = true;
 }
 
 
 void FrameBuffer::unbind()
 {
+	assert(_isBound);
+
 	glBindFramebuffer(static_cast<GLuint>(_target), 0);
+
+	_isBound = false;
 }
 
 void FrameBuffer::setTexture(Texture& texture, FrameBuffer::Attachment attachment)
 {
+	assert(_isBound);
+
 	glFramebufferTexture(
 		static_cast<GLuint>(_target), 
 		static_cast<GLuint>(attachment), 
@@ -38,6 +49,8 @@ void FrameBuffer::setTexture(Texture& texture, FrameBuffer::Attachment attachmen
 
 void FrameBuffer::setTexture2D(const Texture &texture, Attachment attachment)
 {
+	assert(_isBound);
+
 	glFramebufferTexture2D(
 		static_cast<GLuint>(_target),
 		static_cast<GLenum>(attachment),
@@ -49,6 +62,8 @@ void FrameBuffer::setTexture2D(const Texture &texture, Attachment attachment)
 
 void FrameBuffer::setRenderBuffer(RenderBuffer& renderBuffer, Attachment attachment)
 {
+	assert(_isBound);
+
 	glFramebufferRenderbuffer(
 		static_cast<GLuint>(_target),
 		static_cast<GLuint>(attachment), 
@@ -59,26 +74,36 @@ void FrameBuffer::setRenderBuffer(RenderBuffer& renderBuffer, Attachment attachm
 
 void FrameBuffer::setDrawBuffer(Attachment a)
 {
+	assert(_isBound);
+
 	glDrawBuffer(static_cast<GLenum>(a));
 }
 
 void FrameBuffer::setDrawBuffers(void)
 {
+	assert(_isBound);
+
 	glDrawBuffers(_attachments->size(), &(*_attachments)[0]);
 }
 
 void FrameBuffer::setReadBuffer(Attachment a)
 {
+	assert(_isBound);
+
 	glReadBuffer(static_cast<GLenum>(a));
 }
 
 void FrameBuffer::addAttachment(Attachment attachment)
 {
+	assert(_isBound);
+
 	_attachments->push_back(static_cast<GLenum>(attachment));
 }
 
 void FrameBuffer::checkError()
 {
+	assert(_isBound);
+
 	GLenum ret = glCheckFramebufferStatus(static_cast<GLenum>(_target));
 
 	if (ret != GL_FRAMEBUFFER_COMPLETE)
@@ -110,6 +135,14 @@ void FrameBuffer::checkError()
 			break;
 		case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
 			what = "incomplete layer targets";
+			break;
+
+		case GL_INVALID_ENUM:
+			what = "Invalid Enum";
+			break;
+
+		default:
+			what = "Unknown";
 			break;
 		}
 

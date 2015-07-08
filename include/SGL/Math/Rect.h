@@ -12,6 +12,14 @@ namespace sgl
 	{
 	public:
 
+		Rect() : Rect(0,0,0,0)
+		{
+		}
+
+		Rect(float x, float y, float w, float h) : x(x), y(y), width(w), height(h)
+		{
+		}
+
 		float x;
 		float y;
 		float width;

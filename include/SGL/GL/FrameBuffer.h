@@ -76,6 +76,8 @@ namespace sgl
 		GLuint _id;
 		Target _target;
 
+		bool _isBound;
+
 		std::vector<GLenum>* _attachments;
 	};
 
