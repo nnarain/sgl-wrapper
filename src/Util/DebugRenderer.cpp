@@ -13,14 +13,12 @@ void DebugRenderer::init()
 {
 	_shader.load(ShaderProgram::Type::VERTEX, GLSL_POSITION_COLOR_VERT);
 	_shader.load(ShaderProgram::Type::FRAGMENT, GLSL_POSITION_COLOR_FRAG);
-	_shader.addAttribute("vPosition", 3);
-	_shader.addAttribute("vColor", 3);
+	_shader.addAttribute("vPosition");
+	_shader.addAttribute("vColor");
 	_shader.link();
 
-	for (const VertexAttribute& v : _shader.getVertexAttributes())
-	{
-		_mesh.addAttribute(v);
-	}
+	_mesh.addAttribute(VertexAttribute(0, 3));
+	_mesh.addAttribute(VertexAttribute(1, 3));
 
 	_mesh.create(sizeof(DebugVertex));
 }
