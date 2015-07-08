@@ -1,13 +1,14 @@
 #include "SGL/GL/FrameBuffer.h"
 #include "SGL/Util/Exception.h"
 
+#include <vector>
 #include <cassert>
 
 using namespace sgl;
 
 FrameBuffer::FrameBuffer() :
-	_attachments(new std::vector<GLenum>),
-	_isBound(false)
+	_isBound(false),
+	_numMRT(0)
 {
 	glGenFramebuffers(1, &_id);
 }
@@ -33,6 +34,11 @@ void FrameBuffer::unbind()
 	glBindFramebuffer(static_cast<GLuint>(_target), 0);
 
 	_isBound = false;
+}
+
+void FrameBuffer::addMRT(Texture& target)
+{
+	setTexture(target, static_cast<FrameBuffer::Attachment>(GL_COLOR_ATTACHMENT0 + _numMRT++));
 }
 
 void FrameBuffer::setTexture(Texture& texture, FrameBuffer::Attachment attachment)
@@ -72,18 +78,20 @@ void FrameBuffer::setRenderBuffer(RenderBuffer& renderBuffer, Attachment attachm
 	);
 }
 
-void FrameBuffer::setDrawBuffer(Attachment a)
+void FrameBuffer::setMRTBuffers(void)
 {
 	assert(_isBound);
+	assert(_numMRT > 0);
 
-	glDrawBuffer(static_cast<GLenum>(a));
-}
+	std::vector<GLenum> attachments;
 
-void FrameBuffer::setDrawBuffers(void)
-{
-	assert(_isBound);
+	int i;
+	for (i = 0; i < _numMRT; ++i)
+	{
+		attachments.push_back(GL_COLOR_ATTACHMENT0 + i);
+	}
 
-	glDrawBuffers(_attachments->size(), &(*_attachments)[0]);
+	glDrawBuffers(_numMRT, &attachments[0]);
 }
 
 void FrameBuffer::setReadBuffer(Attachment a)
@@ -91,13 +99,6 @@ void FrameBuffer::setReadBuffer(Attachment a)
 	assert(_isBound);
 
 	glReadBuffer(static_cast<GLenum>(a));
-}
-
-void FrameBuffer::addAttachment(Attachment attachment)
-{
-	assert(_isBound);
-
-	_attachments->push_back(static_cast<GLenum>(attachment));
 }
 
 void FrameBuffer::checkError()
@@ -158,5 +159,4 @@ GLuint FrameBuffer::getId() const
 FrameBuffer::~FrameBuffer()
 {
 	glDeleteFramebuffers(1, &_id);
-	delete _attachments;
 }
