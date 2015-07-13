@@ -54,8 +54,8 @@ namespace sgl
 		void setTextureRegion(float x, float y, float w, float h);
 		Texture::TextureRegion& getTextureRegion();
 
-		void setColor(const Color& c);
-		Color& getColor();
+		void setColor(const ColorRGBA32f& c);
+		ColorRGBA32f& getColor();
 
 		Rect& getQuad();
 
@@ -66,7 +66,7 @@ namespace sgl
 		Vector2 _dim;
 
 		//!
-		Color _color;
+		ColorRGBA32f _color;
 
 		//! texture that the sprite uses
 		Texture* _texture;

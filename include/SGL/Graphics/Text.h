@@ -60,8 +60,8 @@ namespace sgl
 
 		Vector2& getDimensions(void);
 
-		void setColor(Color& c);
-		Color getColor();
+		void setColor(ColorRGBA32f& c);
+		ColorRGBA32f getColor();
 
 		/* Stream Operator */
 
@@ -99,7 +99,7 @@ namespace sgl
 
 		Vector2 _dimension;
 
-		Color _color;
+		ColorRGBA32f _color;
 
 		std::vector<Cell>* _cells;
 

@@ -95,7 +95,7 @@ void Uniform::set(const Matrix4 &v, bool transpose)
 
 /* Color */
 
-void Uniform::set(const Color& color)
+void Uniform::set(const ColorRGBA32f& color)
 {
 	glUniform4f(_location, color.r, color.g, color.b, color.a);
 }

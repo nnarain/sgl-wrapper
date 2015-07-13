@@ -1,4 +1,5 @@
 
+/*
 #include "SGL/Graphics/Color.h"
 
 using namespace sgl;
@@ -36,3 +37,4 @@ Color Color::operator*(float value)
 {
 	return Color(this->r * value, this->g * value, this->b * value, this->a * value);
 }
+*/

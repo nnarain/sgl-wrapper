@@ -42,7 +42,7 @@ namespace sgl
 		void set(const Matrix4 &);
 		void set(const Matrix4 &, bool transpose);
 
-		void set(const Color&);
+		void set(const ColorRGBA32f&);
 
 		void set(const Texture &);
 
