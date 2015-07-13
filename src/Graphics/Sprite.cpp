@@ -125,12 +125,12 @@ Rect& Sprite::getQuad()
 	return _quad;
 }
 
-void Sprite::setColor(const Color& c)
+void Sprite::setColor(const ColorRGBA32f& c)
 {
 	_color = c;
 }
 
-Color& Sprite::getColor()
+ColorRGBA32f& Sprite::getColor()
 {
 	return _color;
 }

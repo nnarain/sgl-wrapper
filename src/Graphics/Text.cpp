@@ -125,12 +125,12 @@ Vector2& Text::getDimensions(void)
 	return _dimension;
 }
 
-void Text::setColor(Color& c)
+void Text::setColor(ColorRGBA32f& c)
 {
 	_color = c;
 }
 
-Color Text::getColor()
+ColorRGBA32f Text::getColor()
 {
 	return _color;
 }

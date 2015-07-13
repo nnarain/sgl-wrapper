@@ -48,7 +48,7 @@ void SpriteBatch::draw(Sprite& sprite)
 
 	Rect                   &quad    = sprite.getQuad();
 	Texture::TextureRegion &region  = sprite.getTextureRegion();
-	Color&                 color = sprite.getColor();
+	ColorRGBA32f           &color = sprite.getColor();
 	Texture                *texture = sprite.getTexture();
 
 	draw(quad, region, color, texture);
@@ -61,7 +61,7 @@ void SpriteBatch::draw(Sprite& sprite, bool flipH, bool flipV)
 
 	Rect                   &quad    = sprite.getQuad();
 	Texture::TextureRegion region   = sprite.getTextureRegion();
-	Color&                 color = sprite.getColor();
+	ColorRGBA32f&          color = sprite.getColor();
 	Texture                *texture = sprite.getTexture();
 
 	flip(region, flipH, flipV);
@@ -71,15 +71,15 @@ void SpriteBatch::draw(Sprite& sprite, bool flipH, bool flipV)
 
 void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Texture* texture)
 {
-	draw(rect, region, Color(1, 1, 1, 1), texture);
+	draw(rect, region, ColorRGBA32f(1, 1, 1, 1), texture);
 }
 
 void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Texture* texture, bool flipH, bool flipV)
 {
-	draw(rect, region, Color(1, 1, 1, 1), texture, flipH, flipV);
+	draw(rect, region, ColorRGBA32f(1, 1, 1, 1), texture, flipH, flipV);
 }
 
-void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Color& color, Texture* texture, bool flipH, bool flipV)
+void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, ColorRGBA32f& color, Texture* texture, bool flipH, bool flipV)
 {
 	Texture::TextureRegion r(region);
 	flip(r, flipH, flipV);
@@ -92,7 +92,7 @@ void SpriteBatch::draw(Rect& rect, Texture* texture)
 	draw(rect, texture->region(0, 0, -1, -1), texture);
 }
 
-void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, Color& color, Texture* texture)
+void SpriteBatch::draw(Rect& rect, Texture::TextureRegion& region, ColorRGBA32f& color, Texture* texture)
 {
 	Vertex v1, v2, v3, v4;
 

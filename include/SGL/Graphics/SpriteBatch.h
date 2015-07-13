@@ -41,9 +41,9 @@ namespace sgl
 		//! Vertex. Position and texture coordinates
 		struct Vertex
 		{
-			Vector2 pos;
-			Vector2 texCoord;
-			Color color;
+			Vector2      pos;
+			Vector2      texCoord;
+			ColorRGBA32f color;
 		};
 
 		//! Intermediate structure to store vertex data before the batching stage
@@ -99,7 +99,7 @@ namespace sgl
 
 		/**
 		*/
-		void draw(Rect& rect, Texture::TextureRegion& region, Color& color, Texture* texture, bool flipH, bool flipV);
+		void draw(Rect& rect, Texture::TextureRegion& region, ColorRGBA32f& color, Texture* texture, bool flipH, bool flipV);
 
 		/**
 		*/
@@ -115,7 +115,7 @@ namespace sgl
 		/**
 			Base draw
 		*/
-		void draw(Rect& rect, Texture::TextureRegion& region, Color& color, Texture* texture);
+		void draw(Rect& rect, Texture::TextureRegion& region, ColorRGBA32f& color, Texture* texture);
 
 		/**
 			render the batches and tidy up
