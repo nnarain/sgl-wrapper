@@ -65,7 +65,7 @@ namespace sgl
 		T b;
 
 	public:
-		ColorRGB(T r, T g, T b) : r(r), g(g), b(b), a(a)
+		ColorRGB(T r, T g, T b) : r(r), g(g), b(b)
 		{
 		}
 
@@ -75,21 +75,21 @@ namespace sgl
 
 		ColorRGB operator+(ColorRGB<T>& c)
 		{
-			return ColorRGB<T>(this->r + c.r, this->g + c.g, this->b + c.b, this->a + c.a);
+			return ColorRGB<T>(this->r + c.r, this->g + c.g, this->b + c.b);
 		}
 		ColorRGB operator-(ColorRGB<T>& c)
 		{
-			return ColorRGB<T>(this->r - c.r, this->g - c.g, this->b - c.b, this->a - c.a);
+			return ColorRGB<T>(this->r - c.r, this->g - c.g, this->b - c.b);
 		}
 
 		ColorRGB operator*(ColorRGB<T>& c)
 		{
-			return ColorRGB<T>(this->r * c.r, this->g * c.g, this->b * c.b, this->a * c.a);
+			return ColorRGB<T>(this->r * c.r, this->g * c.g, this->b * c.b);
 		}
 
 		ColorRGB operator*(T value)
 		{
-			return ColorRGB<T>(this->r * value, this->g * value, this->b * value, this->a * value);
+			return ColorRGB<T>(this->r * value, this->g * value, this->b * value);
 		}
 
 
