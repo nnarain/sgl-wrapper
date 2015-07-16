@@ -21,7 +21,9 @@ namespace sgl
 		ObjLoader();
 		~ObjLoader();
 
-		void load(ObjModel &model, const char *modelpath, const char * texturepath = NULL);
+		void load(ObjModel &model, const char *modelpath, const char * texturepath, bool invertUV);
+		void load(ObjModel &model, const char *modelpath, const char * texturepath);
+		void load(ObjModel &model, const char *modelpath);
 
 	private:
 
@@ -45,7 +47,7 @@ namespace sgl
 		std::map<std::string, MeshData> * _meshes;
 
 		void parse(const char* filename);
-		void bindToMesh(ObjModel &model);
+		void bindToMesh(ObjModel &model, bool invertUV);
 
 		void loadTexture(sgl::Texture& texture, const char * filename);
 

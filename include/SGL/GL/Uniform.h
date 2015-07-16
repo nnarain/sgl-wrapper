@@ -6,6 +6,7 @@
 #include <SGL/Util/SGLExport.h>
 #include <SGL/GL/Texture.h>
 #include <SGL/Math/Math.h>
+#include <SGL/Graphics/Color.h>
 
 namespace sgl
 {
@@ -31,6 +32,7 @@ namespace sgl
 		void set(float, float, float);
 		void set(float, float, float, float);
 
+		void set(const Vector2 &);
 		void set(const Vector3 &);
 		void set(const Vector4 &);
 
@@ -39,6 +41,8 @@ namespace sgl
 
 		void set(const Matrix4 &);
 		void set(const Matrix4 &, bool transpose);
+
+		void set(const ColorRGBA32f&);
 
 		void set(const Texture &);
 

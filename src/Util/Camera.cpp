@@ -128,11 +128,7 @@ Ray Camera::pickRay(float viewportX, float viewportY)
 	Vector4 tmp = (wsEnd - wsStart).normalize();
 	Vector3 direction = Vector3(tmp.x, tmp.y, tmp.z);
 
-	Ray ray;
-	ray.origin = Vector3(wsStart.x, wsStart.y, wsStart.z);
-	ray.direction = direction;
-
-	return ray;
+	return Ray(Vector3(wsStart.x, wsStart.y, wsStart.z), direction);
 }
 
 void Camera::updateViewPort()

@@ -18,9 +18,9 @@ void RenderBuffer::unbind()
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
 
-void RenderBuffer::storage(GLuint component, int w, int h)
+void RenderBuffer::storage(Storage component, int w, int h)
 {
-	glRenderbufferStorage(GL_RENDERBUFFER, component, w, h);
+	glRenderbufferStorage(GL_RENDERBUFFER, static_cast<GLuint>(component), w, h);
 }
 
 GLuint RenderBuffer::handle() const

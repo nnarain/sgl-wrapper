@@ -84,13 +84,9 @@ Vector3 Vector3::operator/(float s)
 	return Vector3(this->x / s, this->y / s, this->z / s);
 }
 
-Vector3& Vector3::operator-()
+Vector3 Vector3::operator-()
 {
-	this->x *= -1;
-	this->y *= -1;
-	this->z *= -1;
-
-	return *this;
+	return Vector3(this->x * -1, this->y * -1, this->z * -1);
 }
 
 Vector3& Vector3::operator+=(const Vector3& v)

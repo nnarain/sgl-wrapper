@@ -8,6 +8,7 @@
 #include "SGL/Math/Vector3.h"
 #include "SGL/Math/Matrix4.h"
 #include "SGL/Math/AABB.h"
+#include "SGL/Math/Sphere.h"
 
 namespace sgl
 {
@@ -42,6 +43,7 @@ namespace sgl
 
 		Frustum::Side checkPoint(Vector3& point);
 		Frustum::Side checkBox(AABB& aabb);
+		Frustum::Side checkSphere(Sphere& sphere);
 
 		void construct(float fov, float aspectRatio, float near, float far, const Vector3& pos, const Matrix4& viewMatrix);
 

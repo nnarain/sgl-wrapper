@@ -17,11 +17,11 @@ namespace sgl
 			BACK, FRONT, ON
 		};
 
-		Plane(const Vector3& p1, const Vector3& p2, const Vector3& p3);
+		Plane(Vector3& p1, Vector3& p2, Vector3& p3);
 		Plane();
 		~Plane();
 
-		void set(const Vector3& p1, const Vector3& p2, const Vector3& p3);
+		void set(Vector3& p1, Vector3& p2, Vector3& p3);
 
 		float distanceToPointUnsigned(Vector3& point);
 		float distanceToPointSigned(Vector3& point);

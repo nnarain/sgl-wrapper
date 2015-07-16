@@ -12,10 +12,18 @@ namespace sgl
 	{
 	public:
 
-		Vector2 bottomLeft;
-		Vector2 topLeft;
-		Vector2 topRight;
-		Vector2 bottomRight;
+		Rect() : Rect(0,0,0,0)
+		{
+		}
+
+		Rect(float x, float y, float w, float h) : x(x), y(y), width(w), height(h)
+		{
+		}
+
+		float x;
+		float y;
+		float width;
+		float height;
 
 	private:
 	};

@@ -8,10 +8,10 @@
 
 #include "SGL/Util/SGLExport.h"
 
-#include "SGL/2D/SpriteBatch.h"
-#include "SGL/2D/BitmapFont.h"
+#include "SGL/Graphics/SpriteBatch.h"
+#include "SGL/Graphics/BitmapFont.h"
+#include "SGL/Graphics/Color.h"
 
-#include "SGL/Type/Geometry.h"
 #include "SGL/GL/Texture.h"
 
 #include "SGL/Math/Vector2.h"
@@ -60,6 +60,9 @@ namespace sgl
 
 		Vector2& getDimensions(void);
 
+		void setColor(ColorRGBA32f& c);
+		ColorRGBA32f getColor();
+
 		/* Stream Operator */
 
 		template<typename T>
@@ -79,10 +82,10 @@ namespace sgl
 		//! Font Cell
 		struct Cell
 		{
-			Quad quad;
+			Rect quad;
 			Texture::TextureRegion region;
 
-			Cell(Quad& q, Texture::TextureRegion& r)
+			Cell(Rect& q, Texture::TextureRegion& r)
 			{
 				quad = q;
 				region = r;
@@ -95,6 +98,8 @@ namespace sgl
 		Vector2 _offset;
 
 		Vector2 _dimension;
+
+		ColorRGBA32f _color;
 
 		std::vector<Cell>* _cells;
 

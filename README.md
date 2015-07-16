@@ -8,10 +8,11 @@ Simple OpenGL. A simple object oriented interface to OpenGL.
 
 * Orthographic and Perspective Camera
 * Shaders
+* Uniforms
 * Textures
 * Generic Buffers
 * Framebuffers
-* Uniforms
+* Renderbuffers
 * Meshes
 	* bind and draw vertex data
 
@@ -34,6 +35,13 @@ Simple OpenGL. A simple object oriented interface to OpenGL.
 
 * 2, 3, 4 dimensional vectors
 * 3x3 and 4x4 Matrices
+* Geometric types
+	* AABB
+	* Plane
+	* Sphere
+	* Ray
+	* Rect
+	* Frustum
 
 Build
 -----

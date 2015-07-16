@@ -9,7 +9,9 @@
 #include "SGL/GL/ShaderProgram.h"
 #include "SGL/GL/Mesh.h"
 #include "SGL/Util/Camera.h"
-#include "SGL/2D/Sprite.h"
+#include "SGL/Graphics/Sprite.h"
+#include "SGL/Math/Rect.h"
+#include "SGL/Graphics/Color.h"
 
 #include <vector>
 
@@ -39,8 +41,9 @@ namespace sgl
 		//! Vertex. Position and texture coordinates
 		struct Vertex
 		{
-			Vector2 pos;
-			Vector2 texCoord;
+			Vector2      pos;
+			Vector2      texCoord;
+			ColorRGBA32f color;
 		};
 
 		//! Intermediate structure to store vertex data before the batching stage
@@ -48,7 +51,7 @@ namespace sgl
 		{
 		public:
 			Glyph(void);
-			Glyph(Quad& quad, Texture::TextureRegion& region, Texture*);
+			Glyph(Vertex& v1, Vertex& v2, Vertex& v3, Vertex& v4, Texture* t);
 
 			Texture* texture;
 
@@ -92,12 +95,27 @@ namespace sgl
 		/**
 			
 		*/
-		void draw(Quad& quad, Texture::TextureRegion& region, Texture* texture, bool flipH, bool flipV);
+		void draw(Rect& rect, Texture::TextureRegion& region, Texture* texture, bool flipH, bool flipV);
+
+		/**
+		*/
+		void draw(Rect& rect, Texture::TextureRegion& region, ColorRGBA32f& color, Texture* texture, bool flipH, bool flipV);
+
+		/**
+		*/
+		void draw(Rect& rect, Texture::TextureRegion& region, Texture* texture);
+
+		/**
+		
+		*/
+		void draw(Rect& rect, Texture* texture);
+
+		/***/
 
 		/**
 			Base draw
 		*/
-		void draw(Quad& quad, Texture::TextureRegion& region, Texture* texture);
+		void draw(Rect& rect, Texture::TextureRegion& region, ColorRGBA32f& color, Texture* texture);
 
 		/**
 			render the batches and tidy up

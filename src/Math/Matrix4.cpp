@@ -430,6 +430,15 @@ void Matrix4::clear(void)
 	}
 }
 
+Matrix3 Matrix4::toNormalMatrix()
+{
+	Matrix3 normalMatrix = toMatrix3();
+	normalMatrix.invert();
+	normalMatrix.transpose();
+
+	return normalMatrix;
+}
+
 Matrix3 Matrix4::toMatrix3(void) const
 {
 	Matrix3 newMat;
