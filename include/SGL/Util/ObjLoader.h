@@ -40,9 +40,9 @@ namespace sgl
 			std::vector<Face> faces;
 		};
 
-		std::vector<Vector3> * _positions;
-		std::vector<Vector3> * _normals;
-		std::vector<Vector2> * _texCoords;
+		std::vector<Vector3f> * _positions;
+		std::vector<Vector3f> * _normals;
+		std::vector<Vector2f> * _texCoords;
 
 		std::map<std::string, MeshData> * _meshes;
 
@@ -51,8 +51,8 @@ namespace sgl
 
 		void loadTexture(sgl::Texture& texture, const char * filename);
 
-		void createVertexFromTokens(Vector3 &v, std::vector<std::string> &tokens);
-		void createUVFromTokens(Vector2 &uv, std::vector<std::string> &tokens);
+		void createVertexFromTokens(Vector3f &v, std::vector<std::string> &tokens);
+		void createUVFromTokens(Vector2f &uv, std::vector<std::string> &tokens);
 		void createFaceFromTokens(Face& face, std::vector<std::string> &tokens);
 
 		void tokenize(std::vector<std::string>& v, std::string &s, const std::string &delimiter);

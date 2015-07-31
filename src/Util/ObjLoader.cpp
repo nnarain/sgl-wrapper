@@ -9,9 +9,9 @@
 using namespace sgl;
 
 ObjLoader::ObjLoader() : 
-	_positions(new std::vector<Vector3>),
-	_normals(new std::vector<Vector3>),
-	_texCoords(new std::vector<Vector2>),
+	_positions(new std::vector<Vector3f>),
+	_normals(new std::vector<Vector3f>),
+	_texCoords(new std::vector<Vector2f>),
 	_meshes(new std::map<std::string, MeshData>)
 {
 }
@@ -96,7 +96,7 @@ void ObjLoader::bindToMesh(ObjModel &model, bool invertUV)
 
 				if (vertSize > 0)
 				{
-					Vector3& v = _positions->at(vIdx);
+					Vector3f& v = _positions->at(vIdx);
 					buffer.push_back(v.x);
 					buffer.push_back(v.y);
 					buffer.push_back(v.z);
@@ -104,7 +104,7 @@ void ObjLoader::bindToMesh(ObjModel &model, bool invertUV)
 
 				if (normSize > 0)
 				{
-					Vector3& n = _normals->at(nIdx);
+					Vector3f& n = _normals->at(nIdx);
 					buffer.push_back(n.x);
 					buffer.push_back(n.y);
 					buffer.push_back(n.z);
@@ -112,7 +112,7 @@ void ObjLoader::bindToMesh(ObjModel &model, bool invertUV)
 
 				if (uvSize > 0)
 				{
-					Vector2 &uv = _texCoords->at(tIdx);
+					Vector2f &uv = _texCoords->at(tIdx);
 					buffer.push_back(uv.x);
 					buffer.push_back(invertUV ? 1.0f - uv.y : uv.y);
 				}
@@ -174,7 +174,7 @@ void ObjLoader::parse(const char * filename)
 		// new vertex
 		else if (head == "v")
 		{
-			Vector3 v;
+			Vector3f v;
 			createVertexFromTokens(v, tokens);
 
 			_positions->push_back(v);
@@ -182,7 +182,7 @@ void ObjLoader::parse(const char * filename)
 		// new normal
 		else if (head == "vn")
 		{
-			Vector3 n;
+			Vector3f n;
 			createVertexFromTokens(n, tokens);
 
 			_normals->push_back(n);
@@ -190,7 +190,7 @@ void ObjLoader::parse(const char * filename)
 		// new teexcoord
 		else if (head == "vt")
 		{
-			Vector2 uv;
+			Vector2f uv;
 			createUVFromTokens(uv, tokens);
 
 			_texCoords->push_back(uv);
@@ -206,14 +206,14 @@ void ObjLoader::parse(const char * filename)
 	}
 }
 
-void ObjLoader::createVertexFromTokens(Vector3 &v, std::vector<std::string> &tokens)
+void ObjLoader::createVertexFromTokens(Vector3f &v, std::vector<std::string> &tokens)
 {
 	v.x = (float)(atof(tokens[1].c_str()));
 	v.y = (float)(atof(tokens[2].c_str()));
 	v.z = (float)(atof(tokens[3].c_str()));
 }
 
-void ObjLoader::createUVFromTokens(Vector2 &uv, std::vector<std::string> &tokens)
+void ObjLoader::createUVFromTokens(Vector2f &uv, std::vector<std::string> &tokens)
 {
 	uv.x = (float)atof(tokens[1].c_str());
 	uv.y = (float)atof(tokens[2].c_str());

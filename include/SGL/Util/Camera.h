@@ -30,7 +30,7 @@ namespace sgl{
 		/**
 			point camera to (x,y,z)
 		*/
-		void lookAt(const Vector3 &);
+		void lookAt(const Vector3f &);
 		/**
 			point camera to (x,y,z)
 		*/
@@ -61,7 +61,7 @@ namespace sgl{
 		/**
 			Sets world position of camera, (x,y,z)
 		*/
-		void setPosition(const Vector3&);
+		void setPosition(const Vector3f&);
 
 		/**
 			Sets world position of camera, (x,y,z)
@@ -71,27 +71,27 @@ namespace sgl{
 		/**
 			Get the camera position
 		*/
-		Vector3& getPosition();
+		Vector3f& getPosition();
 
 		/**
 			Get the cameras lookat position
 		*/
-		const Vector3& getTarget() const;
+		const Vector3f& getTarget() const;
 
 		/**
 			Get the camera directions
 		*/
-		Vector3 getDirection();
+		Vector3f getDirection();
 
 		/**
 			Get the cameras up vector
 		*/
-		const Vector3& getUpVector() const;
+		const Vector3f& getUpVector() const;
 		
 		/**
 			Set the cameras up vector
 		*/
-		void setUpVector(const Vector3& up);
+		void setUpVector(const Vector3f& up);
 
 		/**
 		*/
@@ -115,13 +115,13 @@ namespace sgl{
 	protected:
 
 		//! camera position
-		Vector3 _pos;
+		Vector3f _pos;
 		
 		//! where the camera is pointed to
-		Vector3 _target;
+		Vector3f _target;
 		
 		//! cameras up vector
-		Vector3 _up;
+		Vector3f _up;
 
 		//! camera projection
 		Matrix4 _proj;

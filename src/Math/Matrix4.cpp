@@ -81,7 +81,7 @@ Matrix4::Matrix4(float *m)
 	set(m);
 }
 
-void Matrix4::toTranslation(const Vector3 &v)
+void Matrix4::toTranslation(const Vector3f &v)
 {
 	toTranslation(v.x, v.y, v.z);
 }
@@ -101,7 +101,7 @@ void Matrix4::toTranslation(float x, float y, float z)
 	_mat[MTZ] = z;
 }
 
-void Matrix4::toScale(const Vector3 &v)
+void Matrix4::toScale(const Vector3f &v)
 {
 	toScale(v.x, v.y, v.z);
 }
@@ -139,10 +139,10 @@ void Matrix4::toScale(float x, float y, float z)
 	K =	[  k3   0  -k1 ]
 		[ -k2  k1    0 ]
 */
-void Matrix4::toRotation(const Vector3 &v, float a)
+void Matrix4::toRotation(const Vector3f &v, float a)
 {
 	// copy and normalize the rotation vector
-	Vector3 axis(v);
+	Vector3f axis(v);
 	axis.normalize();
 
 	// convert parameter to radians
@@ -171,7 +171,7 @@ void Matrix4::toRotation(const Vector3 &v, float a)
 
 /* Transforms */
 
-void Matrix4::translate(const Vector3& v)
+void Matrix4::translate(const Vector3f& v)
 {
 	translate(v.x, v.y, v.z);
 }
@@ -183,7 +183,7 @@ void Matrix4::translate(float x, float y, float z)
 	_mat[MTZ] += z;
 }
 
-void Matrix4::scale(const Vector3& v)
+void Matrix4::scale(const Vector3f& v)
 {
 	scale(v.x, v.y, v.z);
 }
@@ -201,7 +201,7 @@ void Matrix4::scale(float x, float y, float z)
 	_mat[M33] = 1;
 }
 
-void Matrix4::rotate(const Vector3& v)
+void Matrix4::rotate(const Vector3f& v)
 {
 	rotate(v.x, v.y, v.z);
 }
@@ -210,9 +210,9 @@ void Matrix4::rotate(float x, float y, float z)
 {
 	Matrix4 Rx, Ry, Rz;
 
-	Rx.toRotation(Vector3(1, 0, 0), x);
-	Ry.toRotation(Vector3(0, 1, 0), y);
-	Rz.toRotation(Vector3(0, 0, 1), z);
+	Rx.toRotation(Vector3f(1, 0, 0), x);
+	Ry.toRotation(Vector3f(0, 1, 0), y);
+	Rz.toRotation(Vector3f(0, 0, 1), z);
 
 	Matrix4 R = (*this) * Rx * Ry * Rz;
 
@@ -362,19 +362,19 @@ void Matrix4::transpose(void)
 
 /* Opengl Matrices */
 
-void Matrix4::lookAt(Vector3 eye, Vector3 center, Vector3 up)
+void Matrix4::lookAt(Vector3f eye, Vector3f center, Vector3f up)
 {
 	//
 	clear();
 
 	// eye space z axis
-	Vector3 z = (center - eye).normalize();
+	Vector3f z = (center - eye).normalize();
 
 	// eye space x axis
-	Vector3 x = Vector3(z).cross(up).normalize();
+	Vector3f x = Vector3f(z).cross(up).normalize();
 
 	// eye space y axis
-	Vector3 y = Vector3(x).cross(z).normalize();
+	Vector3f y = Vector3f(x).cross(z).normalize();
 
 	// create the view matrix
 
@@ -457,7 +457,7 @@ Matrix3 Matrix4::toMatrix3(void) const
 
 /* Operators */
 
-Vector4 Matrix4::operator*(const Vector4 &v)
+Vector4f Matrix4::operator*(const Vector4f &v)
 {
 	float x;
 	float y;
@@ -469,7 +469,7 @@ Vector4 Matrix4::operator*(const Vector4 &v)
 	z = (_mat[M02] * v.x) + (_mat[M12] * v.y) + (_mat[M22] * v.z) + (_mat[M32] * v.w);
 	w = (_mat[M03] * v.x) + (_mat[M13] * v.y) + (_mat[M23] * v.z) + (_mat[M33] * v.w);
 
-	return Vector4(x, y, z, w);
+	return Vector4f(x, y, z, w);
 }
 
 Matrix4 Matrix4::operator*(const Matrix4 &m)

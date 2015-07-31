@@ -32,9 +32,9 @@ namespace sgl
 		void set(float, float, float);
 		void set(float, float, float, float);
 
-		void set(const Vector2 &);
-		void set(const Vector3 &);
-		void set(const Vector4 &);
+		void set(const Vector2f &);
+		void set(const Vector3f &);
+		void set(const Vector4f &);
 
 		void set(const Matrix3 &);
 		void set(const Matrix3 &, bool transpose);

@@ -12,7 +12,7 @@ Frustum::Frustum()
 {
 }
 
-Frustum::Side Frustum::checkPoint(Vector3& point)
+Frustum::Side Frustum::checkPoint(Vector3f& point)
 {
 	Frustum::Side result = Frustum::Side::INSIDE;
 
@@ -69,42 +69,42 @@ Frustum::Side Frustum::checkBox(AABB& aabb)
 
 		// if none are inside (in = 0), return Frustum::Side::OUTSIDE
 
-		if (_planes[i].checkPlaneSide(aabb.center + Vector3(-hx, -hy, -hz)) == Plane::Side::BACK)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3f(-hx, -hy, -hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
 
-		if (_planes[i].checkPlaneSide(aabb.center + Vector3(hx, -hy, -hz)) == Plane::Side::BACK)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3f(hx, -hy, -hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
 
-		if (_planes[i].checkPlaneSide(aabb.center + Vector3(-hx, -hy, hz)) == Plane::Side::BACK)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3f(-hx, -hy, hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
 
-		if (_planes[i].checkPlaneSide(aabb.center + Vector3(hx, -hy, hz)) == Plane::Side::BACK)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3f(hx, -hy, hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
 
-		if (_planes[i].checkPlaneSide(aabb.center + Vector3(-hx, hy, -hz)) == Plane::Side::BACK)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3f(-hx, hy, -hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
 
-		if (_planes[i].checkPlaneSide(aabb.center + Vector3(-hx, hy, -hz)) == Plane::Side::BACK)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3f(-hx, hy, -hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
 
-		if (_planes[i].checkPlaneSide(aabb.center + Vector3(-hx, hy, hz)) == Plane::Side::BACK)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3f(-hx, hy, hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
 
-		if (_planes[i].checkPlaneSide(aabb.center + Vector3(hx, hy, hz)) == Plane::Side::BACK)
+		if (_planes[i].checkPlaneSide(aabb.center + Vector3f(hx, hy, hz)) == Plane::Side::BACK)
 			out++;
 		else
 			in++;
@@ -118,7 +118,7 @@ Frustum::Side Frustum::checkBox(AABB& aabb)
 	return result;
 }
 
-void Frustum::construct(float fov, float aspectRatio, float near, float far, const Vector3& pos, const Matrix4& viewMatrix)
+void Frustum::construct(float fov, float aspectRatio, float near, float far, const Vector3f& pos, const Matrix4& viewMatrix)
 {
 	// near plane height
 	float nearH = 2 * tanDeg(fov / 2.0f) * near;
@@ -131,54 +131,54 @@ void Frustum::construct(float fov, float aspectRatio, float near, float far, con
 	float farW = farH * aspectRatio;
 
 	// extracted right vector
-	Vector3 right;
+	Vector3f right;
 	right.x = viewMatrix[0][0];
 	right.y = viewMatrix[1][0];
 	right.z = viewMatrix[2][0];
 
 	// extracted up vector
-	Vector3 up;
+	Vector3f up;
 	up.x = viewMatrix[0][1];
 	up.y = viewMatrix[1][1];
 	up.z = viewMatrix[2][1];
 
 	// extracted forward vector
-	Vector3 forward;
+	Vector3f forward;
 	forward.x = -viewMatrix[0][2];
 	forward.y = -viewMatrix[1][2];
 	forward.z = -viewMatrix[2][2];
 
 	// near plane center point
-	Vector3& nearCenter = getPoint(PointId::NC);
-	nearCenter = Vector3(pos) + (forward * near);
+	Vector3f& nearCenter = getPoint(PointId::NC);
+	nearCenter = Vector3f(pos) + (forward * near);
 
 	// far plane center point
-	Vector3& farCenter = getPoint(PointId::FC);
-	farCenter  = Vector3(pos) + (forward * far);
+	Vector3f& farCenter = getPoint(PointId::FC);
+	farCenter  = Vector3f(pos) + (forward * far);
 
 	//
-	Vector3& ltn = getPoint(PointId::LTN);
+	Vector3f& ltn = getPoint(PointId::LTN);
 	ltn = nearCenter + (up * nearH / 2.0f) - (right * nearW / 2.0f);
 
-	Vector3& lbn = getPoint(PointId::LBN);
+	Vector3f& lbn = getPoint(PointId::LBN);
 	lbn = nearCenter - (up * nearH / 2.0f) - (right * nearW / 2.0f);
 
-	Vector3& rtn = getPoint(PointId::RTN);
+	Vector3f& rtn = getPoint(PointId::RTN);
 	rtn = nearCenter + (up * nearH / 2.0f) + (right * nearW / 2.0f);
 
-	Vector3& rbn = getPoint(PointId::RBN);
+	Vector3f& rbn = getPoint(PointId::RBN);
 	rbn = nearCenter - (up * nearH / 2.0f) + (right * nearW / 2.0f);
 
-	Vector3& ltf = getPoint(PointId::LTF);
+	Vector3f& ltf = getPoint(PointId::LTF);
 	ltf = farCenter + (up * farH / 2.0f) - (right * farW / 2.0f);
 
-	Vector3& lbf = getPoint(PointId::LBF);
+	Vector3f& lbf = getPoint(PointId::LBF);
 	lbf = farCenter - (up * farH / 2.0f) - (right * farW / 2.0f);
 
-	Vector3& rtf = getPoint(PointId::RTF);
+	Vector3f& rtf = getPoint(PointId::RTF);
 	rtf = farCenter + (up * farH / 2.0f) + (right * farW / 2.0f);
 
-	Vector3& rbf = getPoint(PointId::RBF);
+	Vector3f& rbf = getPoint(PointId::RBF);
 	rbf = farCenter - (up * farH / 2.0f) + (right * farW / 2.0f);
 
 	// calculate the frustum planes
@@ -206,16 +206,16 @@ float Frustum::getVolume(void)
 {
 	float volume;
 
-	Vector3& lbn = getPoint(PointId::LBN);
-	Vector3& rbn = getPoint(PointId::RBN);
-	Vector3& ltn = getPoint(PointId::LTN);
+	Vector3f& lbn = getPoint(PointId::LBN);
+	Vector3f& rbn = getPoint(PointId::RBN);
+	Vector3f& ltn = getPoint(PointId::LTN);
 
-	Vector3& lbf = getPoint(PointId::LBF);
-	Vector3& rbf = getPoint(PointId::RBF);
-	Vector3& ltf = getPoint(PointId::LTF);
+	Vector3f& lbf = getPoint(PointId::LBF);
+	Vector3f& rbf = getPoint(PointId::RBF);
+	Vector3f& ltf = getPoint(PointId::LTF);
 
 	// near plane center
-	Vector3& nearCenter = getPoint(PointId::NC);
+	Vector3f& nearCenter = getPoint(PointId::NC);
 
 	// near width
 	float nearW = (lbn - rbn).length();
@@ -223,7 +223,7 @@ float Frustum::getVolume(void)
 	float nearH = (ltn - lbn).length();
 
 	// far plane center
-	Vector3& farCenter = getPoint(PointId::FC);
+	Vector3f& farCenter = getPoint(PointId::FC);
 
 	// far width
 	float farW = (lbf - rbf).length();
@@ -249,7 +249,7 @@ Plane& Frustum::getPlane(PlaneId id)
 	return _planes[static_cast<int>(id)];
 }
 
-Vector3& Frustum::getPoint(PointId id)
+Vector3f& Frustum::getPoint(PointId id)
 {
 	return _points[static_cast<int>(id)];
 }

@@ -41,13 +41,13 @@ void Camera::calculateViewMatrix(void)
 	// calculate eye space basis vectors
 
 	// eye space z-axis
-	Vector3 z = (_target - _pos).normalize();
+	Vector3f z = (_target - _pos).normalize();
 
 	// eye space x-axis
-	Vector3 x = Vector3(z).cross(_up).normalize();
+	Vector3f x = Vector3f(z).cross(_up).normalize();
 
 	// eye space y-axis
-	Vector3 y = Vector3(x).cross(z).normalize();
+	Vector3f y = Vector3f(x).cross(z).normalize();
 
 	// store results in the view matrix
 
@@ -81,7 +81,7 @@ void Camera::calculateViewMatrix(void)
 	_view[3][3] = 1;
 }
 
-void Camera::lookAt(const Vector3& v)
+void Camera::lookAt(const Vector3f& v)
 {
 	lookAt(v.x, v.y, v.z);
 }
@@ -103,8 +103,8 @@ Ray Camera::pickRay(float viewportX, float viewportY)
 	float y = ((viewportY / _viewportHeight) - 0.5f) * 2.0f;
 
 	// near far vectors
-	Vector4 near(x, y, -1.0f, 1.0f);
-	Vector4 far(x, y, 0.0f, 1.0f);
+	Vector4f near(x, y, -1.0f, 1.0f);
+	Vector4f far(x, y, 0.0f, 1.0f);
 
 	// inverse projection
 	Matrix4 invProj(_proj);
@@ -115,20 +115,20 @@ Ray Camera::pickRay(float viewportX, float viewportY)
 	invView.invert();
 
 	// unproject and unview the coordinates to get world space
-	Vector4 csStart = invProj * near;
+	Vector4f csStart = invProj * near;
 	csStart /= csStart.w;
-	Vector4 wsStart = invView * csStart;
+	Vector4f wsStart = invView * csStart;
 	wsStart /= wsStart.w;
 
-	Vector4 csEnd = invProj * far;
+	Vector4f csEnd = invProj * far;
 	csEnd /= csEnd.w;
-	Vector4 wsEnd = invView * csEnd;
+	Vector4f wsEnd = invView * csEnd;
 	wsEnd /= wsEnd.w;
 
-	Vector4 tmp = (wsEnd - wsStart).normalize();
-	Vector3 direction = Vector3(tmp.x, tmp.y, tmp.z);
+	Vector4f tmp = (wsEnd - wsStart).normalize();
+	Vector3f direction = Vector3f(tmp.x, tmp.y, tmp.z);
 
-	return Ray(Vector3(wsStart.x, wsStart.y, wsStart.z), direction);
+	return Ray(Vector3f(wsStart.x, wsStart.y, wsStart.z), direction);
 }
 
 void Camera::updateViewPort()
@@ -152,7 +152,7 @@ const Matrix4& Camera::view() const
 	return _view;
 }
 
-void Camera::setPosition(const Vector3& vec)
+void Camera::setPosition(const Vector3f& vec)
 {
 	setPosition(vec.x, vec.y, vec.z);
 }
@@ -166,29 +166,29 @@ void Camera::setPosition(float x, float y, float z)
 	_dirty = true;
 }
 
-Vector3& Camera::getPosition()
+Vector3f& Camera::getPosition()
 {
 	return _pos;
 }
 
-Vector3 Camera::getDirection()
+Vector3f Camera::getDirection()
 {
 	return (_target - _pos).normalize();
 }
 
-const Vector3& Camera::getUpVector() const
+const Vector3f& Camera::getUpVector() const
 {
 	return _up;
 }
 
-void Camera::setUpVector(const Vector3 &up)
+void Camera::setUpVector(const Vector3f &up)
 {
 	_up.x = up.x;
 	_up.y = up.y;
 	_up.z = up.z;
 }
 
-const Vector3& Camera::getTarget() const
+const Vector3f& Camera::getTarget() const
 {
 	return _target;
 }

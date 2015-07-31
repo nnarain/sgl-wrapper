@@ -14,7 +14,7 @@ namespace sgl
 		Matrix3(void);
 		Matrix3(float * m);
 
-		void toCrossProduct(const Vector3&);
+		void toCrossProduct(const Vector3f&);
 
 		void clear(void);
 		void toIdentity(void);

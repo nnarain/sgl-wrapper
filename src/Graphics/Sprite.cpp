@@ -38,7 +38,7 @@ void Sprite::flip(bool h, bool v)
 	}
 }
 
-Vector2& Sprite::getPosition()
+Vector2f& Sprite::getPosition()
 {
 	_updateQuad = true;
 	return _pos;
@@ -54,7 +54,7 @@ float Sprite::getHeight()
 	return _dim.y;
 }
 
-Vector2& Sprite::getDimesions()
+Vector2f& Sprite::getDimesions()
 {
 	return _dim;
 }
@@ -86,7 +86,7 @@ void Sprite::setDimensions(float w, float h)
 	_updateQuad = true;
 }
 
-void Sprite::setPosition(Vector2 pos)
+void Sprite::setPosition(Vector2f pos)
 {
 	setPosition(pos.x, pos.y);
 }

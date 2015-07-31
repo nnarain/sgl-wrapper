@@ -54,15 +54,15 @@ namespace sgl
 		void setFont(BitmapFont*);
 		BitmapFont *getFont(void) const;
 
-		void setPosition(const Vector2&);
+		void setPosition(const Vector2f&);
 		void setPosition(float x, float y);
 
-		Vector2& getPosition(void);
+		Vector2f& getPosition(void);
 
-		void setDimensions(const Vector2&);
+		void setDimensions(const Vector2f&);
 		void setDimensions(float w, float h);
 
-		Vector2& getDimensions(void);
+		Vector2f& getDimensions(void);
 
 		void setColor(ColorRGBA32f& c);
 		ColorRGBA32f getColor();
@@ -98,10 +98,10 @@ namespace sgl
 
 		BitmapFont* _font;
 
-		Vector2 _position;
-		Vector2 _offset;
+		Vector2f _position;
+		Vector2f _offset;
 
-		Vector2 _dimension;
+		Vector2f _dimension;
 
 		ColorRGBA32f _color;
 

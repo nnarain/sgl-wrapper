@@ -8,20 +8,20 @@ namespace sgl
 	//! Base structure of lights
 	struct BaseLight
 	{
-		Vector3 color;
+		Vector3f color;
 		float ambientIntensity;
 	};
 
 	//! uniform directional light
 	struct DirectionalLight : public BaseLight
 	{
-		Vector3 direction;
+		Vector3f direction;
 	};
 
 	//! point source light
 	struct PointLight : public BaseLight
 	{
-		Vector3 position;
+		Vector3f position;
 
 		struct
 		{
@@ -34,7 +34,7 @@ namespace sgl
 	//! cone light
 	struct SpotLight : public PointLight
 	{
-		Vector3 direction;
+		Vector3f direction;
 		float cutoff; ///< angle of spot light spread
 	};
 

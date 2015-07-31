@@ -59,7 +59,7 @@ namespace sgl
 		Texture _texture;
 
 		// cell dimension (pixels)
-		Vector2 _dimension;
+		Vector2f _dimension;
 
 		// number of columsn in the font
 		unsigned int _cols;

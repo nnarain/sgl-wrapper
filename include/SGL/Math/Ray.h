@@ -8,12 +8,12 @@ namespace sgl
 {
 	struct Ray
 	{
-		Ray(const Vector3& o, const Vector3& d) : origin(o), direction(d)
+		Ray(const Vector3f& o, const Vector3f& d) : origin(o), direction(d)
 		{
 		}
 
-		Vector3 origin;
-		Vector3 direction;
+		Vector3f origin;
+		Vector3f direction;
 	};
 }
 

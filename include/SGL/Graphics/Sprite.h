@@ -37,13 +37,13 @@ namespace sgl
 
 		void flip(bool h, bool v);
 
-		void setPosition(Vector2 pos);
+		void setPosition(Vector2f pos);
 		void setPosition(float x, float y);
-		Vector2& getPosition();
+		Vector2f& getPosition();
 
 		void setDimensions(float w, float h);
 
-		Vector2& getDimesions();
+		Vector2f& getDimesions();
 		float getWidth();
 		float getHeight();
 
@@ -61,9 +61,9 @@ namespace sgl
 
 	private:
 		//! 2D position
-		Vector2 _pos;
+		Vector2f _pos;
 		//! dimesions in pixels
-		Vector2 _dim;
+		Vector2f _dim;
 
 		//!
 		ColorRGBA32f _color;
