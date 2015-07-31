@@ -47,6 +47,10 @@ namespace sgl
 		*/
 		void clear(void);
 
+		/**
+		*/
+		void removeBack();
+
 		void setFont(BitmapFont*);
 		BitmapFont *getFont(void) const;
 

@@ -81,6 +81,12 @@ void Text::clear(void)
 	setPosition(_position);
 }
 
+void Text::removeBack()
+{
+	_cells->pop_back();
+	_offset.x -= _dimension.x;
+}
+
 void Text::setFont(BitmapFont* font)
 {
 	_font = font;
