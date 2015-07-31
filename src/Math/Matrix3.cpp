@@ -50,7 +50,7 @@ Matrix3::Matrix3(float * m)
 	set(m);
 }
 
-void Matrix3::toCrossProduct(const Vector3& k)
+void Matrix3::toCrossProduct(const Vector3f& k)
 {
 	_mat[M00] = 0;    _mat[M10] = -k.z; _mat[M20] = k.y;
 	_mat[M01] = k.z;  _mat[M11] = 0;    _mat[M21] = -k.x;

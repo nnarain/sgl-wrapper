@@ -104,10 +104,10 @@ namespace sgl{
 		//! Holder for uv coordinates
 		struct TextureRegion
 		{
-			Vector2 bottomLeft;
-			Vector2 topLeft;
-			Vector2 topRight;
-			Vector2 bottomRight;
+			Vector2f bottomLeft;
+			Vector2f topLeft;
+			Vector2f topRight;
+			Vector2f bottomRight;
 		};
 
 		/* Constructors */

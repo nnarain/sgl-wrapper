@@ -13,7 +13,7 @@ Entity::Entity(void) :
 {
 }
 
-void Entity::translate(const Vector3& t)
+void Entity::translate(const Vector3f& t)
 {
 	translate(t.x, t.y, t.z);
 }
@@ -27,7 +27,7 @@ void Entity::translate(float x, float y, float z)
 	_transformDirty = true;
 }
 
-void Entity::setPosition(const Vector3& newPos)
+void Entity::setPosition(const Vector3f& newPos)
 {
 	setPosition(newPos.x, newPos.y, newPos.z);
 }
@@ -41,7 +41,7 @@ void Entity::setPosition(float x, float y, float z)
 	_transformDirty = true;
 }
 
-void Entity::rotate(const Vector3& r)
+void Entity::rotate(const Vector3f& r)
 {
 	rotate(r.x, r.y, r.z);
 }
@@ -56,7 +56,7 @@ void Entity::rotate(float x, float y, float z)
 	_normalDirty = true;
 }
 
-void Entity::scale(const Vector3& s)
+void Entity::scale(const Vector3f& s)
 {
 	scale(s.x, s.y, s.z);
 }

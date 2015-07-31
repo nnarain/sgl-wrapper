@@ -12,7 +12,7 @@ namespace sgl
 	SGLCLASS OrthographicCamera : public Camera
 	{
 	public:
-		OrthographicCamera(float viewportWidth, float viewportHeight, Vector2 x, Vector2 y, Vector2 z);
+		OrthographicCamera(float viewportWidth, float viewportHeight, Vector2f x, Vector2f y, Vector2f z);
 
 	protected:
 

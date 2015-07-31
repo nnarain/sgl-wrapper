@@ -23,17 +23,17 @@ namespace sgl
 
 		static void clear(BufferBits bits);
 
-		static void    setViewPortDimension(float width, float height);
-		static Vector2 getViewPortDimensions(void);
-		static float   getViewPortWidth(void);
-		static float   getViewPortHeight(void);
-		static float   getScreenAspectRatio(void);
+		static void     setViewPortDimension(float width, float height);
+		static Vector2f getViewPortDimensions(void);
+		static float    getViewPortWidth(void);
+		static float    getViewPortHeight(void);
+		static float    getScreenAspectRatio(void);
 
-		static Vector2 pixelToNDC(float x, float y);
+		static Vector2f pixelToNDC(float x, float y);
 
 	private:
 
-		static Vector2 _viewPort;
+		static Vector2f _viewPort;
 
 	};
 }

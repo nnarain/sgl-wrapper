@@ -41,9 +41,9 @@ namespace sgl
 		//! Vertex. Position and texture coordinates
 		struct Vertex
 		{
-			Vector2      pos;
-			Vector2      texCoord;
-			ColorRGBA32f color;
+			Vector2f      pos;
+			Vector2f      texCoord;
+			ColorRGBA32f  color;
 		};
 
 		//! Intermediate structure to store vertex data before the batching stage

@@ -41,14 +41,14 @@ namespace sgl
 		Frustum();
 		~Frustum();
 
-		Frustum::Side checkPoint(Vector3& point);
+		Frustum::Side checkPoint(Vector3f& point);
 		Frustum::Side checkBox(AABB& aabb);
 		Frustum::Side checkSphere(Sphere& sphere);
 
-		void construct(float fov, float aspectRatio, float near, float far, const Vector3& pos, const Matrix4& viewMatrix);
+		void construct(float fov, float aspectRatio, float near, float far, const Vector3f& pos, const Matrix4& viewMatrix);
 
 		Plane& getPlane(PlaneId id);
-		Vector3& getPoint(PointId id);
+		Vector3f& getPoint(PointId id);
 
 		float getVolume(void);
 
@@ -57,7 +57,7 @@ namespace sgl
 		Plane _planes[6];
 
 		// eight points of the frustum
-		Vector3 _points[10];
+		Vector3f _points[10];
 
 	};
 }

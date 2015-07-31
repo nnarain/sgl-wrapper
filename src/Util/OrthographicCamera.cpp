@@ -3,7 +3,7 @@
 
 using namespace sgl;
 
-OrthographicCamera::OrthographicCamera(float viewportWidth, float viewportHeight, Vector2 x, Vector2 y, Vector2 z) :
+OrthographicCamera::OrthographicCamera(float viewportWidth, float viewportHeight, Vector2f x, Vector2f y, Vector2f z) :
 	Camera(viewportWidth, viewportHeight),
 	_left(x.x),
 	_right(x.y),

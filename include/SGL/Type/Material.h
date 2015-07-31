@@ -7,12 +7,12 @@ namespace sgl
 {
 	struct Material
 	{
-		Vector3 ambientColor;
+		Vector3f ambientColor;
 
-		Vector3 diffuseColor;
+		Vector3f diffuseColor;
 		float diffuseIntensity;
 
-		Vector3 specularColor;
+		Vector3f specularColor;
 		float specularIntensity;
 		float specularPower;
 	};

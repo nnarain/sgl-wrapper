@@ -17,16 +17,16 @@ namespace sgl
 {
 	struct DebugVertex
 	{
-		DebugVertex(const Vector3 p) : DebugVertex(p, Vector3(0,0,0))
+		DebugVertex(const Vector3f p) : DebugVertex(p, Vector3f(0,0,0))
 		{
 		}
 
-		DebugVertex(const Vector3& p, const Vector3& c) : position(p), color(c)
+		DebugVertex(const Vector3f& p, const Vector3f& c) : position(p), color(c)
 		{
 		}
 
-		Vector3 position;
-		Vector3 color;
+		Vector3f position;
+		Vector3f color;
 	};
 
 	SGLCLASS DebugRenderer
