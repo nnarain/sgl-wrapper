@@ -81,6 +81,12 @@ void Text::clear(void)
 	setPosition(_position);
 }
 
+void Text::removeBack()
+{
+	_cells->pop_back();
+	_offset.x -= _dimension.x;
+}
+
 void Text::setFont(BitmapFont* font)
 {
 	_font = font;
@@ -91,7 +97,7 @@ BitmapFont *Text::getFont(void) const
 	return _font;
 }
 
-void Text::setPosition(const Vector2& pos)
+void Text::setPosition(const Vector2f& pos)
 {
 	setPosition(pos.x, pos.y);
 }
@@ -104,12 +110,12 @@ void Text::setPosition(float x, float y)
 	_offset.y = y;
 }
 
-Vector2& Text::getPosition(void)
+Vector2f& Text::getPosition(void)
 {
 	return _position;
 }
 
-void Text::setDimensions(const Vector2& dim)
+void Text::setDimensions(const Vector2f& dim)
 {
 	setDimensions(dim.x, dim.y);
 }
@@ -120,7 +126,7 @@ void Text::setDimensions(float w, float h)
 	_dimension.y = h;
 }
 
-Vector2& Text::getDimensions(void)
+Vector2f& Text::getDimensions(void)
 {
 	return _dimension;
 }

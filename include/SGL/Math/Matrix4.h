@@ -20,27 +20,27 @@ namespace sgl
 
 		/* Special Matrices */
 
-		void toTranslation(const Vector3 &v);
+		void toTranslation(const Vector3f &v);
 		void toTranslation(float x, float y, float z);
 
-		void toScale(const Vector3 &v);
+		void toScale(const Vector3f &v);
 		void toScale(float x, float y, float z);
 		void toScale(float t);
 
-		void toRotation(const Vector3 &v, float angle);
+		void toRotation(const Vector3f &v, float angle);
 
 		Matrix3 toNormalMatrix();
 
 		/* Transforms */
 
-		void translate(const Vector3& v);
+		void translate(const Vector3f& v);
 		void translate(float, float, float);
 
-		void scale(const Vector3& v);
+		void scale(const Vector3f& v);
 		void scale(float);
 		void scale(float, float, float);
 
-		void rotate(const Vector3& v);
+		void rotate(const Vector3f& v);
 		void rotate(float, float, float);
 
 		/* General Matrix */
@@ -57,7 +57,7 @@ namespace sgl
 
 		/* Opengl Matrices */
 
-		void lookAt(Vector3 eye, Vector3 center, Vector3 up);
+		void lookAt(Vector3f eye, Vector3f center, Vector3f up);
 		void perspective(float fov, float aspectRatio, float near, float far);
 
 		/*  */
@@ -65,7 +65,7 @@ namespace sgl
 
 		/* Operators */
 
-		Vector4 operator*(const Vector4 &v);
+		Vector4f operator*(const Vector4f &v);
 		Matrix4 operator*(const Matrix4 &m);
 
 		Matrix4 &operator*=(float s);

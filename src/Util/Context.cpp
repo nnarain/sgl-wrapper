@@ -3,7 +3,7 @@
 
 using namespace sgl;
 
-Vector2 Context::_viewPort = Vector2(0, 0);
+Vector2f Context::_viewPort = Vector2f(0, 0);
 
 void Context::clear(BufferBits bits)
 {
@@ -16,7 +16,7 @@ void Context::setViewPortDimension(float w, float h)
 	_viewPort.y = h;
 }
 
-Vector2 Context::getViewPortDimensions(void)
+Vector2f Context::getViewPortDimensions(void)
 {
 	return _viewPort;
 }
@@ -36,10 +36,10 @@ float Context::getScreenAspectRatio(void)
 	return _viewPort.x / _viewPort.y;
 }
 
-Vector2 Context::pixelToNDC(float pixelX, float pixelY)
+Vector2f Context::pixelToNDC(float pixelX, float pixelY)
 {
 	float ndcX = ((pixelX / _viewPort.x) - 0.5f) * 2.0f;
 	float ndcY = ((pixelY / _viewPort.y) - 0.5f) * 2.0f;
 
-	return Vector2(ndcX, ndcY);
+	return Vector2f(ndcX, ndcY);
 }

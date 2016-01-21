@@ -14,14 +14,14 @@ namespace sgl
 	public:
 
 		AABB();
-		AABB(const Vector3& min, const Vector3& max);
+		AABB(const Vector3f& min, const Vector3f& max);
 
 	public:
 
-		Vector3 min;
-		Vector3 max;
-		Vector3 center;
-		Vector3 dim;
+		Vector3f min;
+		Vector3f max;
+		Vector3f center;
+		Vector3f dim;
 
 	private:
 	};

@@ -56,17 +56,17 @@ void Uniform::set(float v1, float v2, float v3, float v4)
 
 /* float value pointer */
 
-void Uniform::set(const Vector2 &v)
+void Uniform::set(const Vector2f &v)
 {
 	glUniform2f(_location, v.x, v.y);
 }
 
-void Uniform::set(const Vector3 &v)
+void Uniform::set(const Vector3f &v)
 {
 	glUniform3f(_location, v.x, v.y, v.z);
 }
 
-void Uniform::set(const Vector4 &v)
+void Uniform::set(const Vector4f &v)
 {
 	glUniform4f(_location, v.x, v.y, v.z, v.w);
 }
