@@ -6,15 +6,9 @@
 
 cmake_minimum_required(VERSION 2.8)
 
-project("sgl")
-set(libName sgl)
+project(sgl)
 
-# create output folder
-set(bin "bin")
-file(MAKE_DIRECTORY ${bin})
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${bin})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${bin})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 # find packages
 find_package(OpenGL)
@@ -23,10 +17,13 @@ find_package(GLEW)
 # set src and include directories
 set(INCL "include")
 set(SRC  "src")
-include_directories(${INCL})
 
-include_directories(${OPENGL_INCLUDE_DIR})
-include_directories(${GLEW_INCLUDE_DIR})
+include_directories(
+	${INCL}
+	
+	${OPENGL_INCLUDE_DIR}
+	${GLEW_INCLUDE_DIR}
+)
 
 # find header & source
 file(GLOB_RECURSE HEADER "${INCL}/*.h")
@@ -54,7 +51,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 # create
 add_library(
-	${libName}
+	${PROJECT_NAME}
 	SHARED
 	${SOURCE}
 	${HEADER}
@@ -74,5 +71,5 @@ source_group("Source Files/Graphics" FILES ${GraphicsSources})
 source_group("Source Files/Math"     FILES ${MathSources})
 
 # libs
-target_link_libraries(${libName} ${OPENGL_gl_LIBRARY})
-target_link_libraries(${libName} ${GLEW_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${OPENGL_gl_LIBRARY})
+target_link_libraries(${PROJECT_NAME} ${GLEW_LIBRARY})

@@ -14,12 +14,12 @@
 #include <GL/glew.h>
 #include "SGLExport.h"
 
-#include <exception>
+#include <stdexcept>
 #include <string>
 
 namespace sgl
 {
-	SGLCLASS Exception : public std::exception
+	SGLCLASS Exception : public std::runtime_error
 	{
 	public:
 		Exception();
@@ -27,11 +27,7 @@ namespace sgl
 		Exception(const char *what);
 		~Exception();
 
-		const char *what();
-
 		static void glerror(const std::string&);
-	private:
-		std::string * _msg;
 	};
 };
 
