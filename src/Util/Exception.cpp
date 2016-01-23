@@ -3,24 +3,16 @@
 
 using namespace sgl;
 
-Exception::Exception() :
-	_msg(new std::string("An opengl error occurred"))
+Exception::Exception() : std::runtime_error("")
 {
 }
 
-Exception::Exception(const std::string& what) :
-	_msg(new std::string(what))
+Exception::Exception(const std::string& what) : std::runtime_error(what)
 {
 }
 
-Exception::Exception(const char *what) :
-	_msg(new std::string(what))
+Exception::Exception(const char *what) : std::runtime_error(what)
 {
-}
-
-const char *Exception::what()
-{
-	return _msg->c_str();
 }
 
 void Exception::glerror(const std::string& msg)
@@ -64,5 +56,4 @@ void Exception::glerror(const std::string& msg)
 
 Exception::~Exception()
 {
-	delete _msg;
 }
